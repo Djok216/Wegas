@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script>
+    <script type="text/javascript">
+        function adjustViewport() {
+            var screenWidthPx = Math.min($(window).width(), window.screen.width);
+            var siteWidthPx = 1100; // min width of site
+            var ratio = Math.min(screenWidthPx / siteWidthPx, 1.0);
+            var viewport = "width=device-width, initial-scale=" + ratio;
+            $('#viewport').attr('content', viewport);
+            var style = $('<style>html * { max-height: 1000000px; }</style>');
+            $('html > head').append(style);
+        }
+
+        if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+            adjustViewport();
+        }
+    </script>
+    <meta name="description" content="BitChess. Cea mai minunata platforma de jucat chess.">
+    <link rel="stylesheet" type="text/css" href="../css/roundbox.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+</head>
+
+<body>
+    <div id="body">
+        <div>
+            <div id="header" style="position: relative;">
+                <div style="float:left">
+                    <a href="/">
+                        <img src="../images/BitChessLogo.png" width="100" height="auto" style="margin: -2em 0">
+                    </a>
+                </div>
+
+                <div class="login">
+                    <div>
+                        <a href="/">Login</a>
+                        | 
+                        <a href="/">Register</a>
+                    </div>
+                </div>
+            </div>
+            <br style="clear:both">
+        </div>
+
+        <div class="roundbox menu-box" style>
+            <div class="roundbox-lt">&nbsp;</div>
+            <div class="roundbox-rt">&nbsp;</div>
+            <div class="roundbox-lb">&nbsp;</div>
+            <div class="roundbox-rb">&nbsp;</div>
+            <div class="menu-list-container">
+                <ul class="menu-list main-menu-list">
+                    <li class="current">
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="./Play">Play</a>
+                    </li>
+                    <li>
+                        <a href="./Live">Live</a>
+                    </li>
+                    <li>
+                        <a href="./Clubs">Clubs</a>
+                    </li>
+                    <li>
+                        <a href="./Learn">Learn</a>
+                    </li>
+                    <li>
+                        <a href="./Forum">Forum</a>
+                    </li>
+                    <li>
+                        <a href="./Stats">Stats</a>
+                    </li>
+                    <li>
+                        <a href="/Help">Help</a>
+                    </li>
+                </ul>
+                <br style="clear: both">
+            </div>
+        </div>
+
+        <div style="position: relative;">
+            <div id="sidebar">
+                <div class="roundbox sidebox top contributed">
+                    <div class="roundbox-lt">&nbsp;</div>
+                    <div class="roundbox-rt">&nbsp;</div>
+                    <div class="caption titled">→ Top rated</div>
+                    <table class="rtable">
+                        <tbody>
+                            <tr>
+                                <th class="left" style="width: 2.25em;">#</th>
+                                <th class style="width: 5em;">User</th>
+                                <th class style="width: 5em;">Rating</th>
+                            </tr>
+                            <tr>
+                                <td class="left dark">1</td>
+                                <td class="dark">
+                                    <a href="/profile/Djok" title="GrandMaster" style="color: red">Djok</a>
+                                </td>
+                                <td class="dark">6969</td>
+                            </tr>
+                            <tr>
+                                <td class="left dark">2</td>
+                                <td class="dark">
+                                    <a href="/profile/TTm" title="Newbie" style="color: green">TTm</a>
+                                </td>
+                                <td class="dark">69</td>
+                            </tr>
+                            <tr>
+                                <td class="left dark">3</td>
+                                <td class="dark">
+                                    <a href="/profile/Nicu_Racusor" title="Newbie" style="color: green">Nicu_Racusor</a>
+                                </td>
+                                <td class="dark">68</td>
+                            </tr>
+                            <tr>
+                                <td class="left dark">4</td>
+                                <td class="dark">
+                                    <a href="/profile/TTm" title="Newbie" style="color: green">Ultina</a>
+                                </td>
+                                <td class="dark">67</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="roundbox sidebox">
+                    <div class="roundbox-lt">&nbsp;</div>
+                    <div class="roundbox-rt">&nbsp;</div>
+                    <div class="caption titled">→ Find User</div>
+                    <form style="display: block" method="post" autocomplete="off">
+                        <div style="padding-left:1em;text-align:left; font-size: 15px">
+                            <label style="padding-right:1em;">Nickname:
+                                <input style="width:12em;" type="text" class="handleBox ac_input" autocomplete="off">
+                            </label>
+                            <div style="padding: 0.4em 1em 1em 1em;text-align:right;">
+                                <input style="height:1.65em;padding:0 0.75em;" type="submit" value="Find">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="roundbox sidebox">
+                    <div class="roundbox-lt">&nbsp;</div>
+                    <div class="roundbox-rt">&nbsp;</div>
+                    <div class="caption titled">→ Recent Actions</div>
+                    <ul>
+                        <li>
+                            <div style="font-size:1.4em;padding:0.3em 0;">
+                                <a href="/profile/Djok" title="Grandmaster Djok" style="color: red;">Djok</a>→<a href="/formu/games/pagina006900">Cum va pare acest site ?</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="font-size:1.4em;padding:0.3em 0;">
+                                <a href="/profile/Nicu_Racusor" title="Newbie Nicu_Racusor" style="color: green;">Nicu_Racusor</a>→<a href="/formu/games/pagina006901">Cam slab e totul....</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="pageContent" style="font-size: 3em;">
+                    Ce pot sa zic... cam asa o sa arate...
+            </div>
+
+            <div id="footer" style="font-size: 1.7em">
+                <div><a href="BitChess.com">BitChess</a> (c) Copyright 2017 BitChess Team</div>
+                <div>Cea mai minuanta platforma de chess Web 1.0</div>
+                    Versiunea Desktop, incearca <a rel="nofollow" class="switchToMobile" href="?mobile=true">versiunea mobila</a>.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

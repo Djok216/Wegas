@@ -92,7 +92,7 @@ a.not-decorated {
     padding-top: 1em;
     border-top: 1px solid #ccc;
     text-align: center;
-    font-size: 1em;
+    font-size: 1.7em;
     clear: both;
     height: 4em;
 }
@@ -184,6 +184,7 @@ a.not-decorated {
 
 .notice {
     color: #888 !important;
+    font-size: 1.3em;
 }
 
 .error {

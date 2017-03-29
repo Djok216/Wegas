@@ -1,0 +1,27 @@
+:root  {
+  --color-link : #206aaa;
+  --color-visited : #0a2944;
+  --color-hover : #6cce21;
+}
+
+.authenticate {
+  float: right;
+  text-align: right;
+  font-size: 1.7em;
+}
+
+a:link {
+    color:green;
+}
+
+a:visited {
+  color: green;
+}
+
+a:hover {
+  color: red;
+}
+
+a:active {
+  color: yellow;
+}

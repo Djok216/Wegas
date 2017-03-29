@@ -1,6 +1,7 @@
 <div style="background: #000">
   <app-logo-section></app-logo-section>
-  <app-profile-section></app-profile-section>
+  <app-profile-section *ngIf="showHuiova"></app-profile-section>
+  <app-authenticate-section *ngIf="showHuiovaReloaded"></app-authenticate-section>
 </div>
 <div style="background: #0f0">
 <app-menu-section></app-menu-section>

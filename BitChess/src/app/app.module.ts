@@ -13,6 +13,8 @@ import { MenuSectionComponent } from './header-container/menu-section/menu-secti
 import { ContentSectionComponent } from './content-container/content-section/content-section.component';
 import { InfoSectionComponent } from './content-container/info-section/info-section.component';
 import { FooterSectionComponent } from './footer-container/footer-section/footer-section.component';
+import { LoginComponent } from './event-container/login/login.component';
+import { RegisterComponent } from './event-container/register/register.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { FooterSectionComponent } from './footer-container/footer-section/footer
     MenuSectionComponent,
     ContentSectionComponent,
     InfoSectionComponent,
-    FooterSectionComponent
+    FooterSectionComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

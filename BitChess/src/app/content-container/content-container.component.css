@@ -1,0 +1,14 @@
+#pageContent {
+  margin: 2em 1em 1em;
+  padding-top: 1em;
+  min-height: 20em;
+  float: left;
+}
+
+#sidebar {
+  float: right;
+  width: 20em;
+  display: inline;
+  padding-left: 4em;
+  margin: 3em 1em 1em;
+}

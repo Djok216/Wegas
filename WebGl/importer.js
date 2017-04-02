@@ -47,7 +47,6 @@ function Importer(data) {
 	}
 
 	this.getVertices = function() {
-		console.log(this.vertices);
 		return this.vertices;
 	}
 

@@ -49,6 +49,7 @@ function Shader(gl) {
 	}
 
 	this.activate = function() {
+		setShaderFormat();
 		gl.enableVertexAttribArray(positionAttributeLocation);
 		gl.enableVertexAttribArray(normalAttributeLocation);
 

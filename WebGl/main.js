@@ -1,46 +1,3 @@
-var fragmentShaderData;
-var vertexShaderData;
-var cubeData;
-
-function DownloadResources() {
-	var resourcesDownloaded = 0;
-
-	console.log('DownloadResources started...');
-	getFileFromServer('VertexShader.glsl', function(text) {
-		if(text === null) {
-			console.error('Error reading from "VertexShader.glsl" file.');
-		}
-		else {
-			this.vertexShaderData = text;
-			resourcesDownloaded++;
-			if(resourcesDownloaded == 3)
-				InitWebGl();
-		}
-	});
-	getFileFromServer('FragmentShader.glsl', function(text) {
-		if(text === null) {
-			console.error('Error reading from "FragmentShader.glsl" file.');
-		}
-		else {
-			this.fragmentShaderData= text;
-			resourcesDownloaded++;
-			if(resourcesDownloaded == 3)
-				InitWebGl();
-		}
-	});
-	getFileFromServer('teapot.obj', function(text) {
-		if(text === null) {
-			console.error('Error reading from "teapot.obj" file.');
-		}
-		else {
-			this.cubeData = text;
-			resourcesDownloaded++;
-			if(resourcesDownloaded == 3)
-				InitWebGl();
-		}
-	});
-}
-
 function InitWebGl() {
 	console.log('InitWebGl started...');
 	var canvas = document.getElementById('renderSurface');
@@ -52,14 +9,14 @@ function InitWebGl() {
 	
 	// create model
 	var teapotModel = new Model(gl);
-	teapotModel.init(cubeData);
+	teapotModel.init(downloadManager.getData('teapot.obj'));
 
 	var teapotModel2 = new Model(gl);
-	teapotModel2.init(cubeData);
+	teapotModel2.init(downloadManager.getData('cube.obj'));
 
 	// creating shader
 	var defaultShader = new Shader(gl);
-	defaultShader.init(vertexShaderData, fragmentShaderData);
+	defaultShader.init(downloadManager.getData('VertexShader.glsl'), downloadManager.getData('FragmentShader.glsl'));
 	defaultShader.activate();
 
 	var projMatrix = new Float32Array(16);
@@ -79,8 +36,10 @@ function InitWebGl() {
 	var loop = function() {
 		gl.clearColor(0.9, 0.9, 0.9, 1.0);
 		gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
+
 		teapotModel.render(defaultShader);
 		teapotModel2.render(defaultShader);
+
 		requestAnimationFrame(loop);
 	}
 	requestAnimationFrame(loop);
@@ -91,20 +50,10 @@ function Run() {
 }
 
 function OnLoad() {
-	DownloadResources();
+	downloadManager = new DownloadManager();
+	downloadManager.addResourceToQueue("VertexShader.glsl");
+	downloadManager.addResourceToQueue("FragmentShader.glsl");
+	downloadManager.addResourceToQueue("cube.obj");
+	downloadManager.addResourceToQueue("teapot.obj");
+	downloadManager.beginDownload(InitWebGl);
 };
-
-function getFileFromServer(url, doneCallback)
-{
-	var xhr;
-	xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = handleStateChange;
-	xhr.open('GET', url, true);
-	// to be removed at the deployment! :)
-	xhr.setRequestHeader('Cache-Control', 'no-cache, must-revalidate');
-	xhr.send();	function handleStateChange() {
-		if(xhr.readyState === 4) {
-			doneCallback(xhr.status == 200 ? xhr.responseText : null);
-		}
-	}
-}

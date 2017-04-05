@@ -19,7 +19,7 @@ import {HomeComponent} from "./dashboard/content-container/home/home.component";
 // mare router
 export const router : Routes = [
   {path:'', component: DashboardComponent, children: [
-    {path:'', component: HomeComponent},
+    {path:'home', component: HomeComponent},
     {path:'play', component: PlayComponent},
     {path:'live', component: LiveComponent},
     {path:'clubs', component: ClubsComponent},

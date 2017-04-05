@@ -1,3 +1,19 @@
+:root {
+  /*--section for link colors*/
+  --color-link: #206aaa;
+  --color-link-visited: #0a2944;
+  --color-link-hover: #6cce21;
+  --color-link-active: #155956;
+  --color-underline-menu: #3B5998;
+  --color-border-menu: #7741f4;
+  --color-background-menu: #42adf4;
+
+  --color-menu-nav-item-background: #c9ccf2;
+  --color-menu-nav-item-hover: #7c7fa8;
+  --color-menu-nav-item-text: #03034c;
+  /*--end section for link colors*/
+}
+
 html {
   font-size: 10px;
 }
@@ -26,12 +42,12 @@ html {
 }
 
 .roundbox {
-  border: 1px solid rgb(185, 185, 185);
+  border: 1px solid var(--color-border-menu);
   position: relative;
 }
 
 .roundbox .caption {
-  color:#3B5998;
+  color: var(--color-underline-menu);
   font-size: 1.5rem;
   font-weight: bold;
   margin: 0.2em 0;
@@ -40,7 +56,7 @@ html {
 
 .roundbox .titled {
   padding: 0 0 0.3em 0.5em;
-  border-bottom:1px solid rgb(185, 185, 185);
+  border-bottom: 1px solid var(--color-border-menu);
 }
 
 .roundbox .caption .top-links {
@@ -54,13 +70,13 @@ html {
 .roundbox .bottom-links {
   font-family: arial;
   font-size: 1.1rem;
-  border-top:1px solid rgb(185, 185, 185);
-  background-color: #F5F5F5;
+  border-top: 1px solid var(--color-border-menu);
+  background-color: var(--color-background-menu);
   padding: 0.45em;
 }
 
 .roundbox .dark {
-  background-color: #F5F5F5;
+  background-color: var(--color-background-menu);
 }
 
 .roundbox .bottom-links a {
@@ -74,7 +90,7 @@ html {
 }
 
 .roundbox .rtable td, .roundbox .rtable th {
-  border: 1px solid rgb(185, 185, 185);
+  border: 1px solid var(--color-border-menu);
   border-right: none;
   border-top: none;
   padding: 4px;
@@ -180,13 +196,8 @@ html {
   top: 3px;
 }
 
-.menu-list li.current {
-  border-bottom: 3px solid #3B5998;
-  /*border-radius: 5px;*/
-  /*-moz-border-radius: 5px;*/
-  /*-webkit-border-radius: 5px;*/
-  /*border: 1px solid #b9b9b9;*/
-  /*background-color: #b9b9b9;*/
+.menu-list li.active {
+  border-bottom: 3px solid var(--color-underline-menu);
 }
 
 .menu-list li.item-highlighted * {
@@ -196,3 +207,21 @@ html {
 .menu-list li a:hover, .menu-list li a:active, .menu-list li a:visited {
   border: none;
 }
+
+/* section for override all links colors*/
+a:link {
+  color: var(--color-link);
+}
+
+a:visited {
+  color: var(--color-link-visited);
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+a:active {
+  color: var(--color-link-active);
+}
+/*end section for override all links colors*/

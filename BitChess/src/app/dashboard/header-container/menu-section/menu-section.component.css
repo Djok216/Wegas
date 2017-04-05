@@ -1,0 +1,37 @@
+.nav {
+  position: relative;
+  display: inline-block;
+  font-size: 1.5em;
+  font-weight: 900;
+  background-color: transparent;
+}
+
+.nav-list {
+
+}
+
+.nav-item {
+  float: left;
+  *display: inline;
+  zoom: 1;
+  display: block;
+  padding: 15px 20px;
+  color: var(--color-menu-nav-item-text);
+  background: var(--color-menu-nav-item-background);
+}
+
+.nav-item:first-child {
+  border-radius: 5px 0 0 5px;
+}
+
+.nav-item:last-child {
+  border-radius: 0 5px 5px 0;
+}
+
+.nav-item:hover {
+  cursor : pointer;
+  background: var(--color-menu-nav-item-hover);
+}
+.nav-item:active {
+  user-select: none;
+}

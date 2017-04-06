@@ -6,11 +6,11 @@
   --color-link-active: #155956;
   --color-underline-menu: #3B5998;
   --color-border-menu: #7741f4;
-  --color-background-menu: #42adf4;
+  --color-background-menu: transparent;
 
-  --color-menu-nav-item-background: #c9ccf2;
-  --color-menu-nav-item-hover: #7c7fa8;
-  --color-menu-nav-item-text: #03034c;
+  --color-menu-nav-item-background: white;
+  --color-menu-nav-item-hover: #a7d1f2;
+  --color-menu-nav-item-text: black;
   /*--end section for link colors*/
 }
 

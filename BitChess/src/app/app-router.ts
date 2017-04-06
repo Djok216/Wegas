@@ -16,21 +16,22 @@ import {HomeComponent} from "./dashboard/content-container/home/home.component";
  * Created by BlackDeathM8 on 29-Mar-17.
  */
 
-// mare router
+// router
 export const router : Routes = [
   {path:'', component: DashboardComponent, children: [
+    {path:'', redirectTo: 'home', pathMatch:'full'},
     {path:'home', component: HomeComponent},
     {path:'play', component: PlayComponent},
     {path:'live', component: LiveComponent},
     {path:'clubs', component: ClubsComponent},
     {path:'learn', component: LearnComponent},
     {path:'forum', component: ForumComponent},
-    {path:'stats', component: StatsComponent},
+    {path:'status', component: StatsComponent},
     {path:'help', component: HelpComponent}
   ]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent}
 ];
 
-// mare exporter
+// exporter
 export const routes: ModuleWithProviders = RouterModule.forRoot(router);

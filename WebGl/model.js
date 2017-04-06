@@ -25,7 +25,7 @@ function Model(gl) {
 	}
 
 	this.render = function(shader) {
-		angle += 0.01;
+		angle += 0.00;
 
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.importer.getVertices()), gl.STATIC_DRAW);

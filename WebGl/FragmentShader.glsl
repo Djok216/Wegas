@@ -2,19 +2,22 @@
 
 precision mediump float;
 
+uniform sampler2D sampler;
+
+varying vec2 fragTexCoord;
 varying vec3 fragNormal;
-varying vec3 fragPosition;
+varying vec3 fragAmbientColor;
+varying vec3 fragDiffuseColor;
+varying vec3 fragLightDirection;
+
 
 void main()
 {
-	vec3 modelColor = vec3(1.0, 0.0, 0.0);
-	vec3 ambientColor = vec3(0.2, 0.2, 0.2);
-	vec3 diffuseColor = vec3(0.9, 0.9, 0.9);
-	vec3 direction = vec3(0.1, -0.5, 1.0);
+	vec4 textureColor = texture2D(sampler, fragTexCoord);
 
 	// Diffuse component
-	float diffValue = max(dot(fragNormal, direction), 0.0);
-	vec3 diffuse = diffValue * diffuseColor;
+	float diffValue = max(dot(fragNormal, fragLightDirection), 0.0);
+	vec3 diffuse = diffValue * fragDiffuseColor;
 
-	gl_FragColor = vec4((ambientColor + diffuse) * modelColor, 1.0);
+	gl_FragColor = vec4((fragAmbientColor + diffuse) * textureColor.xyz, 1.0);
 }

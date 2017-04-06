@@ -46,11 +46,15 @@ function Shader(gl) {
 		matWorldUniformLocation = gl.getUniformLocation(program, 'matrixWorld');
 		matViewUniformLocation = gl.getUniformLocation(program, 'matrixView');
 		matProjectionUniformLocation = gl.getUniformLocation(program, 'matrixProjection');
+		ambientColorUniformLocation = gl.getUniformLocation(program, 'ambientColor');
+		diffuseColorUniformLocation = gl.getUniformLocation(program, 'diffuseColor');
+		lightDirectionUniformLocation = gl.getUniformLocation(program, 'lightDirection');
 	}
 
 	this.activate = function() {
 		setShaderFormat();
 		gl.enableVertexAttribArray(positionAttributeLocation);
+		gl.enableVertexAttribArray(textureCoordAttributeLocation);
 		gl.enableVertexAttribArray(normalAttributeLocation);
 
 		gl.useProgram(program);
@@ -65,27 +69,46 @@ function Shader(gl) {
 	this.getMatProjectionUniformLocation = function() {
 		return matProjectionUniformLocation;
 	}
+	this.getAmbientColorUniformLocation = function() {
+		return ambientColorUniformLocation;
+	}
+	this.getDiffuseColorUniformLocation = function() {
+		return diffuseColorUniformLocation;
+	}
+	this.getLightDirectionUniformLocation = function() {
+		return lightDirectionUniformLocation;
+	}
+
 
 	function setShaderFormat() {
 		// format definition
-		positionAttributeLocation = gl.getAttribLocation((program), 'position');
-		normalAttributeLocation = gl.getAttribLocation((program), 'normal');
+		positionAttributeLocation = gl.getAttribLocation(program, 'position');
+		textureCoordAttributeLocation = gl.getAttribLocation(program, 'texCoord');
+		normalAttributeLocation = gl.getAttribLocation(program, 'normal');
 
 		gl.vertexAttribPointer(
 			positionAttributeLocation, // attribute location
 			3, // number of elements per atributes,
 			gl.FLOAT, // type of elements
 			gl.FALSE,
-			6 * Float32Array.BYTES_PER_ELEMENT, // size of an individual vertex
+			8 * Float32Array.BYTES_PER_ELEMENT, // size of an individual vertex
 			0 // offset from the beggining of single vertex
+		);
+		gl.vertexAttribPointer(
+			textureCoordAttributeLocation, // attribute location
+			2, // number of elements per atributes,
+			gl.FLOAT, // type of elements
+			gl.FALSE,
+			8 * Float32Array.BYTES_PER_ELEMENT, // size of an individual vertex
+			3 * Float32Array.BYTES_PER_ELEMENT
 		);
 		gl.vertexAttribPointer(
 			normalAttributeLocation, // attribute location
 			3, // number of elements per atributes,
 			gl.FLOAT, // type of elements
 			gl.TRUE,
-			6 * Float32Array.BYTES_PER_ELEMENT, // size of an individual vertex
-			3 * Float32Array.BYTES_PER_ELEMENT // offset from the beggining of single vertex
+			8 * Float32Array.BYTES_PER_ELEMENT, // size of an individual vertex
+			5 * Float32Array.BYTES_PER_ELEMENT // offset from the beggining of single vertex
 		);
 	}
 }

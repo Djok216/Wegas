@@ -6,7 +6,12 @@ function InitWebGl() {
 	if(!gl) {
 		gl = canvas.getContext('experimental-webgl');
 	}
-	
+
+	var light = new Light(gl);
+	light.setAmbientColor(0.2, 0.2, 0.2);
+	light.setDiffuseColor(0.9, 0.9, 0.9);
+	light.setDirection(0.1, -0.5, 0.5);
+
 	// create model
 	var teapot = new Model(gl);
 	teapot.init(downloadManager.getData('models/teapot.obj'));
@@ -29,18 +34,41 @@ function InitWebGl() {
 	var rook = new Model(gl);
 	rook.init(downloadManager.getData('models/rook.obj'));
 
+	var box = new Model(gl);
+	box.init(downloadManager.getData('models/box.obj'));
+	
+	// creating texture
+	var texture = new Texture(gl);
+	texture.init('piece-texture');
+	texture.setActive();
+
 	// creating shader
 	var defaultShader = new Shader(gl);
 	defaultShader.init(downloadManager.getData('VertexShader.glsl'), downloadManager.getData('FragmentShader.glsl'));
 	defaultShader.activate();
 
 	var projMatrix = new Float32Array(16);
-	var viewMatrix = new Float32Array(16);
 	
-	mat4.lookAt(viewMatrix,[0,2,10],[0.0,0,0],[0,1,0]); // camera position, lookAt, up
-	mat4.perspective(projMatrix,glMatrix.toRadian(45), canvas.width/canvas.height, 0.1, 100.0);
+	var camera = new Camera(gl);
+	camera.init();
+	
+	canvas.addEventListener('mousemove', function(evt) {
+        camera.setMousePos(canvas, evt);
+      }, false);
 
-	gl.uniformMatrix4fv(defaultShader.getMatViewUniformLocation(), gl.FALSE, viewMatrix);
+	canvas.addEventListener('mousedown', function(evt) {
+        camera.toggleMouseUpdate(true);
+      }, false);
+
+	canvas.addEventListener('mouseup', function(evt) {
+        camera.toggleMouseUpdate(false);
+      }, false);
+	canvas.addEventListener('mouseout', function(evt) {
+        camera.toggleMouseUpdate(false);
+      }, false);
+
+	mat4.perspective(projMatrix, glMatrix.toRadian(45), canvas.width/canvas.height, 0.1, 100.0);
+
 	gl.uniformMatrix4fv(defaultShader.getMatProjectionUniformLocation(), gl.FALSE, projMatrix);
 
 	teapot.setPosition(6, 0, 0);
@@ -50,11 +78,19 @@ function InitWebGl() {
 	bishop.setPosition(0, 0, 0);
 	knight.setPosition(-1.5, 0, 0);
 	rook.setPosition(-3, 0, 0);
+	box.setPosition(-5, 0, 0);
+
 	//main render loop
 	gl.enable(gl.DEPTH_TEST);
+
+	light.setActive(defaultShader);
+
 	var loop = function() {
 		gl.clearColor(0.9, 0.9, 0.9, 1.0);
 		gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
+
+		camera.handleInput();
+		camera.updateMatrix(defaultShader);
 
 		teapot.render(defaultShader);
 		pawn.render(defaultShader);
@@ -63,6 +99,7 @@ function InitWebGl() {
 		bishop.render(defaultShader);
 		knight.render(defaultShader);
 		rook.render(defaultShader);
+		box.render(defaultShader);
 		requestAnimationFrame(loop);
 	}
 	requestAnimationFrame(loop);
@@ -83,5 +120,6 @@ function OnLoad() {
 	downloadManager.addResourceToQueue("models/knight.obj");
 	downloadManager.addResourceToQueue("models/rook.obj");
 	downloadManager.addResourceToQueue("models/teapot.obj");
+	downloadManager.addResourceToQueue("models/box.obj");
 	downloadManager.beginDownload(InitWebGl);
 };

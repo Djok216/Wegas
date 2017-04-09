@@ -1,0 +1,15 @@
+.info-sidebar {
+  float: right;
+  width: 100%;
+  display: inline;
+}
+
+.sidebox {
+  margin-bottom: 1.5em;
+}
+
+
+.rtable{
+  text-align-all: left;
+  border: black;
+}

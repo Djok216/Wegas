@@ -26,6 +26,8 @@ import { ForumComponent } from './dashboard/content-container/forum/forum.compon
 import { StatsComponent } from './dashboard/content-container/stats/stats.component';
 import { HelpComponent } from './dashboard/content-container/help/help.component';
 import { LearnComponent } from './dashboard/content-container/learn/learn.component';
+import { ForumInfoComponent } from './dashboard/content-container/forum/forum-info/forum-info.component';
+import { ForumContentComponent } from './dashboard/content-container/forum/forum-content/forum-content.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { LearnComponent } from './dashboard/content-container/learn/learn.compon
     ForumComponent,
     StatsComponent,
     HelpComponent,
-    LearnComponent
+    LearnComponent,
+    ForumInfoComponent,
+    ForumContentComponent
   ],
   imports: [
     BrowserModule,

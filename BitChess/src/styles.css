@@ -5,7 +5,7 @@
   --color-link-hover: #6cce21;
   --color-link-active: #155956;
   --color-underline-menu: #3B5998;
-  --color-border-menu: #7741f4;
+  --color-border-menu: black;
   --color-background-menu: transparent;
 
   --color-menu-nav-item-background: white;
@@ -80,7 +80,7 @@ html {
 }
 
 .roundbox .bottom-links a {
-  margin: 0.1em;
+  /margin: 0.1em;
 }
 
 .roundbox table.rtable {

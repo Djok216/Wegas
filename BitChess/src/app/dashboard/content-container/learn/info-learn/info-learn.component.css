@@ -12,9 +12,8 @@
 .rtable{
   text-align-all: left;
   border: black;
-
 }
- .info_s{
-   position: relative;
-   top: 5em;
- }
+.info_s{
+  position: relative;
+  top: 5em;
+}

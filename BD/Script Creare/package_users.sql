@@ -1,18 +1,30 @@
 CREATE OR REPLACE PACKAGE PACKAGE_USERS AS
   TYPE GAME_HISTORY IS TABLE OF games.id%TYPE INDEX BY PLS_INTEGER;
+  FUNCTION EXISTS_USER(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER;
+  FUNCTION GET_PASSWORD(p_nickname USERS.NICKNAME%TYPE) RETURN USERS.PASSWORD%TYPE;
+  PROCEDURE INSERT_NEW_USER(p_name USERS.NAME%TYPE, p_email USERS.EMAIL%TYPE, p_nickname USERS.NICKNAME%TYPE, p_password USERS.PASSWORD%TYPE);
+  FUNCTION DUMMY(p_param integer) RETURN INTEGER;
 END;
 /
 CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
-  FUNCTION EXISTS_USERS(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER AS
+  FUNCTION DUMMY(p_param integer) RETURN INTEGER AS 
+    v_paramIncreased INTEGER;
+  BEGIN
+    v_paramIncreased := p_param + 1;
+    return v_paramIncreased;
+  END;
+  FUNCTION EXISTS_USER(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER AS
     v_cnt INTEGER;
   BEGIN
-    SELECT COUNT(*) INTO v_cnt from users where lower(nickname) like lower(p_nickname);
+    SELECT COUNT(*) INTO v_cnt from users where lower(nickname) = lower(p_nickname);
     RETURN v_cnt;
   END;
   
   PROCEDURE INSERT_NEW_USER(p_name USERS.NAME%TYPE, p_email USERS.EMAIL%TYPE, p_nickname USERS.NICKNAME%TYPE, p_password USERS.PASSWORD%TYPE) AS
   BEGIN
-    INSERT INTO USERS VALUES(USER_ID.NEXTVAL, p_name, p_email, p_nickname, p_password, 0, 0, 0, CURRENT_TIMESTAMP, 0, null);
+    -- AICI AM HARCODAT VALOARE 4 PENTRU CA SE INCALCA CHEIA STRAINA
+    -- TO REMOVE!!!!!
+    INSERT INTO USERS VALUES(USER_ID.NEXTVAL, p_name, p_email, p_nickname, p_password, 0, 0, 0, CURRENT_TIMESTAMP, 4, NULL);
     -- TO DO TRIGGER OR NOT.
   END;
   
@@ -34,7 +46,7 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
   END;
   
   FUNCTION GET_PASSWORD(p_nickname USERS.NICKNAME%TYPE) RETURN USERS.PASSWORD%TYPE AS 
-    v_password USERS.PASSWORD%TYPE;
+    v_password USERS.NICKNAME%TYPE;
   BEGIN
     SELECT password INTO v_password from USERS WHERE lower(p_nickname) like lower(nickname);
     RETURN v_password;
@@ -71,3 +83,5 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
     return v_arr;
   END;
 END;
+/
+commit;

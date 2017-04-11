@@ -1,22 +1,24 @@
 table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
+
 }
 
 th, td {
   padding: 10px;
 }
-.subject {
+.club_name {
   width: 75em;
 }
 
-table#t01 tr:nth-child(even) {
-  background-color: #eee;
-}
-table#t01 tr:nth-child(odd) {
-  background-color: #fff;
+.nr_members {
+  width: 15em;
 }
 
+table#t01 tr:nth-child(even) {
+  background-color: #fff;
+}
+table#t01 tr:nth-child(odd) {
+  background-color: #eee;
+}
 
 .category_name{
   color: #3B5998;

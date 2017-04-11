@@ -30,6 +30,8 @@ import { ForumInfoComponent } from './dashboard/content-container/forum/forum-in
 import { ForumContentComponent } from './dashboard/content-container/forum/forum-content/forum-content.component';
 import { InfoLearnComponent } from './dashboard/content-container/learn/info-learn/info-learn.component';
 import { ContentLearnComponent } from './dashboard/content-container/learn/content-learn/content-learn.component';
+import { ClubContentComponent } from './dashboard/content-container/clubs/club-content/club-content.component';
+import { ClubInfoComponent } from './dashboard/content-container/clubs/club-info/club-info.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { ContentLearnComponent } from './dashboard/content-container/learn/conte
     ForumInfoComponent,
     ForumContentComponent,
     InfoLearnComponent,
-    ContentLearnComponent
+    ContentLearnComponent,
+    ClubContentComponent,
+    ClubInfoComponent
   ],
   imports: [
     BrowserModule,

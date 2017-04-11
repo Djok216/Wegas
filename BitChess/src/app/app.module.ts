@@ -28,6 +28,8 @@ import { HelpComponent } from './dashboard/content-container/help/help.component
 import { LearnComponent } from './dashboard/content-container/learn/learn.component';
 import { ForumInfoComponent } from './dashboard/content-container/forum/forum-info/forum-info.component';
 import { ForumContentComponent } from './dashboard/content-container/forum/forum-content/forum-content.component';
+import { InfoLearnComponent } from './dashboard/content-container/learn/info-learn/info-learn.component';
+import { ContentLearnComponent } from './dashboard/content-container/learn/content-learn/content-learn.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { ForumContentComponent } from './dashboard/content-container/forum/forum
     HelpComponent,
     LearnComponent,
     ForumInfoComponent,
-    ForumContentComponent
+    ForumContentComponent,
+    InfoLearnComponent,
+    ContentLearnComponent
   ],
   imports: [
     BrowserModule,

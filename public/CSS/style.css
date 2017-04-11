@@ -162,31 +162,6 @@ a.not-decorated {
     border: none;
 }
 
-.live {
-    margin: 1em;
-}
-
-.live li {
-    margin-bottom: 0.5em;
-}
-
-.live li.last {
-    margin-bottom: 0;
-}
-
-.live li .blog {
-    color: rgb(0, 0, 0);
-}
-
-.live li .comments {
-    color: #f00;
-}
-
-.notice {
-    color: #888 !important;
-    font-size: 1.3em;
-}
-
 .error {
     color: red;
 }

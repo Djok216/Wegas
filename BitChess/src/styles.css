@@ -1,0 +1,227 @@
+:root {
+  /*--section for link colors*/
+  --color-link: #206aaa;
+  --color-link-visited: #0a2944;
+  --color-link-hover: #6cce21;
+  --color-link-active: #155956;
+  --color-underline-menu: #3B5998;
+  --color-border-menu: black;
+  --color-background-menu: transparent;
+
+  --color-menu-nav-item-background: white;
+  --color-menu-nav-item-hover: #a7d1f2;
+  --color-menu-nav-item-text: black;
+  /*--end section for link colors*/
+}
+
+html {
+  font-size: 10px;
+}
+
+#pageContent {
+  margin: 2em 1em 1em;
+  padding-top: 1em;
+  min-height: 20em;
+  float: left;
+  width: 70%;
+}
+
+#body {
+  padding-top: 0.75em;
+  max-width: 1200px;
+  min-width: 920px;
+  margin: 0 auto;
+}
+
+#sidebar {
+  float: right;
+  width: 20%;
+  display: inline;
+  padding-left: 4em;
+  margin: 3em 1em 1em;
+}
+
+.roundbox {
+  border: 1px solid var(--color-border-menu);
+  position: relative;
+}
+
+.roundbox .caption {
+  color: var(--color-underline-menu);
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.2em 0;
+  position: relative;
+}
+
+.roundbox .titled {
+  padding: 0 0 0.3em 0.5em;
+  border-bottom: 1px solid var(--color-border-menu);
+}
+
+.roundbox .caption .top-links {
+  font-size: 1.1rem;
+  font-family: arial;
+  position: absolute;
+  right: 0.5em;
+  top: 0.3em;
+}
+
+.roundbox .bottom-links {
+  font-family: arial;
+  font-size: 1.1rem;
+  border-top: 1px solid var(--color-border-menu);
+  background-color: var(--color-background-menu);
+  padding: 0.45em;
+}
+
+.roundbox .dark {
+  background-color: var(--color-background-menu);
+}
+
+.roundbox .bottom-links a {
+  /margin: 0.1em;
+}
+
+.roundbox table.rtable {
+  width: 100%;
+  margin-top: -4px;
+  border: none;
+}
+
+.roundbox .rtable td, .roundbox .rtable th {
+  border: 1px solid var(--color-border-menu);
+  border-right: none;
+  border-top: none;
+  padding: 4px;
+  text-align: center;
+  font-size: 1.4em;
+}
+
+.roundbox .rtable th {
+  font-size: 1.4em;
+  padding-top: 7px;
+}
+
+.roundbox .rtable .left {
+  border-left: none;
+}
+
+.roundbox .rtable .bottom {
+  border-bottom: none;
+}
+
+.roundbox .rtable .corner {
+  width: 10px;
+  height: 10px;
+}
+
+.roundbox .roundbox-lt {
+  background: url('assets/images/roundbox-lt.png') no-repeat top left;
+  position: absolute;
+  top: -1px;
+  left: -1px;
+}
+
+.roundbox .roundbox-rt {
+  background: url('assets/images/roundbox-rt.png') no-repeat top right;
+  position: absolute;
+  top: -1px;
+  right: -1px;
+}
+
+.roundbox .roundbox-lb {
+  background: url('assets/images/roundbox-lb.png') no-repeat bottom left;
+  position: absolute;
+  bottom: -1px;
+  left: -1px;
+}
+
+.roundbox .roundbox-rb {
+  background: url('assets/images/roundbox-rb.png') no-repeat bottom right;
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+}
+
+.rtable th {
+  font-weight: bold;
+}
+
+.menu-box {
+  margin: 0 1em;
+  padding-top: 0.5em;
+  height: 2.5em;
+  line-height: 2.5em;
+}
+
+.menu-list-container {
+  margin: 0;
+}
+
+.menu-list {
+  margin-left: 1.25em;
+}
+
+.menu-list li {
+  font-family: 'Cuprum', sans-serif !important;
+  float: left;
+  list-style: none;
+  margin-right: 1.25em;
+  padding: 0 0 1px 0;
+  position: relative;
+  top: -10px;
+}
+
+.menu-list li a {
+  font-weight: normal;
+  font-size: 1.6rem;
+  text-decoration: none;
+  color: #000;
+  outline: none;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  display: block;
+  float: left;
+  height: 20px;
+  overflow: hidden;
+  /*margin: auto 2px;*/
+  margin: 0;
+  line-height: 22px;
+}
+
+.menu-list li .icon {
+  position: relative;
+  top: 3px;
+}
+
+.menu-list li.active {
+  border-bottom: 3px solid var(--color-underline-menu);
+}
+
+.menu-list li.item-highlighted * {
+  color: red;
+}
+
+.menu-list li a:hover, .menu-list li a:active, .menu-list li a:visited {
+  border: none;
+}
+
+/* section for override all links colors*/
+a:link {
+  color: var(--color-link);
+}
+
+a:visited {
+  color: var(--color-link-visited);
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+a:active {
+  color: var(--color-link-active);
+}
+/*end section for override all links colors*/

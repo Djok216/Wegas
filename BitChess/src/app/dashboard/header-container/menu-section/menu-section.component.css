@@ -1,0 +1,34 @@
+.nav {
+  position: relative;
+  display: inline-block;
+  font-size: 1.5em;
+  font-weight: 900;
+  background-color: transparent;
+}
+
+.nav-item {
+  float: left;
+  display: block;
+  border-radius: 5px 5px 5px 5px;
+}
+
+.nav-item a:link, a:visited {
+  background-color: var(--color-background-menu);
+  color: var(--color-menu-nav-item-text);
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px 5px 5px 5px;
+  display: inline-block;
+}
+
+.nav-item a:hover, a:active {
+  background: var(--color-menu-nav-item-hover);
+}
+
+/* media screen */
+@media screen and (max-width: 44em) {
+  ul > li {
+    width: 100%;
+  }
+}

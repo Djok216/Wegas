@@ -1,0 +1,73 @@
+<div id="body">
+  <app-header-container></app-header-container>
+
+  <div>
+    <div id="pageContent">
+      <div>
+        <h2>
+          Completati formularul pentru a va loga. <br>
+          Puteti sa va logati folosind:
+          <a href="/">Facebook</a> sau <a href="/">Gmail</a>.
+        </h2>
+
+        <div class="roundbox" style="width: 35em; margin: 2em auto;">
+          <div class="roundbox-lt">&nbsp;</div>
+          <div class="roundbox-rt">&nbsp;</div>
+          <div class="caption titled">Logare BitChess</div>
+          <form method="post">
+            <table class="table-form">
+              <tbody>
+              <tr>
+                <td class="field-name">Username</td>
+                <td><input style="width: 20em;" name="username"></td>
+              </tr>
+
+              <tr>
+                <td class="field-name">Password</td>
+                <td><input style="width: 20em;" name="password" type="password"></td>
+              </tr>
+
+              <tr>
+                <td>&nbsp;</td>
+                <td>
+                  <label style="font-size: 1.1em" for="remember">
+                    <input id="remember" style="position:relative;top:0.25em" type="checkbox" name="remember">
+                    Remember me
+                  </label>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="2">
+                  <div style="text-align: center;">
+                    <button class="submit" (click)="onLoginClick()">Login</button>
+                    <p>{{getData}}</p>
+                  </div>
+
+                  <div style="text-align: right;font-size: 1.1em">
+                    <a href="/">Ai uitat parola?</a>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </form>
+
+          <div class="bottom-links">
+            <table style="width: 100%;">
+              <tr>
+                <td style="text-align: left;"></td>
+                <td style="text-align: right">
+                  <a href="/">Use Facebook</a>
+                  <a href="/">Use Gmail</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br style="clear: both">
+  <app-footer-container></app-footer-container>
+</div>

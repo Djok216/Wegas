@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import {LoginService} from "./login.service";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [LoginService]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent{
+  getData : string;
 
-  constructor() { }
+  constructor(private _loginService : LoginService) { }
 
-  ngOnInit() {
+  onLoginClick() {
+    this._loginService.getCurrentTime()
+      .subscribe(
+        data => this.getData = JSON.stringify(data),
+        error => alert(error),
+        () => console.log("Finished")
+      )
   }
-
 }

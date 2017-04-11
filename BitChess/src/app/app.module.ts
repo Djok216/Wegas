@@ -62,7 +62,7 @@ import { ForumContentComponent } from './dashboard/content-container/forum/forum
     HttpModule,
     routes
   ],
-  providers: [],
+  providers: [HttpModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

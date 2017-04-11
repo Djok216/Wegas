@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
+import {Http, Headers} from "@angular/http";
 import 'rxjs/add/operator/map';
 /**
  * Created by BlackDeathM8 on 11-Apr-17.
@@ -7,9 +7,15 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class LoginService {
-  constructor (private _http: Http) {}
+  constructor(private _http: Http) {
+  }
 
-  getCurrentTime() {
-    return this._http.get('http://date.jsontest.com').map(res => res.json());
+  sendLogin(username: string, password: string) {
+    console.debug(username, password);
+    var body = username + ' ' + password;
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    return this._http.post('http://localhost:8181/public/',body,{headers: headers})
+      .map(res => res.json());
   }
 }

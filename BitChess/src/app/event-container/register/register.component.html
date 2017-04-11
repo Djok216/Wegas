@@ -9,7 +9,7 @@
         <a href="/">Facebook</a> sau <a href="/">Gmail</a>.
       </h2>
 
-      <div class="roundbox" style="width: 35em; margin: 2em auto;">
+      <div class="roundbox" style="width: 40em; margin: 2em auto;">
         <div class="roundbox-lt">&nbsp;</div>
         <div class="roundbox-rt">&nbsp;</div>
         <div class="caption titled">Inregistrare BitChess</div>
@@ -18,7 +18,7 @@
             <tbody>
             <tr>
               <td class="field-name">Username</td>
-              <td><input style="width: 17em;" name="username"></td>
+              <td><input #input_username style="width: 17em;" name="username"></td>
             </tr>
 
             <tr class="subscription-row">
@@ -32,7 +32,7 @@
 
             <tr>
               <td class="field-name">Password</td>
-              <td><input style="width: 17em;" name="password" type="password"></td>
+              <td><input #input_password style="width: 17em;" name="password" type="password"></td>
             </tr>
 
             <tr class="subscription-row">
@@ -48,7 +48,7 @@
 
             <tr>
               <td class="field-name">Confirm Password</td>
-              <td><input style="width: 17em;" name="password" type="password"></td>
+              <td><input #input style="width: 17em;" name="password" type="password"></td>
             </tr>
 
             <tr>
@@ -59,7 +59,7 @@
             <tr>
               <td colspan="2">
                 <div style="text-align: center;">
-                  <input class="submit" type="submit" value="Register">
+                  <button class="submit" (click)="onRegisterClick()">Register</button>
                 </div>
               </td>
             </tr>

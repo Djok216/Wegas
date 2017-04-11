@@ -1,1 +1,2 @@
-Hello <?=$data['name']?>
+HELLO
+<?=$data['name']?>

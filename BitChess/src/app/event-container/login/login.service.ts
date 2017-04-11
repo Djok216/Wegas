@@ -15,7 +15,7 @@ export class LoginService {
     var body = username + ' ' + password;
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    return this._http.post('http://localhost:8181/public/',body,{headers: headers})
+    return this._http.post('http://localhost:8181/public/user/login',body,{headers: headers})
       .map(res => res.json());
   }
 }

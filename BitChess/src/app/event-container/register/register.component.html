@@ -48,18 +48,20 @@
 
             <tr>
               <td class="field-name">Confirm Password</td>
-              <td><input #input style="width: 17em;" name="password" type="password"></td>
+              <td><input #input_confirmPassword style="width: 17em;" name="password" type="password"></td>
             </tr>
 
             <tr>
               <td class="field-name">Email</td>
-              <td><input style="width: 17em;" name="email"></td>
+              <td><input #input_email style="width: 17em;" name="email"></td>
             </tr>
 
             <tr>
               <td colspan="2">
                 <div style="text-align: center;">
-                  <button class="submit" (click)="onRegisterClick()">Register</button>
+                  <button class="submit" (click)="onRegisterClick(input_username.value, input_password.value,
+                    input_confirmPassword.value,input_email.value)">Register</button>
+                  <p>{{answer}}</p>
                 </div>
               </td>
             </tr>

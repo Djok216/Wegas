@@ -30,7 +30,8 @@ export const router : Routes = [
     {path:'help', component: HelpComponent}
   ]},
   {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent}
+  {path: 'register', component: RegisterComponent},
+  {path: '**', redirectTo: '/404', pathMatch: 'full'}
 ];
 
 // exporter

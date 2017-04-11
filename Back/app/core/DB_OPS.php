@@ -19,4 +19,12 @@ class DB_OPS {
     public function getConnection() {
         return $this->connection;
     }
+
+    public function registerUser($username, $password, $email) {
+
+    }
+
+    public function checkUser($username, $password) {
+        
+    }
 }

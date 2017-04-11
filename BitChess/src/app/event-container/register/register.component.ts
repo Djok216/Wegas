@@ -8,12 +8,16 @@ import {RegisterService} from "./register.service";
   providers: [RegisterService]
 })
 export class RegisterComponent {
-  public username : string;
-  public password : string;
-  public confirm_password : string;
-  public email : string;
+  public answer : string;
 
   constructor(private _RegisterService : RegisterService) { }
 
-  onRegisterClick() {}
+  onRegisterClick(username: string, pass: string, confPass: string, email: string) {
+    this._RegisterService.userRegister(username, pass, confPass, email)
+      .subscribe(
+        data => this.answer = JSON.stringify(data).replace(/\"/g, ""),
+        error => alert(error),
+        () => console.log("Finished")
+      )
+  }
 }

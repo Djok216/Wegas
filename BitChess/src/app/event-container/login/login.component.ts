@@ -8,7 +8,7 @@ import {LoginService} from "./login.service";
   providers: [LoginService]
 })
 export class LoginComponent{
-  getData : string;
+  answer : string;
   username : string;
   password : string;
 
@@ -25,7 +25,7 @@ export class LoginComponent{
   onLoginClick(current_username : string, current_password : string) {
     this._loginService.sendLogin(current_username, current_password)
       .subscribe(
-        data => this.getData = JSON.stringify(data),
+        data => this.answer = JSON.stringify(data).replace(/\"/g, ""),
         error => alert(error),
         () => console.log("Finished")
       )

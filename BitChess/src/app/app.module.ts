@@ -32,6 +32,8 @@ import { InfoLearnComponent } from './dashboard/content-container/learn/info-lea
 import { ContentLearnComponent } from './dashboard/content-container/learn/content-learn/content-learn.component';
 import { ClubContentComponent } from './dashboard/content-container/clubs/club-content/club-content.component';
 import { ClubInfoComponent } from './dashboard/content-container/clubs/club-info/club-info.component';
+import { StatsContentComponent } from './dashboard/content-container/stats/stats-content/stats-content.component';
+import { StatsInfoComponent } from './dashboard/content-container/stats/stats-info/stats-info.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { ClubInfoComponent } from './dashboard/content-container/clubs/club-info
     InfoLearnComponent,
     ContentLearnComponent,
     ClubContentComponent,
-    ClubInfoComponent
+    ClubInfoComponent,
+    StatsContentComponent,
+    StatsInfoComponent
   ],
   imports: [
     BrowserModule,

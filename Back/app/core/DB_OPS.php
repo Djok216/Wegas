@@ -108,6 +108,7 @@ final class DB_OPS {
         return 'Error when running script';
     }
 
+<<<<<<< HEAD
     public function validUsernameFormat($username){
 	if (preg_match('/[^A-Za-z0-9]/', $username)){
   		return 0;
@@ -120,5 +121,22 @@ final class DB_OPS {
     		return 0;
 	}
 	return 1;
+=======
+    public function getAllUserTableData() {
+        $statement = 'SELECT * FROM USERS';
+        $parser = oci_parse($this->connection, $statement);
+
+        oci_execute($parser);
+
+        echo '<table>';
+        while($row =  oci_fetch_array($parser, OCI_B_ROWID)) {
+            echo "<tr><td>" . $row[0] . "</td><td>" .  $row[1] . "</td><td>" .
+                $row[2] . "</td><td>" . $row[3] . "</td><td>" . $row[4] . "</td><td>" .
+                $row[5] . "</td><td>" . $row[6] . "</td><td>" . $row[7] . "</td><td>" .
+                $row[8] . "</td><td>" . $row[9] . "</td></tr>";
+        }
+        echo '</table>';
+        return;
+>>>>>>> 9059be481c8d8e20e93ce08ad06a11960c9d2f12
     }
 }

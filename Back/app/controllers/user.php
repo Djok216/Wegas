@@ -32,6 +32,11 @@ class User extends Controller {
         echo json_encode(DB_OPS::getInstance()->registerUser($registerData[0], $registerData[1], $registerData[3]));
     }
 
+    public function getAllData() {
+        require_once '../app/core/DB_OPS.php';
+        echo json_encode(DB_OPS::getInstance()->getAllUserTableData());
+    }
+
     public function index() {
         echo json_encode("wrong site 404");
     }

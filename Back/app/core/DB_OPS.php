@@ -82,4 +82,21 @@ final class DB_OPS {
         }
         return 'Error when running script';
     }
+
+    public function getAllUserTableData() {
+        $statement = 'SELECT * FROM USERS';
+        $parser = oci_parse($this->connection, $statement);
+
+        oci_execute($parser);
+
+        echo '<table>';
+        while($row =  oci_fetch_array($parser, OCI_B_ROWID)) {
+            echo "<tr><td>" . $row[0] . "</td><td>" .  $row[1] . "</td><td>" .
+                $row[2] . "</td><td>" . $row[3] . "</td><td>" . $row[4] . "</td><td>" .
+                $row[5] . "</td><td>" . $row[6] . "</td><td>" . $row[7] . "</td><td>" .
+                $row[8] . "</td><td>" . $row[9] . "</td></tr>";
+        }
+        echo '</table>';
+        return;
+    }
 }

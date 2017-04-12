@@ -146,13 +146,13 @@ CREATE INDEX CLUBS_id
 CREATE INDEX USERS_id 
   ON USERS (id);
 -- 10K entrie in some tables
-
+/
 BEGIN
   -- add entries for user_status table
   DECLARE
      v_description user_status.description%type;
   BEGIN
-    FOR v_cont in 1..10000 LOOP
+    FOR v_cont in 1..10 LOOP
       v_description :=  initcap(DBMS_RANDOM.string('l', DBMS_RANDOM.value(10,20)));
       INSERT INTO USER_STATUS(id, description) VALUES (USER_STATUS_ID.NEXTVAL, v_description);
     END LOOP;
@@ -171,7 +171,7 @@ BEGIN
   BEGIN
     v_wins:= USER_ID.NEXTVAL; -- doar ca sa pot apela mai jos, inainte sa fac vreun insert USER_ID.currval
   
-    FOR v_cont in 1..10000 LOOP
+    FOR v_cont in 1..10  LOOP
       v_name := initcap(DBMS_RANDOM.string('l', dbms_random.value(10,20)));
       v_email := v_name||'@info.uaic.ro';
       v_nickname := DBMS_RANDOM.string('l', DBMS_RANDOM.value(5,10));
@@ -189,7 +189,7 @@ BEGIN
     v_first_user_id friends.first_user_id%type;
     v_second_user_id friends.second_user_id%type;
   BEGIN
-    FOR v_cont in 1..1000 LOOP
+    FOR v_cont in 1..5 LOOP
       v_first_user_id := TRUNC(DBMS_RANDOM.value(1,USER_ID.currval));
       v_second_user_id :=  TRUNC(DBMS_RANDOM.VALUE(1,USER_ID.currval));
       INSERT INTO FRIENDS(first_user_id, second_user_id) VALUES (v_first_user_id,v_second_user_id);

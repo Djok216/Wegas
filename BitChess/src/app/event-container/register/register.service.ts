@@ -17,5 +17,4 @@ export class RegisterService {
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     return this._http.post('http://localhost:8181/public/user/register',body, {headers: headers}).map(res => res.json());
   }
-
 }

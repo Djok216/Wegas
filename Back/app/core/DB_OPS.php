@@ -25,6 +25,15 @@ final class DB_OPS {
     }
 
     public function registerUser($username, $password, $email) {
+
+	if(!$this->validUsernameFormat($username)){
+		return 'Username format not valid';
+	}
+
+	if(!$this->validEmailFormat($email)){
+		return 'Email format not valid';
+	}	
+
         if($this->checkIfExists($username)) {
             return 'User already exists';
         }
@@ -33,6 +42,12 @@ final class DB_OPS {
                         PACKAGE_USERS.INSERT_NEW_USER(:username, :email, :username, :password);
                       END;";
         $parser = oci_parse($this->connection, $statement);
+
+	if(!$parser){
+		$err = oci_error();
+		return 'Oracle error: '.$e['message'];
+	}
+
         oci_bind_by_name($parser, ":username", $username);
         oci_bind_by_name($parser, ":email", $email);
         oci_bind_by_name($parser, ":password", $password);
@@ -49,6 +64,11 @@ final class DB_OPS {
                       END;";
 
         $parser = oci_parse($this->connection, $statement);
+
+	if(!$parser){
+		$err = oci_error();
+		return 'Oracle error: '.$e['message'];
+	}
 
         oci_bind_by_name($parser, ":nicknameStatus", $usernameStatus);
         oci_bind_by_name($parser, ":username", $username);
@@ -67,6 +87,11 @@ final class DB_OPS {
 
         $parser = oci_parse($this->connection, $statement);
 
+	if((!$parser) and ($usernameStatus == 1)){
+		$err = oci_error();
+		return 'Oracle error: '.$e['message'];
+	}
+
         oci_bind_by_name($parser, ":nicknameStatus", $usernameStatus);
         oci_bind_by_name($parser, ":password", $dbPassword, 50);
         oci_bind_by_name($parser, ":username", $username);
@@ -81,5 +106,19 @@ final class DB_OPS {
             return 'Username is invalid.';
         }
         return 'Error when running script';
+    }
+
+    public function validUsernameFormat($username){
+	if (preg_match('/[^A-Za-z0-9]/', $username)){
+  		return 0;
+	}
+	return 1;
+    }
+
+    public function validEmailFormat($email){
+	if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    		return 0;
+	}
+	return 1;
     }
 }

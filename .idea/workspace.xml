@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d996d203-b5e2-467c-b224-0abfe6b734aa" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BitChess/src/app/event-container/register/register.component.html" afterPath="$PROJECT_DIR$/BitChess/src/app/event-container/register/register.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BitChess/src/app/event-container/login/login.component.html" afterPath="$PROJECT_DIR$/BitChess/src/app/event-container/login/login.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BitChess/src/app/event-container/login/login.component.ts" afterPath="$PROJECT_DIR$/BitChess/src/app/event-container/login/login.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BitChess/src/app/event-container/login/login.service.ts" afterPath="$PROJECT_DIR$/BitChess/src/app/event-container/login/login.service.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -20,8 +23,8 @@
       <file leaf-file-name="login.service.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BitChess/src/app/event-container/login/login.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="41" lean-forward="true" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
+            <state relative-caret-position="459">
+              <caret line="27" column="30" lean-forward="false" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -29,11 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login.component.ts" pinned="false" current-in-tab="false">
+      <file leaf-file-name="login.component.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BitChess/src/app/event-container/login/login.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="69" lean-forward="false" selection-start-line="27" selection-start-column="51" selection-end-line="27" selection-end-column="69" />
+            <state relative-caret-position="578">
+              <caret line="34" column="33" lean-forward="false" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
               <folding>
                 <element signature="e#0#42#0" expanded="true" />
               </folding>
@@ -41,7 +44,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="register.component.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="register.component.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BitChess/src/app/event-container/register/register.component.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
@@ -62,10 +65,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="app.component.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BitChess/src/app/app.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="register.component.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BitChess/src/app/event-container/register/register.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
+            <state relative-caret-position="272">
               <caret line="17" column="69" lean-forward="false" selection-start-line="17" selection-start-column="69" selection-end-line="17" selection-end-column="69" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
@@ -77,8 +90,8 @@
       <file leaf-file-name="register.service.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BitChess/src/app/event-container/register/register.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="68" lean-forward="true" selection-start-line="14" selection-start-column="68" selection-end-line="14" selection-end-column="68" />
+            <state relative-caret-position="204">
+              <caret line="14" column="68" lean-forward="false" selection-start-line="14" selection-start-column="68" selection-end-line="14" selection-end-column="68" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -101,8 +114,8 @@
       <file leaf-file-name="login.component.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BitChess/src/app/event-container/login/login.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
-              <caret line="43" column="25" lean-forward="false" selection-start-line="43" selection-start-column="25" selection-end-line="43" selection-end-column="25" />
+            <state relative-caret-position="847">
+              <caret line="74" column="8" lean-forward="true" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="8" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="e#402#408#1" expanded="true" />
@@ -113,6 +126,8 @@
                 <element signature="n#style#0;n#label#0;n#td#1;n#tr#2;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#0;n#label#0;n#td#1;n#tr#2;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#td#0;n#tr#3;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#div#1;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -157,13 +172,13 @@
         <option value="$PROJECT_DIR$/BitChess/src/styles.css" />
         <option value="$PROJECT_DIR$/BitChess/src/app/dashboard/content-container/home/info-section/info-section.component.html" />
         <option value="$PROJECT_DIR$/BitChess/src/app/dashboard/dashboard.component.css" />
-        <option value="$PROJECT_DIR$/BitChess/src/app/event-container/login/login.component.html" />
-        <option value="$PROJECT_DIR$/BitChess/src/app/event-container/login/login.service.ts" />
-        <option value="$PROJECT_DIR$/BitChess/src/app/event-container/login/login.component.ts" />
         <option value="$PROJECT_DIR$/BitChess/src/app/app-router.ts" />
         <option value="$PROJECT_DIR$/BitChess/src/app/event-container/register/register.service.ts" />
         <option value="$PROJECT_DIR$/BitChess/src/app/event-container/register/register.component.ts" />
         <option value="$PROJECT_DIR$/BitChess/src/app/event-container/register/register.component.html" />
+        <option value="$PROJECT_DIR$/BitChess/src/app/event-container/login/login.component.html" />
+        <option value="$PROJECT_DIR$/BitChess/src/app/event-container/login/login.service.ts" />
+        <option value="$PROJECT_DIR$/BitChess/src/app/event-container/login/login.component.ts" />
       </list>
     </option>
   </component>
@@ -201,6 +216,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -502,7 +518,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -608,12 +623,13 @@
       <workItem from="1490809249154" duration="697000" />
       <workItem from="1490813224090" duration="80000" />
       <workItem from="1491832382924" duration="3303000" />
-      <workItem from="1491907966188" duration="11137000" />
+      <workItem from="1491907966188" duration="13807000" />
+      <workItem from="1492056851492" duration="512000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27925000" />
+    <option name="totallyTimeSpent" value="31107000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
@@ -787,7 +803,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -819,14 +834,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BitChess/src/app/app.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BitChess/src/app/app.component.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -852,7 +859,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -860,7 +866,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -868,7 +873,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -876,7 +880,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
           <caret line="42" column="14" lean-forward="false" selection-start-line="42" selection-start-column="14" selection-end-line="42" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -892,9 +895,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
           <caret line="33" column="7" lean-forward="false" selection-start-line="33" selection-start-column="7" selection-end-line="33" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#53#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -910,37 +910,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BitChess/src/app/event-container/register/register.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="68" lean-forward="true" selection-start-line="14" selection-start-column="68" selection-end-line="14" selection-end-column="68" />
+        <state relative-caret-position="204">
+          <caret line="14" column="68" lean-forward="false" selection-start-line="14" selection-start-column="68" selection-end-line="14" selection-end-column="68" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BitChess/src/app/event-container/login/login.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="41" lean-forward="true" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BitChess/src/app/event-container/login/login.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="69" lean-forward="false" selection-start-line="27" selection-start-column="51" selection-end-line="27" selection-end-column="69" />
-          <folding>
-            <element signature="e#0#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BitChess/src/app/event-container/register/register.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
+        <state relative-caret-position="272">
           <caret line="17" column="69" lean-forward="false" selection-start-line="17" selection-start-column="69" selection-end-line="17" selection-end-column="69" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
@@ -948,21 +928,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BitChess/src/app/event-container/login/login.component.html">
+    <entry file="file://$PROJECT_DIR$/BitChess/src/app/app.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="43" column="25" lean-forward="false" selection-start-line="43" selection-start-column="25" selection-end-line="43" selection-end-column="25" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="e#402#408#1" expanded="true" />
-            <element signature="e#450#456#1" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#td#1;n#tr#1;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="e#1028#1034#1" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#td#1;n#tr#2;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#label#0;n#td#1;n#tr#2;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#td#0;n#tr#3;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="17">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -981,6 +951,46 @@
             <element signature="n#style#0;n#input#0;n#td#1;n#tr#4;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#td#1;n#tr#5;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#td#0;n#tr#6;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BitChess/src/app/event-container/login/login.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="847">
+          <caret line="74" column="8" lean-forward="true" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="8" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#402#408#1" expanded="true" />
+            <element signature="e#450#456#1" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#td#1;n#tr#1;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#1028#1034#1" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#td#1;n#tr#2;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#label#0;n#td#1;n#tr#2;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#td#0;n#tr#3;n#tbody#0;n#table#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BitChess/src/app/event-container/login/login.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="30" lean-forward="false" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BitChess/src/app/event-container/login/login.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="34" column="33" lean-forward="false" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
           </folding>
         </state>
       </provider>

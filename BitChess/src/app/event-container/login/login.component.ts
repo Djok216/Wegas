@@ -30,4 +30,13 @@ export class LoginComponent{
         () => console.log("Finished")
       )
   }
+
+  onShitClick(number: string) {
+    this._loginService.sendNumber(number)
+      .subscribe(
+        data => this.answer = JSON.stringify(data).replace(/\"/g, ""),
+        error => alert(error),
+        () => console.log("Finished")
+      )
+  }
 }

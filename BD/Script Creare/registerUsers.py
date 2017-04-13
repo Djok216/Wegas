@@ -1,9 +1,9 @@
 import requests
 from random import randint as randInt
 
-def populate(username, password, email):
-  info = username + ' ' + password + ' ' + password + ' ' + email
-  r = requests.post('http://localhost:8181/public/user/register', data = info)
+def populate(username, password, email, wins, loses):
+  info = username + ' ' + password + ' ' + password + ' ' + email + ' ' + wins + ' ' + loses
+  r = requests.post('http://localhost:8181/public/user/registerPy', data = info)
   print (r.status_code, r.reason)
 
 fin = open("name.txt", "r")
@@ -19,4 +19,6 @@ for nr in range(0, 227):
   username = name[i] + name[j]
   password = name[j] + name[i] + str(randInt(0, 10**9))
   email = name[i] + name[j] + str(nr) + "@gmail.com"
-  populate(username, password, email)
+  wins = str(randInt(0, 300))
+  loses = str(randInt(0, 300))
+  populate(username, password, email, wins, loses)

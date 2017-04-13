@@ -72,7 +72,7 @@
   <div style="text-align: center">
     <input #input_numb style="width: 17em;" name="number" type="text">
     <button class="submit" (click)="onShitClick(input_numb.value)">PSGBD</button>
-    <p>{{psgbd}}</p>
+    <div [innerHTML]=psgbd></div>
   </div>
   <app-footer-container></app-footer-container>
 </div>

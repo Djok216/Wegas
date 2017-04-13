@@ -25,15 +25,6 @@ final class DB_OPS {
     }
 
     public function registerUser($username, $password, $email) {
-
-	if(!$this->validUsernameFormat($username)){
-		return 'Username format not valid';
-	}
-
-	if(!$this->validEmailFormat($email)){
-		return 'Email format not valid';
-	}	
-
         if($this->checkIfExists($username)) {
             return 'User already exists';
         }
@@ -42,15 +33,31 @@ final class DB_OPS {
                         PACKAGE_USERS.INSERT_NEW_USER(:username, :email, :username, :password);
                       END;";
         $parser = oci_parse($this->connection, $statement);
-
-	if(!$parser){
-		$err = oci_error();
-		return 'Oracle error: '.$e['message'];
-	}
-
         oci_bind_by_name($parser, ":username", $username);
         oci_bind_by_name($parser, ":email", $email);
         oci_bind_by_name($parser, ":password", $password);
+
+        if(oci_execute($parser, OCI_COMMIT_ON_SUCCESS)) {
+            return 'Register success';
+        }
+        return 'Error when register new user.';
+    }
+
+    public function registerUserPy($username, $password, $email, $wins, $loses) {
+        if($this->checkIfExists($username)) {
+            return 'User already exists';
+        }
+
+        $statement = "BEGIN
+                        PACKAGE_USERS.INSERT_NEW_USER(:username, :email, :username, :password, :wins, :looses);
+                      END;";
+
+        $parser = oci_parse($this->connection, $statement);
+        oci_bind_by_name($parser, ":username", $username);
+        oci_bind_by_name($parser, ":email", $email);
+        oci_bind_by_name($parser, ":password", $password);
+        oci_bind_by_name($parser, ":wins", $wins);
+        oci_bind_by_name($parser, ":looses", $loses);
 
         if(oci_execute($parser, OCI_COMMIT_ON_SUCCESS)) {
             return 'Register success';
@@ -65,11 +72,6 @@ final class DB_OPS {
 
         $parser = oci_parse($this->connection, $statement);
 
-	if(!$parser){
-		$err = oci_error();
-		return 'Oracle error: '.$e['message'];
-	}
-
         oci_bind_by_name($parser, ":nicknameStatus", $usernameStatus);
         oci_bind_by_name($parser, ":username", $username);
 
@@ -80,63 +82,43 @@ final class DB_OPS {
     }
 
     public function checkUser($username, $password) {
+        if($this->checkIfExists($username) == 0) {
+            return  'Username is invalid.';
+        }
+
         $statement = "BEGIN
-                        :nicknameStatus := PACKAGE_USERS.EXISTS_USER(:username);
                         :password := PACKAGE_USERS.GET_PASSWORD(:username);
                       END;";
 
         $parser = oci_parse($this->connection, $statement);
 
-	if((!$parser) and ($usernameStatus == 1)){
-		$err = oci_error();
-		return 'Oracle error: '.$e['message'];
-	}
-
-        oci_bind_by_name($parser, ":nicknameStatus", $usernameStatus);
         oci_bind_by_name($parser, ":password", $dbPassword, 50);
         oci_bind_by_name($parser, ":username", $username);
 
         if(oci_execute($parser)) {
-            if($usernameStatus == 1) {
                 if($password == $dbPassword) {
                     return 'Username and password are valid';
                 }
                 return 'Password is invalid.';
             }
-            return 'Username is invalid.';
-        }
         return 'Error when running script';
     }
 
-<<<<<<< HEAD
-    public function validUsernameFormat($username){
-	if (preg_match('/[^A-Za-z0-9]/', $username)){
-  		return 0;
-	}
-	return 1;
-    }
-
-    public function validEmailFormat($email){
-	if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    		return 0;
-	}
-	return 1;
-=======
-    public function getAllUserTableData() {
-        $statement = 'SELECT * FROM USERS';
+    public function getAllUserTableData($number) {
+        $statement = 'Select * from users where rownum <=' . $number;
         $parser = oci_parse($this->connection, $statement);
-
         oci_execute($parser);
 
-        echo '<table>';
-        while($row =  oci_fetch_array($parser, OCI_B_ROWID)) {
-            echo "<tr><td>" . $row[0] . "</td><td>" .  $row[1] . "</td><td>" .
+        $ans = '';
+
+        $ans = $ans . '<table>';
+        while(($row =  oci_fetch_array($parser, OCI_B_ROWID)) != false) {
+            $ans = $ans . "<tr><td>" . $row[0] . "</td><td>" .  $row[1] . "</td><td>" .
                 $row[2] . "</td><td>" . $row[3] . "</td><td>" . $row[4] . "</td><td>" .
                 $row[5] . "</td><td>" . $row[6] . "</td><td>" . $row[7] . "</td><td>" .
                 $row[8] . "</td><td>" . $row[9] . "</td></tr>";
         }
-        echo '</table>';
-        return;
->>>>>>> 9059be481c8d8e20e93ce08ad06a11960c9d2f12
+        $ans = $ans . '</table>';
+        return $ans;
     }
 }

@@ -1,77 +1,61 @@
-/* Styles go here */
-*{
-  box-sizing:border-box;
+/* clearfix */
+.clearfix-7da63 {
+  clear: both;
 }
-#board{
-  position:relative;
-  width:400px;
-  height:400px;
-}
-.place{
- display:inline-block;
-  width:50px;
-  height:50px;
-  border:1px solid gray;
-  position:absolute;
  
-  
-  }
-.piece{
-  background-image:url('http://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Chess_Pieces_Sprite.svg/2000px-Chess_Pieces_Sprite.svg.png');
- background-size: 586%;
- height:50px;
- width:50px;
- position:absolute;
- border:1px solid gray;
-  
+/* board */
+.board-b72b1 {
+  border: 2px solid #404040;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
 }
-.piece:hover{
-  border:2px solid blue;
+ 
+/* square */
+.square-55d63 {
+  float: left;
+  position: relative;
+ 
+  /* disable any native browser highlighting */
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
-
-.killable{
-   border:1px solid red;
+ 
+/* white square */
+.white-1e1d7 {
+  background-color: #f0d9b5;
+  color: #b58863;
 }
-
-.place.active{
-  border:2px solid blue;
+ 
+/* black square */
+.black-3c85d {
+  background-color: #b58863;
+  color: #f0d9b5;
 }
-
-div[data-piece=Rook]{
-  background-position:-188px 0;
+ 
+/* highlighted square */
+.highlight1-32417, .highlight2-9c5d2 {
+  -webkit-box-shadow: inset 0 0 3px 3px yellow;
+  -moz-box-shadow: inset 0 0 3px 3px yellow;
+  box-shadow: inset 0 0 3px 3px yellow;
 }
-div[data-piece=Pawn]{
-  background-position:48px 0;
+ 
+/* notation */
+.notation-322f9 {
+  cursor: default;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  position: absolute;
 }
-div[data-piece=Bishop]{
-  background-position:188px 0;
+.alpha-d2270 {
+  bottom: 1px;
+  right: 3px;
 }
-div[data-piece=Knight]{
-  background-position:140px 0;
-}
-div[data-piece=King]{
-  background-position:0px 0;
-}
-div[data-piece=Queen]{
-  background-position:-49px 0;
-}
-
-
-div.black[data-piece=Rook]{
-  background-position:-188px 49px;
-}
-div.black[data-piece=Pawn]{
-  background-position:48px 49px
-}
-div.black[data-piece=Bishop]{
-  background-position:188px 49px
-}
-div.black[data-piece=Knight]{
-  background-position:-140px 49px
-}
-div.black[data-piece=King]{
-  background-position:0px 49px;
-}
-div.black[data-piece=Queen]{
-  background-position:-49px 49px;
+.numeric-fc462 {
+  top: 2px;
+  left: 2px;
 }

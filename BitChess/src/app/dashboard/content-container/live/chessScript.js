@@ -49,4 +49,5 @@ var cfg = {
   onSnapEnd: onSnapEnd,
   pieceTheme: "http://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png"
 };
+
 board = ChessBoard('board', cfg);

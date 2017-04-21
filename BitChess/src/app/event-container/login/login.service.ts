@@ -18,13 +18,4 @@ export class LoginService {
     return this._http.post('http://localhost:8181/public/user/login',body,{headers: headers})
       .map(res => res.json());
   }
-
-  sendNumber(number: string) {
-    console.debug(number);
-    var body = number;
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    return this._http.post('http://localhost:8181/public/user/getAllData', body, {headers: headers})
-      .map(res => res.json());
-  }
 }

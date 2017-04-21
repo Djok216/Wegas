@@ -9,7 +9,6 @@ import {LoginService} from "./login.service";
 })
 export class LoginComponent{
   answer : string;
-  psgbd : string;
   username : string;
   password : string;
 
@@ -27,15 +26,6 @@ export class LoginComponent{
     this._loginService.sendLogin(current_username, current_password)
       .subscribe(
         data => this.answer = JSON.stringify(data).replace(/\"/g, ""),
-        error => alert(error),
-        () => console.log("Finished")
-      )
-  }
-
-  onShitClick(number: string) {
-    this._loginService.sendNumber(number)
-      .subscribe(
-        data => this.psgbd = JSON.stringify(data).replace(/\"/g, ""),
         error => alert(error),
         () => console.log("Finished")
       )

@@ -9,6 +9,7 @@
 </head>
 <body ng-app="BitChess">
   <app-root>Loading...</app-root>
+  <div id="board" style="width: 800px"></div>
   <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js'></script>
   <script src='http://chessboardjs.com/js/chessboard.js'></script>
@@ -65,7 +66,9 @@
       pieceTheme: "http://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png"
     };
 
-    board = ChessBoard('board', cfg);
+    var isLive = document.getElementById('board');
+    if(isLive === null) {}
+    else { board = new ChessBoard('board', cfg); }
 
   </script>
 </body>

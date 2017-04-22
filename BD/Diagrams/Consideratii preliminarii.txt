@@ -1,0 +1,9 @@
+1. Oracle database.
+2. Angular 4 frontend.
+3. Php MVC backend api REST.
+4. Chess Api:
+	- jquery : https://code.jquery.com/jquery-2.2.4.min.js
+	- chess.js : https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js
+	- chessboard.js : http://chessboardjs.com/js/chessboard.js
+5. Forum Api:
+	- not decided yet.

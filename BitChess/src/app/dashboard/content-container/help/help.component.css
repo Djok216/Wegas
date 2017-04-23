@@ -1,0 +1,30 @@
+
+.content_box{
+  background-color: #eee;
+
+  border: solid  rgba(165,162,164,0.96);
+  margin-bottom: 1em;
+}
+.titles{
+  font-size: 2.5em;
+  color: #3B5998;
+}
+p {
+  font-size: 1.8em;
+  margin-left: 2em;
+}
+h2{
+  margin-left: 1em;
+  font-size: 20px;
+}
+ul{
+  font-size: 23px;
+  color: darkslateblue;
+}
+ul li{
+  font-size: 0.8em;
+  color: darkslateblue;
+}
+ul>li>ul>li{
+  color: black;
+}

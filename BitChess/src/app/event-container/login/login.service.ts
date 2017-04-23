@@ -13,6 +13,7 @@ export class LoginService {
   sendLogin(username: string, password: string) {
     console.debug(username, password);
     var body = username + ' ' + password;
+    //var body2 = { username: 'morena', pass: 'sticulta'};
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     return this._http.post('http://localhost:8181/public/user/login',body,{headers: headers})

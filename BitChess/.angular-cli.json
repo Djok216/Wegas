@@ -22,7 +22,9 @@
         "styles.css"
       ],
       "scripts": [
-
+          "assets/javascript/chess.js",
+          "assets/javascript/chessboard.js",
+          "assets/javascript/jquery-2.2.4.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

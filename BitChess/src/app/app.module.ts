@@ -3,6 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+// angular material
+import { MaterialModule } from '@angular/material';
+import 'hammerjs';
+// angular flex
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { AppComponent } from './app.component';
 import { HeaderContainerComponent } from './dashboard/header-container/header-container.component';
 import { ContentContainerComponent } from './dashboard/content-container/content-container.component';
@@ -30,6 +36,7 @@ import { ForumInfoComponent } from './dashboard/content-container/forum/forum-in
 import { ForumContentComponent } from './dashboard/content-container/forum/forum-content/forum-content.component';
 import { InfoLearnComponent } from './dashboard/content-container/learn/info-learn/info-learn.component';
 import { ContentLearnComponent } from './dashboard/content-container/learn/content-learn/content-learn.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -64,7 +71,10 @@ import { ContentLearnComponent } from './dashboard/content-container/learn/conte
     BrowserModule,
     FormsModule,
     HttpModule,
-    routes
+    routes,
+    MaterialModule.forRoot(),
+    BrowserAnimationsModule,
+    FlexLayoutModule
   ],
   providers: [HttpModule],
   bootstrap: [AppComponent]

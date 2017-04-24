@@ -1,34 +1,21 @@
 .nav {
-  position: relative;
   display: inline-block;
   font-size: 1.5em;
-  font-weight: 900;
   background-color: transparent;
+  user-select: none;
 }
 
 .nav-item {
-  float: left;
-  display: block;
-  border-radius: 5px 5px 5px 5px;
+  background-color: var(--color-button-background);
+  border-radius: 5% 3% 3% 5%;
+  font-size: 1.5em;
 }
 
-.nav-item a:link, a:visited {
-  background-color: var(--color-background-menu);
-  color: var(--color-menu-nav-item-text);
-  padding: 14px 25px;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 5px 5px 5px 5px;
-  display: inline-block;
+.nav-item:not([disabled]):hover {
+  background-color: var(--color-button-desibled-hover);
+  color: white;
 }
 
-.nav-item a:hover, a:active {
-  background: var(--color-menu-nav-item-hover);
-}
-
-/* media screen */
-@media screen and (max-width: 44em) {
-  ul > li {
-    width: 100%;
-  }
+.nav-item[disabled] {
+  background-color: var(--color-button-desibled);
 }

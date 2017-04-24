@@ -1,3 +1,5 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 :root {
   /*--section for link colors*/
   --color-link: #206aaa;
@@ -11,7 +13,11 @@
   --color-menu-nav-item-background: white;
   --color-menu-nav-item-hover: #a7d1f2;
   --color-menu-nav-item-text: black;
-  /*--end section for link colors*/
+
+  --color-button-desibled-hover: #6899e8;
+  --color-button-desibled: #dee8f7;
+  --color-button-background: #c4d5ef;
+   /*--end section for link colors*/
 }
 
 html {
@@ -23,18 +29,23 @@ html {
   padding-top: 1em;
   min-height: 20em;
   float: left;
-  width: 70%;
+  /*float: left;
+  width: 70%;*/
 }
 
 #body {
+  font-family: Roboto, sans-serif;
   padding-top: 0.75em;
-  max-width: 1200px;
-  min-width: 920px;
   margin: 0 auto;
 }
 
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 #sidebar {
-  float: right;
+  /*float: right;*/
   width: 20%;
   display: inline;
   padding-left: 4em;
@@ -43,7 +54,7 @@ html {
 
 .roundbox {
   border: 1px solid var(--color-border-menu);
-  position: relative;
+  /*position: relative;*/
 }
 
 .roundbox .caption {
@@ -51,7 +62,7 @@ html {
   font-size: 1.5rem;
   font-weight: bold;
   margin: 0.2em 0;
-  position: relative;
+  /*position: relative;*/
 }
 
 .roundbox .titled {
@@ -62,7 +73,7 @@ html {
 .roundbox .caption .top-links {
   font-size: 1.1rem;
   font-family: arial;
-  position: absolute;
+  /*position: absolute;*/
   right: 0.5em;
   top: 0.3em;
 }
@@ -118,28 +129,28 @@ html {
 
 .roundbox .roundbox-lt {
   background: url('assets/images/roundbox-lt.png') no-repeat top left;
-  position: absolute;
+  /*position: absolute;*/
   top: -1px;
   left: -1px;
 }
 
 .roundbox .roundbox-rt {
   background: url('assets/images/roundbox-rt.png') no-repeat top right;
-  position: absolute;
+  /*position: absolute;*/
   top: -1px;
   right: -1px;
 }
 
 .roundbox .roundbox-lb {
   background: url('assets/images/roundbox-lb.png') no-repeat bottom left;
-  position: absolute;
+  /*position: absolute;*/
   bottom: -1px;
   left: -1px;
 }
 
 .roundbox .roundbox-rb {
   background: url('assets/images/roundbox-rb.png') no-repeat bottom right;
-  position: absolute;
+  /*position: absolute;*/
   bottom: -1px;
   right: -1px;
 }
@@ -169,7 +180,7 @@ html {
   list-style: none;
   margin-right: 1.25em;
   padding: 0 0 1px 0;
-  position: relative;
+  /*position: relative;*/
   top: -10px;
 }
 
@@ -192,7 +203,7 @@ html {
 }
 
 .menu-list li .icon {
-  position: relative;
+  /*position: relative;*/
   top: 3px;
 }
 

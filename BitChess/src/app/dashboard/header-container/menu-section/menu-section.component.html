@@ -1,30 +1,11 @@
-<nav class="nav" role = "full-horizontal">
-  <ul class="nav-list">
-    <li class="nav-item">
-      <a routerLink="/home" routerLinkActive="active">Home</a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="/play" routerLinkActive="active">Play</a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="/live" routerLinkActive="active">Live</a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="/clubs" routerLinkActive="active">Clubs</a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="/learn" routerLinkActive="active">Learn</a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="/forum" routerLinkActive="active">Forum</a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="/status" routerLinkActive="active">Status</a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="/help" routerLinkActive="active">Help</a>
-    </li>
-  </ul>
-  <br style="clear: both">
-</nav>
-
+<div class="nav" fxLayout fxFill fxLayoutAlign="center center">
+    <nav md-tab-nav-bar fxLayout>
+      <a md-tab-link class="nav-item" (click)="changeRoute('home')">Home</a>
+      <a md-tab-link class="nav-item" (click)="changeRoute('play')">Play</a>
+      <a md-tab-link class="nav-item" (click)="changeRoute('live')">Live</a>
+      <a md-tab-link class="nav-item" (click)="changeRoute('clubs')">Clubs</a>
+      <a md-tab-link class="nav-item" (click)="changeRoute('learn')">Learn</a>
+      <a md-tab-link class="nav-item" (click)="changeRoute('forum')">Forum</a>
+      <a md-tab-link class="nav-item" (click)="changeRoute('status')">Status</a>
+    </nav>
+</div>

@@ -1,8 +1,18 @@
-<div id="topDiv" style="background-color: #cccccc;">
-  <app-logo-section style="background-color: #6cce21"></app-logo-section>
-  <app-profile-section *ngIf="showProfile" style="background-color: #a7d1f2"></app-profile-section>
-  <app-authenticate-section *ngIf="showAuthentificateSection" style="background-color: #ffffff"></app-authenticate-section>
-</div>
-<div id="bottomDiv" style="background-color: aqua">
-<app-menu-section></app-menu-section>
+<div fxLayout="column">
+  <div
+    id="topDiv" fxLayout fxLayoutGap = "60%">
+    <div layout="end start" fxFlex="20%">
+      <app-logo-section ></app-logo-section>
+    </div>
+    <div fxLayoutAlign="end start" fxFlex="20%">
+      <app-authenticate-section layout="right"></app-authenticate-section>
+    </div>
+    <!--
+    <app-profile-section *ngIf="showProfile" style="background-color: #a7d1f2"></app-profile-section>
+    <app-authenticate-section *ngIf="showAuthentificateSection" style="background-color: #ffffff"></app-authenticate-section>
+    -->
+  </div>
+  <div fxLayout="column">
+    <app-menu-section></app-menu-section>
+  </div>
 </div>

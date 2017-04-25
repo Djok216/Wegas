@@ -1,60 +1,62 @@
 <div id="body">
   <app-header-container></app-header-container>
 
-  <div id="pageContent" style="float:none">
-    <div fxLayoutAlign="center center">
-      <div style="padding-bottom: 10px;">
-        <form method="post">
-          <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 30em;">
-            <thead>
-            <tr>
-              <th class="mdl-data-table__cell--non-numeric" style="text-align:center">Register</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <th class="mdl-data-table__cell--non-numeric">
-                <md-input-container>
-                  <input #input_username name="username" mdInput placeholder="Username" style="width: 30em">
-                </md-input-container>
-              </th>
-            </tr>
-            <tr>
-              <th class="mdl-data-table__cell--non-numeric">
-                <md-input-container>
-                  <input #input_password name="password" mdInput placeholder="Password" style="width: 30em" type="password">
-                </md-input-container>
-              </th>
-            </tr><tr>
-              <th class="mdl-data-table__cell--non-numeric">
-                <md-input-container>
-                  <input #input_confirmPassword name="conf_password" mdInput placeholder="Confirm Password" style="width: 30em" type="password">
-                </md-input-container>
-              </th>
-            </tr>
-            <tr>
-              <th class="mdl-data-table__cell--non-numeric">
-                <md-input-container>
-                  <input #input_email name="email" mdInput placeholder="Email" style="width: 30em">
-                </md-input-container>
-              </th>
-            </tr>
-            <tr>
-              <th>
-                <button md-button class="mdl-button mld-js-button mdl-button--primary" (click)="onRegisterClick(input_username.value, input_password.value,
-                    input_confirmPassword.value,input_email.value)">Register</button>
-              </th>
-            </tr>
-            <tr>
-              <th>
-                Register using
-                <button class="mdl-button mld-js-button mdl-button--primary">Facebook</button>
-                <button class="mdl-button mld-js-button mdl-button--primary">Gmail</button>
-              </th>
-            </tr>
-            </tbody>
-          </table>
-        </form>
+  <div>
+    <div id="pageContent" style="float:none">
+      <div fxLayoutAlign="center center">
+        <div style="padding-bottom: 10px;">
+          <form method="post">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 30em;">
+              <thead>
+              <tr>
+                <th class="mdl-data-table__cell--non-numeric" style="text-align:center">Register</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <th class="mdl-data-table__cell--non-numeric">
+                  <md-input-container>
+                    <input #input_username name="username" mdInput placeholder="Username" style="width: 30em">
+                  </md-input-container>
+                </th>
+              </tr>
+              <tr>
+                <th class="mdl-data-table__cell--non-numeric">
+                  <md-input-container>
+                    <input #input_password name="password" mdInput placeholder="Password" style="width: 30em" type="password">
+                  </md-input-container>
+                </th>
+              </tr><tr>
+                <th class="mdl-data-table__cell--non-numeric">
+                  <md-input-container>
+                    <input #input_confirmPassword name="conf_password" mdInput placeholder="Confirm Password" style="width: 30em" type="password">
+                  </md-input-container>
+                </th>
+              </tr>
+              <tr>
+                <th class="mdl-data-table__cell--non-numeric">
+                  <md-input-container>
+                    <input #input_email name="email" mdInput placeholder="Email" style="width: 30em">
+                  </md-input-container>
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  <button md-button class="mdl-button mld-js-button mdl-button--primary" (click)="onRegisterClick(input_username.value, input_password.value,
+                      input_confirmPassword.value,input_email.value)">Register</button>
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  Register using
+                  <button class="mdl-button mld-js-button mdl-button--primary">Facebook</button>
+                  <button class="mdl-button mld-js-button mdl-button--primary">Gmail</button>
+                </th>
+              </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
       </div>
     </div>
   </div>

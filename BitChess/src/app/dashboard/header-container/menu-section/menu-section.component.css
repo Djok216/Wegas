@@ -1,21 +1,4 @@
-.nav {
-  display: inline-block;
-  font-size: 1.3em;
-  background-color: transparent;
-  user-select: none;
-}
-
-.nav-item {
-  background-color: var(--color-button-background);
-  border-radius: 5% 3% 3% 5%;
-  font-size: 1.3em;
-}
-
-.nav-item:not([disabled]):hover {
-  background-color: var(--color-button-desibled-hover);
-  color: white;
-}
-
-.nav-item[disabled] {
-  background-color: var(--color-button-desibled);
+.mdl-layout {
+  max-width: 1200px;
+  min-width: 920px;
 }

@@ -1,0 +1,53 @@
+
+div {
+  padding-top: 10%;
+}
+
+th, td {
+  padding: 15px;
+  text-align: center;
+
+}
+
+.tablecell:hover {
+  background-color: hsla(360, 100%, 100%, 0.4);
+}
+
+table {
+  background-color: #daf3f7;
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 10px 10px;
+  width: 50em;
+  height: 50em;
+
+  table-layout:fixed;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  color: #ffffff;
+
+
+}
+.tablecell {
+  position:relative;
+  background-color: hsla(218, 66%, 39%, 0.21);
+  size: 100px;
+}
+
+.textplay{
+  font-size: 1.5em;
+}
+td a {
+  display:block;
+  width:100%;
+
+}
+a:link, a:visited {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+a:link:active, a:visited:active {
+  color: #ffffff;
+  text-decoration: none;
+}

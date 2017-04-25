@@ -22,6 +22,9 @@
 
 html {
   font-size: 10px;
+  min-width: 920px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 #pageContent {
@@ -29,8 +32,7 @@ html {
   padding-top: 1em;
   min-height: 20em;
   float: left;
-  /*float: left;
-  width: 70%;*/
+  /*width: 70%;*/
 }
 
 #body {
@@ -46,7 +48,7 @@ html {
 
 #sidebar {
   float: right;
-  width: 20%;
+  width: 23%;
   display: inline;
   padding-left: 4em;
   margin: 3em 1em 1em;

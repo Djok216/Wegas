@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {LoginService} from "./login.service";
+import {MdSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent{
   username : string;
   password : string;
 
-  constructor(private _loginService : LoginService) { }
+  constructor(private _loginService : LoginService, public snackBar: MdSnackBar) { }
 
   updateUsername(username : string) {
     this.username = username;
@@ -28,6 +29,9 @@ export class LoginComponent{
         data => this.answer = JSON.stringify(data).replace(/\"/g, ""),
         error => alert(error),
         () => console.log("Finished")
-      )
+      ),
+    this.snackBar.open(this.answer, "", {
+      duration: 2000,
+    });
   }
 }

@@ -1,85 +1,60 @@
 <div id="body">
   <app-header-container></app-header-container>
 
-  <div id="pageContent">
-    <div>
-      <h2>
-        Completati formularul si alaturativa platformei BitChess. <br>
-        Puteti sa va logati folosind:
-        <a href="/">Facebook</a> sau <a href="/">Gmail</a>.
-      </h2>
-
-      <div class="roundbox" style="width: 40em; margin: 2em auto;">
-        <div class="roundbox-lt">&nbsp;</div>
-        <div class="roundbox-rt">&nbsp;</div>
-        <div class="caption titled">Inregistrare BitChess</div>
+  <div id="pageContent" style="float:none">
+    <div fxLayoutAlign="center center">
+      <div style="padding-bottom: 10px;">
         <form method="post">
-          <table class="table-form">
+          <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 30em;">
+            <thead>
+            <tr>
+              <th class="mdl-data-table__cell--non-numeric" style="text-align:center">Register</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-              <td class="field-name">Username</td>
-              <td><input #input_username style="width: 17em;" name="username"></td>
+              <th class="mdl-data-table__cell--non-numeric">
+                <md-input-container>
+                  <input #input_username name="username" mdInput placeholder="Username" style="width: 30em">
+                </md-input-container>
+              </th>
             </tr>
-
-            <tr class="subscription-row">
-              <td>&nbsp;</td>
-              <td>
-                <div class="shiftUp">
-                  <span class="notice">Alegeti usernameul care dorit sa-l vada orice utilizator de pe platforma.</span>
-                </div>
-              </td>
-            </tr>
-
             <tr>
-              <td class="field-name">Password</td>
-              <td><input #input_password style="width: 17em;" name="password" type="password"></td>
+              <th class="mdl-data-table__cell--non-numeric">
+                <md-input-container>
+                  <input #input_password name="password" mdInput placeholder="Password" style="width: 30em" type="password">
+                </md-input-container>
+              </th>
+            </tr><tr>
+              <th class="mdl-data-table__cell--non-numeric">
+                <md-input-container>
+                  <input #input_confirmPassword name="conf_password" mdInput placeholder="Confirm Password" style="width: 30em" type="password">
+                </md-input-container>
+              </th>
             </tr>
-
-            <tr class="subscription-row">
-              <td>&nbsp;</td>
-              <td>
-                <div class="shiftUp">
-                  <span class="notice">
-                    Parola trebuie sa contina nu mai putin de 6 simboluri.
-                  </span>
-                </div>
-              </td>
-            </tr>
-
             <tr>
-              <td class="field-name">Confirm Password</td>
-              <td><input #input_confirmPassword style="width: 17em;" name="conf_password" type="password"></td>
+              <th class="mdl-data-table__cell--non-numeric">
+                <md-input-container>
+                  <input #input_email name="email" mdInput placeholder="Email" style="width: 30em">
+                </md-input-container>
+              </th>
             </tr>
-
             <tr>
-              <td class="field-name">Email</td>
-              <td><input #input_email style="width: 17em;" name="email"></td>
-            </tr>
-
-            <tr>
-              <td colspan="2">
-                <div style="text-align: center;">
-                  <button class="submit" (click)="onRegisterClick(input_username.value, input_password.value,
+              <th>
+                <button md-button class="mdl-button mld-js-button mdl-button--primary" (click)="onRegisterClick(input_username.value, input_password.value,
                     input_confirmPassword.value,input_email.value)">Register</button>
-                  <p>{{answer}}</p>
-                </div>
-              </td>
+              </th>
+            </tr>
+            <tr>
+              <th>
+                Register using
+                <button class="mdl-button mld-js-button mdl-button--primary">Facebook</button>
+                <button class="mdl-button mld-js-button mdl-button--primary">Gmail</button>
+              </th>
             </tr>
             </tbody>
           </table>
         </form>
-
-        <div class="bottom-links">
-          <table style="width: 100%;">
-            <tr>
-              <td style="text-align: left;"></td>
-              <td style="text-align: right">
-                <a href="/">Use Facebook</a>
-                <a href="/">Use Gmail</a>
-              </td>
-            </tr>
-          </table>
-        </div>
       </div>
     </div>
   </div>

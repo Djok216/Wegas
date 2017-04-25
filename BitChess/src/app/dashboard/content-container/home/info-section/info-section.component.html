@@ -80,30 +80,85 @@
 </div>
 -->
 
-<div>
-  <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+<div style="padding-bottom: 10px;">
+  <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 30em">
     <thead>
     <tr>
-      <th class="mdl-data-table__cell--non-numeric">Material</th>
-      <th>Quantity</th>
-      <th>Unit price</th>
+      <th class="mdl-data-table__cell--non-numeric">#</th>
+      <th class="mdl-data-table__cell--non-numeric" style="text-align:center">Username</th>
+      <th>Rating</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-      <td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-      <td>25</td>
-      <td>$2.90</td>
+      <td class="mdl-data-table__cell--non-numeric">1</td>
+      <td style="color: red;text-align:center">Djok</td>
+      <td>1011</td>
     </tr>
     <tr>
-      <td class="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-      <td>50</td>
-      <td>$1.25</td>
+      <td class="mdl-data-table__cell--non-numeric">2</td>
+      <td style="color: red;text-align:center">Catavencu</td>
+      <td>1300</td>
     </tr>
     <tr>
-      <td class="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
-      <td>10</td>
-      <td>$2.35</td>
+      <td class="mdl-data-table__cell--non-numeric">3</td>
+      <td style="color: green;text-align:center">ttm</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric">4</td>
+      <td style="color: gray;text-align:center">Ultina</td>
+      <td>250</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="padding-bottom: 10px">
+  <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 30em">
+    <thead>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric">Find Users</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric">
+        <md-input-container>
+          <input mdInput placeholder="Nickname" style="width: 20em">
+        </md-input-container>
+      </th>
+      <th><button class="mdl-button mld-js-button mdl-button--primary">Find</button></th>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="padding-bottom: 10px">
+  <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 30em">
+    <thead>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric">Last Active Posts</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric" style="color: red;">Djok</td>
+      <td><a (click)="changeRoute('live')">Chigorin Defence</a></td>
+    </tr>
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric" style="color: red">Catavencu</td>
+      <td><a (click)="changeRoute('home')">Queen's Gambit Accepted</a></td>
+    </tr>
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric" style="color: red">Catavencu</td>
+      <td><a (click)="changeRoute('home')">Bird Opening</a></td>
+    </tr>
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric" style="color: red;">Djok</td>
+      <td><a (click)="changeRoute('home')">Ruy Lopez Opening</a></td>
     </tr>
     </tbody>
   </table>

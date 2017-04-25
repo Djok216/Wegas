@@ -1,83 +1,82 @@
 <div class="info_s">
   <div class="info-sidebar">
-    <div class="roundbox sidebox top contributed">
-      <div class="roundbox-lt">&nbsp;</div>
-      <div class="roundbox-rt">&nbsp;</div>
-      <div class="caption titled"> Forum Categories</div>
-      <table class="rtable">
+    <div style="padding-bottom: 10px;">
+      <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
         <thead>
-          <tr>
-            <th>Category Title</th>
-            <th>Posts</th>
-          </tr>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric" style="text-align:center">Category Title</th>
+          <th>Posts</th>
+        </tr>
         </thead>
         <tbody>
         <tr>
-          <td class="dark">
-            <a href="/forum/general_chess" class='category_name'>General Chess Discussion</a>
-          </td>
-          <td class="dark">6969</td>
+          <td><a (click)="changeRoute('home')">General Chess Discussion</a></td>
+          <td>200</td>
         </tr>
         <tr>
-          <td class="dark">
-            <a href="/forum/cats"  class='category_name'>Cats</a>
-          </td>
-          <td class="dark">69</td>
+          <td><a (click)="changeRoute('home')">Cats</a></td>
+          <td>150</td>
         </tr>
         <tr>
-          <td class="dark">
-            <a href="/forum/off_topic"  class='category_name' >Off-Topic Discussion</a>
-          </td>
-          <td class="dark">68</td>
+          <td><a (click)="changeRoute('home')">Off-Topic Discussion</a></td>
+          <td>100</td>
         </tr>
         <tr>
-          <td class="dark">
-            <a href="/forum/blabla"   class='category_name' >Blabla</a>
-          </td>
-          <td class="dark">67</td>
-        </tr>
-        <tr>
-          <td class="dark">
-            <a href="/forum/strategy"   class='category_name' >Strategy</a>
-          </td>
-          <td class="dark">67</td>
+          <td><a (click)="changeRoute('home')">Strategy</a></td>
+          <td>50</td>
         </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="roundbox sidebox">
-      <div class="roundbox-lt">&nbsp;</div>
-      <div class="roundbox-rt">&nbsp;</div>
-      <div class="caption titled">→ Find Post</div>
-      <form style="display: block" method="post" autocomplete="off">
-        <div style="padding-left:1em;text-align:left; font-size: 15px">
-          <label style="padding-right:1em;">Key Words:
-            <input style="width:12em;" type="text" class="handleBox ac_input" autocomplete="off">
-          </label>
-          <div style="padding: 0.4em 1em 1em 1em;text-align:right;">
-            <input style="height:1.65em;padding:0 0.75em;" type="submit" value="Find">
-          </div>
-        </div>
-      </form>
+    <div style="padding-bottom: 10px;">
+      <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
+        <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">Find</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">
+            <md-input-container>
+              <input mdInput placeholder="Key Words"s>
+            </md-input-container>
+          </th>
+          <th><button class="mdl-button mld-js-button mdl-button--primary">Find</button></th>
+        </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="roundbox sidebox">
-      <div class="roundbox-lt">&nbsp;</div>
-      <div class="roundbox-rt">&nbsp;</div>
-      <div class="caption titled">→ Recent Posts</div>
-      <ul>
-        <li>
-          <div style="font-size:1.4em;padding:0.3em 0;">
-           <a href="/forum/games/pagina006900">Cum va pare acest site ?</a>
-          </div>
-        </li>
-        <li>
-          <div style="font-size:1.4em;padding:0.3em 0;">
-           <a href="/formu/games/pagina006901">Cam slab e totul....</a>
-          </div>
-        </li>
-      </ul>
+    <div style="padding-bottom: 10px">
+      <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
+        <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">Last Active Posts</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric" style="color: red;">Djok</td>
+          <td><a (click)="changeRoute('live')">Chigorin Defence</a></td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric" style="color: red">Catavencu</td>
+          <td><a (click)="changeRoute('home')">Queen's Gambit Accepted</a></td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric" style="color: red">Catavencu</td>
+          <td><a (click)="changeRoute('home')">Bird Opening</a></td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric" style="color: red;">Djok</td>
+          <td><a (click)="changeRoute('home')">Ruy Lopez Opening</a></td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

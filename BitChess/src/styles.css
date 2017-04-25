@@ -52,6 +52,7 @@ html {
   display: inline;
   padding-left: 4em;
   margin: 3em 1em 1em;
+  position: relative;
 }
 
 .roundbox {

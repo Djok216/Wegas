@@ -1,83 +1,67 @@
 <div class="info_s">
-  <div class="info-sidebar">
-    <div class="roundbox sidebox top contributed">
-      <div class="roundbox-lt">&nbsp;</div>
-      <div class="roundbox-rt">&nbsp;</div>
-      <div class="caption titled"> Learn Categories</div>
-      <table class="rtable">
-        <thead>
-        <tr>
-          <th class="left">#</th>
-          <th>Steps</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="left dark">1</td>
-          <td class="dark">
-            <a href="/forum/general_chess" class='category_name'>How to Setup the Chessboard</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="left dark">2</td>
-          <td class="dark">
-            <a href="/forum/cats"  class='category_name'>How the Chess Pieces Move</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="left dark">3</td>
-          <td class="dark">
-            <a href="/forum/off_topic"  class='category_name' >Discover the Special Rules of Chess</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="left dark">4</td>
-          <td class="dark">
-          <a href="/forum/blabla"   class='category_name' >Find out Who Makes the First Move in Chess</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="left dark">5</td>
-          <td class="dark">
-          <a href="/forum/strategy"   class='category_name' >Review the Rules of How to Win a Game of Chess</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="left dark">6</td>
-          <td class="dark">
-          <a href="/forum/strategy"   class='category_name' >Study Basic Chess Strategies</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="left dark">7</td>
-          <td class="dark">
-          <a href="/forum/strategy"   class='category_name' >Practice by Playing Lots of Games</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="left dark">8</td>
-          <td class="dark">
-          <a href="/forum/strategy"   class='category_name' >Frequently Asked Chess Questions (FAQs)</a>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+  <div style="padding-bottom: 10px;float:right">
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
+      <thead>
+      <tr>
+        <th class="mdl-data-table__cell--non-numeric">#</th>
+        <th class="mdl-data-table__cell--non-numeric" style="text-align:center">Steps</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="mdl-data-table__cell--non-numeric">1</td>
+        <td><a (click)="changeRoute('home')">How to Setup the ChessBoard</a></td>
+      </tr>
+      <tr>
+        <td class="mdl-data-table__cell--non-numeric">2</td>
+        <td><a (click)="changeRoute('home')">How the Chess Pieces Move</a></td>
+      </tr>
+      <tr>
+        <td class="mdl-data-table__cell--non-numeric">3</td>
+        <td><a (click)="changeRoute('home')">Discover the Special Rules of Chess</a></td>
+      </tr>
+      <tr>
+        <td class="mdl-data-table__cell--non-numeric">4</td>
+        <td><a (click)="changeRoute('home')">Find out Who Makes the First Move in Chess</a></td>
+      </tr>
+      <tr>
+        <td class="mdl-data-table__cell--non-numeric">5</td>
+        <td><a (click)="changeRoute('home')">Review the Rules of How to Win a Game of Chess</a></td>
+      </tr>
+      <tr>
+        <td class="mdl-data-table__cell--non-numeric">6</td>
+        <td><a (click)="changeRoute('home')">Study Basic Chess Strategies</a></td>
+      </tr>
+      <tr>
+        <td class="mdl-data-table__cell--non-numeric">7</td>
+        <td><a (click)="changeRoute('home')">Practice by Playing Lots of Games</a></td>
+      </tr>
+      <tr>
+        <td class="mdl-data-table__cell--non-numeric">8</td>
+        <td><a (click)="changeRoute('home')">Frequently Asked Chess Questions (FAQs)</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 
-    <div class="roundbox sidebox">
-      <div class="roundbox-lt">&nbsp;</div>
-      <div class="roundbox-rt">&nbsp;</div>
-      <div class="caption titled">→ Find</div>
-      <form style="display: block" method="post" autocomplete="off">
-        <div style="padding-left:1em;text-align:left; font-size: 15px">
-          <label style="padding-right:1em;">Key Words:
-            <input style="width:12em;" type="text" class="handleBox ac_input" autocomplete="off">
-          </label>
-          <div style="padding: 0.4em 1em 1em 1em;text-align:right;">
-            <input style="height:1.65em;padding:0 0.75em;" type="submit" value="Find">
-          </div>
-        </div>
-      </form>
-    </div>
+  <div style="padding-bottom: 10px;">
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
+      <thead>
+      <tr>
+        <th class="mdl-data-table__cell--non-numeric">Find</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th class="mdl-data-table__cell--non-numeric">
+          <md-input-container>
+            <input mdInput placeholder="Key Words">
+          </md-input-container>
+        </th>
+        <th><button class="mdl-button mld-js-button mdl-button--primary">Find</button></th>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>

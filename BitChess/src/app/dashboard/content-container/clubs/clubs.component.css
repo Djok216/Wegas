@@ -1,0 +1,34 @@
+table, th, td {
+
+}
+
+th, td {
+  padding: 10px;
+}
+.club_name {
+  width: 75em;
+}
+
+.nr_members {
+  width: 15em;
+}
+
+table#t01 tr:nth-child(even) {
+  background-color: #fff;
+}
+table#t01 tr:nth-child(odd) {
+  background-color: #eee;
+}
+
+.category_name{
+  color: #3B5998;
+  text-decoration: none;
+  font-size: large;
+  text-decoration-style: solid;
+}
+
+.description{
+  text-decoration: none;
+  text-decoration: rgba(0,0,0,0.4);
+  font-size: small;
+}

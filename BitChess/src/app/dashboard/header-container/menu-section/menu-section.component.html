@@ -1,30 +1,30 @@
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" >
-  <header class="mdl-layout__header">
-    <div class="mdl-layout__header-row mdl-layout--large-screen-only">
+<div>
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" >
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row mdl-layout--large-screen-only">
+        <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+          <button md-button class="mdl-navigation__link" (click)="changeRoute('home')">Home</button>
+          <button md-button class="mdl-navigation__link" (click)="changeRoute('play')">Play</button>
+          <button md-button class="mdl-navigation__link" (click)="changeRoute('live')">Live</button>
+          <button md-button class="mdl-navigation__link" (click)="changeRoute('clubs')">Clubs</button>
+          <button md-button class="mdl-navigation__link" (click)="changeRoute('learn')">Learn</button>
+          <button md-button class="mdl-navigation__link" (click)="changeRoute('forum')">Forum</button>
+          <button md-button class="mdl-navigation__link" (click)="changeRoute('status')">Status</button>
+          <button md-button class="mdl-navigation__link" (click)="changeRoute('help')">Help</button>
+        </nav>
+      </div>
+    </header>
+    <div class="mdl-layout__drawer mdl-layout--small-screen-only">
       <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
-        <button md-button class="mdl-navigation__link" (click)="changeRoute('home')">Home</button>
-        <button md-button class="mdl-navigation__link" (click)="changeRoute('play')">Play</button>
-        <button md-button class="mdl-navigation__link" (click)="changeRoute('live')">Live</button>
-        <button md-button class="mdl-navigation__link" (click)="changeRoute('clubs')">Clubs</button>
-        <button md-button class="mdl-navigation__link" (click)="changeRoute('learn')">Learn</button>
-        <button md-button class="mdl-navigation__link" (click)="changeRoute('forum')">Forum</button>
-        <button md-button class="mdl-navigation__link" (click)="changeRoute('status')">Status</button>
-        <button md-button class="mdl-navigation__link" (click)="changeRoute('help')">Help</button>
+        <a class="mdl-navigation__link" (click)="changeRoute('home')">Home</a>
+        <a class="mdl-navigation__link" (click)="changeRoute('play')">Play</a>
+        <a class="mdl-navigation__link" (click)="changeRoute('live')">Live</a>
+        <a class="mdl-navigation__link" (click)="changeRoute('clubs')">Clubs</a>
+        <a class="mdl-navigation__link" (click)="changeRoute('learn')">Learn</a>
+        <a class="mdl-navigation__link" (click)="changeRoute('forum')">Forum</a>
+        <a class="mdl-navigation__link" (click)="changeRoute('status')">Status</a>
+        <a class="mdl-navigation__link" (click)="changeRoute('help')">Help</a>
       </nav>
     </div>
-  </header>
-  <div class="mdl-layout__drawer mdl-layout--small-screen-only">
-    <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
-      <a class="mdl-navigation__link" (click)="changeRoute('home')">Home</a>
-      <a class="mdl-navigation__link" (click)="changeRoute('play')">Play</a>
-      <a class="mdl-navigation__link" (click)="changeRoute('live')">Live</a>
-      <a class="mdl-navigation__link" (click)="changeRoute('clubs')">Clubs</a>
-      <a class="mdl-navigation__link" (click)="changeRoute('learn')">Learn</a>
-      <a class="mdl-navigation__link" (click)="changeRoute('forum')">Forum</a>
-      <a class="mdl-navigation__link" (click)="changeRoute('status')">Status</a>
-      <a class="mdl-navigation__link" (click)="changeRoute('help')">Help</a>
-    </nav>
   </div>
-  <main class="mdl-layout__content">
-  </main>
 </div>

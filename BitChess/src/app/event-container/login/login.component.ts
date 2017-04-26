@@ -28,10 +28,9 @@ export class LoginComponent{
       .subscribe(
         data => this.answer = JSON.stringify(data).replace(/\"/g, ""),
         error => alert(error),
-        () => console.log("Finished")
-      ),
-    this.snackBar.open(this.answer, "", {
-      duration: 2000,
-    });
+        () => this.snackBar.open(this.answer, "", {
+                duration: 2000,
+              })
+      );
   }
 }

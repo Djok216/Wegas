@@ -28,3 +28,32 @@ ul li{
 ul>li>ul>li{
   color: black;
 }
+
+demo-list-icon {
+  width: 300px;
+}
+
+.demo-card-wide.mdl-card {
+  width: 512px;
+}
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+
+}
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}
+
+.textcard{
+  padding: 2%;
+}
+
+.xcard{
+  padding-right: 2%;
+  padding-bottom: 2%;
+}
+
+.minititles{
+  background-color: #dee8f7;
+}

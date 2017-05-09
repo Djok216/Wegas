@@ -15,6 +15,7 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
     v_paramIncreased := p_param + 1;
     return v_paramIncreased;
   END;
+  
   FUNCTION EXISTS_USER(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER AS
     v_cnt INTEGER;
   BEGIN
@@ -87,3 +88,5 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
 END;
 /
 commit;
+
+select nickname,password from users;

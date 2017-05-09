@@ -12,10 +12,10 @@ export class RegisterService {
   constructor (private _http: Http) {}
 
   userRegister(username: string, pass: string, confPass: string, email: string) {
-    var body = username + ' ' + pass + ' ' + confPass + ' ' + email;
+    var body = { username: username, password: pass, email : email};
     var headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    return this._http.post('http://localhost:8181/public/user/register',body, {headers: headers}).map(res => res.json());
+    headers.append('Content-Type', 'application/json');
+    return this._http.post('http://localhost:4500/user/register',JSON.stringify(body), {headers: headers}).map(res => res.json());
   }
 
 }

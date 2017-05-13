@@ -1,7 +1,7 @@
 package BitChess.Controllers;
 
 import BitChess.Models.*;
-import BitChess.Services.DatabaseService;
+import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import java.sql.SQLException;
 @RestController
 public class AuthenticationController {
     @Autowired
-    private DatabaseService databaseService;
+    private ConcreteDatabaseService databaseService;
 
     @CrossOrigin
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)

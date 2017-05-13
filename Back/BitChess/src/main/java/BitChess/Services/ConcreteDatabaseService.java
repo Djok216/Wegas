@@ -12,7 +12,7 @@ import java.sql.Types;
  * Created by Turcu Nicusor on 09-May-17.
  */
 @Service
-public class ConcreteDatabaseService implements DatabaseService {
+public class ConcreteDatabaseService {
 
     public int test() {
         try {
@@ -44,8 +44,7 @@ public class ConcreteDatabaseService implements DatabaseService {
     }
 
 
-    public void register(String username, String password, String email) throws SQLException
-    {
+    public void register(String username, String password, String email) throws SQLException {
         String plsql = "BEGIN PACKAGE_USERS.INSERT_NEW_USER(?, ?, ?, ?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
         statement.setString(1, username);

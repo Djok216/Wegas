@@ -1,7 +1,7 @@
 package BitChess.Controllers;
 
 import BitChess.Models.TestModel;
-import BitChess.Services.DatabaseService;
+import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
     @Autowired
-    private DatabaseService databaseService;
+    private ConcreteDatabaseService databaseService;
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public ResponseEntity<TestModel> test() {

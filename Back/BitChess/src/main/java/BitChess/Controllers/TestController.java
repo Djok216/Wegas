@@ -23,6 +23,6 @@ public class TestController {
     public ResponseEntity<TestModel> test() {
         TestModel test = new TestModel();
         test.test = databaseService.test();
-        return new ResponseEntity<TestModel>(test, HttpStatus.OK);
+        return new ResponseEntity<>(test, HttpStatus.OK);
     }
 }

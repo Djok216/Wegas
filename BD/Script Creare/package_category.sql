@@ -1,6 +1,6 @@
 CREATE OR REPLACE PACKAGE PACKAGE_CATEGORY AS
   PROCEDURE CREATE_DEFINED_CATEGORY;
-  PROCEDURE GET_CATEGORIES(p_categories IN OUT SYS_REFCURSOR);
+  FUNCTION GET_CATEGORIES RETURN SYS_REFCURSOR;
 END;
 /
 CREATE OR REPLACE PACKAGE BODY PACKAGE_CATEGORY AS
@@ -13,9 +13,11 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_CATEGORY AS
     INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL, 'Off-Topic Discussion', 'Everything that is not related to chess');
   END CREATE_DEFINED_CATEGORY;
   
-  PROCEDURE GET_CATEGORIES(p_categories IN OUT SYS_REFCURSOR) IS
+  FUNCTION GET_CATEGORIES RETURN SYS_REFCURSOR IS
+    v_categ SYS_REFCURSOR;
   BEGIN
-    OPEN p_categories FOR SELECT NAME, DESCRIPTION FROM CATEGORY;
+    OPEN v_categ FOR SELECT ID, NAME, DESCRIPTION FROM CATEGORY ORDER BY ID;
+    RETURN v_categ;
   END;
 END;
 /
@@ -25,17 +27,18 @@ BEGIN
 END;
 /
 -- parse cursor manualy from code
--- SET serveroutput on;
+SET serveroutput on;
 DECLARE
+  v_id integer;
   v_name varchar(511);
   v_description varchar(511);
   v_categ SYS_REFCURSOR;
 BEGIN
-  PACKAGE_CATEGORY.GET_CATEGORIES(v_categ);
+  v_categ := PACKAGE_CATEGORY.GET_CATEGORIES;
   LOOP
-    FETCH v_categ into v_name, v_description;
+    FETCH v_categ into v_id, v_name, v_description;
     exit when v_categ%notfound;
-    DBMS_OUTPUT.PUT_LINE(v_name||' '||v_description);
+    DBMS_OUTPUT.PUT_LINE(v_id||' '||v_name||' '||v_description);
   END LOOP;
   CLOSE v_categ;
 END;

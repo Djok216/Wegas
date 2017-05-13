@@ -1,4 +1,4 @@
-DROP TABLESPACE chess INCLUDING CONTENTS CASCADE CONSTRAINTS; 
+DROP TABLESPACE chess INCLUDING CONTENTS and datafiles CASCADE CONSTRAINTS; 
 
 CREATE TABLESPACE chess
   DATAFILE 'chess_perm_0001.dat' 
@@ -6,6 +6,8 @@ CREATE TABLESPACE chess
     REUSE
     AUTOEXTEND ON NEXT 50M MAXSIZE 2000M
 /
+    
+    select object_name,object_type from dba_objects where owner='chess_user' and object_type='MATERIALIZED VIEW';
     
 CREATE TEMPORARY TABLESPACE aplicatie
   TEMPFILE 'chess_temp_0001.dbf'

@@ -1,0 +1,43 @@
+CREATE OR REPLACE PACKAGE PACKAGE_CATEGORY AS
+  PROCEDURE CREATE_DEFINED_CATEGORY;
+  PROCEDURE GET_CATEGORIES(p_categories IN OUT SYS_REFCURSOR);
+END;
+/
+CREATE OR REPLACE PACKAGE BODY PACKAGE_CATEGORY AS
+  PROCEDURE CREATE_DEFINED_CATEGORY AS
+  BEGIN
+    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL, 'General Chess Discussion', 'The place to discuss general chess topics');
+    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL, 'Game analysis', 'Show us your game and let the community analyse it');
+    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL, 'Openings', 'Openings discussions');
+    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL, 'BitChess Feedback', 'Bug reports, feature requests, suggestions');
+    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL, 'Off-Topic Discussion', 'Everything that is not related to chess');
+  END CREATE_DEFINED_CATEGORY;
+  
+  PROCEDURE GET_CATEGORIES(p_categories IN OUT SYS_REFCURSOR) IS
+  BEGIN
+    OPEN p_categories FOR SELECT NAME, DESCRIPTION FROM CATEGORY;
+  END;
+END;
+/
+-- call procedure to create defined categories
+BEGIN
+  PACKAGE_CATEGORY.CREATE_DEFINED_CATEGORY;
+END;
+/
+-- parse cursor manualy from code
+-- SET serveroutput on;
+DECLARE
+  v_name varchar(511);
+  v_description varchar(511);
+  v_categ SYS_REFCURSOR;
+BEGIN
+  PACKAGE_CATEGORY.GET_CATEGORIES(v_categ);
+  LOOP
+    FETCH v_categ into v_name, v_description;
+    exit when v_categ%notfound;
+    DBMS_OUTPUT.PUT_LINE(v_name||' '||v_description);
+  END LOOP;
+  CLOSE v_categ;
+END;
+/
+COMMIT;

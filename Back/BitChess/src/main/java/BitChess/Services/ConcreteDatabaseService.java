@@ -44,7 +44,7 @@ public class ConcreteDatabaseService {
     }
 
     public void register(String username, String password, String email) throws SQLException {
-        String plsql = "BEGIN PACKAGE_USERS.INSERT_NEW_USER(?, ?, ?, ?); END;";
+        String plsql = "BEGIN PACKAGE_USERS.INSERT_NEW_REGULAR_USER(?, ?, ?, ?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
         statement.setString(1, username);
         statement.setString(2, email);

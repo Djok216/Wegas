@@ -16,7 +16,7 @@ public class ConcreteDatabaseService {
 
     public int test() {
         try {
-            ResultSet resultSet = DatabaseConnection.getConnection().createStatement().executeQuery("select count(*) from users");
+            ResultSet resultSet = DatabaseConnection.getConnection().createStatement().executeQuery("SELECT count(*) FROM users");
             resultSet.next();
             return resultSet.getInt(1);
         } catch (Exception ex) {
@@ -42,7 +42,6 @@ public class ConcreteDatabaseService {
         statement.execute();
         return statement.getString(1);
     }
-
 
     public void register(String username, String password, String email) throws SQLException {
         String plsql = "BEGIN PACKAGE_USERS.INSERT_NEW_USER(?, ?, ?, ?); END;";

@@ -1,2 +1,0 @@
-HELLO
-<?=$data['name']?>

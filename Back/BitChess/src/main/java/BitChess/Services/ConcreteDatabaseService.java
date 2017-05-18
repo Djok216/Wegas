@@ -1,6 +1,7 @@
 package BitChess.Services;
 
 import BitChess.Models.OneCategory;
+import BitChess.Models.OneThread;
 import javafx.util.Pair;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,30 @@ public class ConcreteDatabaseService {
         String plsql = "BEGIN ? := PACKAGE_USERS.EXISTS_USER(?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
         statement.setString(2, nickname);
+        statement.registerOutParameter(1, Types.NUMERIC);
+        statement.execute();
+        result = statement.getInt(1);
+        statement.close();
+        return result;
+    }
+
+    public int checkCategoryExits(Integer id) throws SQLException { //false if 0
+        Integer result;
+        String plsql = "BEGIN ? := PACKAGE_CATEGORY.checkCategoryExists(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2, id);
+        statement.registerOutParameter(1, Types.NUMERIC);
+        statement.execute();
+        result = statement.getInt(1);
+        statement.close();
+        return result;
+    }
+
+    public int checkThreadExits(Integer id) throws SQLException { //false if 0
+        Integer result;
+        String plsql = "BEGIN ? := PACKAGE_forum.checkThreadExists(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2, id);
         statement.registerOutParameter(1, Types.NUMERIC);
         statement.execute();
         result = statement.getInt(1);
@@ -78,5 +103,22 @@ public class ConcreteDatabaseService {
         resultSet.close();
         statement.close();
         return categories;
+    }
+
+    public Vector<OneThread> getAllThreads() throws SQLException {
+        Vector<OneThread> threads = new Vector<>();
+        String plsql = "BEGIN ? := PACKAGE_FORUM.GET_THREADS; END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.registerOutParameter(1, OracleTypes.CURSOR);
+        statement.execute();
+        ResultSet resultSet = (ResultSet) statement.getObject(1);
+        while (resultSet.next()) {
+            threads.add(new OneThread(resultSet.getInt(1), resultSet.getInt(2),
+                    resultSet.getInt(3), resultSet.getInt(4),
+                    resultSet.getString(5), resultSet.getString(6), resultSet.getString(7)) );
+        }
+        resultSet.close();
+        statement.close();
+        return threads;
     }
 }

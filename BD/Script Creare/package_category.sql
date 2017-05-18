@@ -1,6 +1,7 @@
 CREATE OR REPLACE PACKAGE PACKAGE_CATEGORY AS
   PROCEDURE CREATE_DEFINED_CATEGORY;
   FUNCTION GET_CATEGORIES RETURN SYS_REFCURSOR;
+  FUNCTION checkCategoryExists(p_id integer) return integer;
 END;
 /
 CREATE OR REPLACE PACKAGE BODY PACKAGE_CATEGORY AS
@@ -19,6 +20,13 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_CATEGORY AS
     OPEN v_categ FOR SELECT ID, NAME, DESCRIPTION FROM CATEGORY ORDER BY ID;
     RETURN v_categ;
   END;
+  
+  FUNCTION checkCategoryExists(p_id integer) return integer is
+    v_res integer;
+  begin
+    select count(*) into v_res from category where id=p_id;
+    return v_res;
+  end;
 END;
 /
 -- call procedure to create defined categories

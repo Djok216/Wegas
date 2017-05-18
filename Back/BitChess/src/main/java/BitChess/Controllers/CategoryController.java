@@ -1,14 +1,11 @@
 package BitChess.Controllers;
 
-import BitChess.Models.CategoryModel;
+import BitChess.Models.*;
 import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
@@ -22,7 +19,7 @@ public class CategoryController {
     ConcreteDatabaseService databaseService;
 
     @CrossOrigin
-    @RequestMapping(value = "/category", method = RequestMethod.GET)
+    @RequestMapping(value = "/Allcategory", method = RequestMethod.GET)
     public ResponseEntity getAllCategories() {
         try {
             CategoryModel categoryModel = new CategoryModel();
@@ -31,6 +28,19 @@ public class CategoryController {
             return new ResponseEntity(categoryModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/category/categoryExists", method = RequestMethod.POST)
+    public ResponseEntity<ExistsModel> checkExistsCategory(@RequestBody OneCategory oneCategory) {
+        try {
+            if (oneCategory.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            ExistsModel existsCategory = new ExistsModel();
+            existsCategory.setExists(databaseService.checkCategoryExits(oneCategory.getId()));
+            return new ResponseEntity<>(existsCategory, HttpStatus.OK);
+        }catch (SQLException sqlEx) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -157,5 +157,4 @@ public class ConcreteDatabaseService {
         statement.close();
         return threads;
     }
-
 }

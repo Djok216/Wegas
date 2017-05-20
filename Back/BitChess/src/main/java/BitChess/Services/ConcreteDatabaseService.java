@@ -115,7 +115,7 @@ public class ConcreteDatabaseService {
         while (resultSet.next()) {
             threads.add(new OneThread(resultSet.getInt(1), resultSet.getInt(2),
                     resultSet.getInt(3), resultSet.getInt(4),
-                    resultSet.getString(5), resultSet.getString(6), resultSet.getString(7)) );
+                    resultSet.getString(5), resultSet.getString(6), resultSet.getString(7)));
         }
         resultSet.close();
         statement.close();
@@ -133,7 +133,7 @@ public class ConcreteDatabaseService {
         while (resultSet.next()) {
             threads.add(new OneThread(resultSet.getInt(1), resultSet.getInt(2),
                     resultSet.getInt(3), resultSet.getInt(4),
-                    resultSet.getString(5), resultSet.getString(6), resultSet.getString(7)) );
+                    resultSet.getString(5), resultSet.getString(6), resultSet.getString(7)));
         }
         resultSet.close();
         statement.close();
@@ -151,10 +151,40 @@ public class ConcreteDatabaseService {
         while (resultSet.next()) {
             threads.add(new OneThread(resultSet.getInt(1), resultSet.getInt(2),
                     resultSet.getInt(3), resultSet.getInt(4),
-                    resultSet.getString(5), resultSet.getString(6), resultSet.getString(7)) );
+                    resultSet.getString(5), resultSet.getString(6), resultSet.getString(7)));
         }
         resultSet.close();
         statement.close();
         return threads;
     }
+
+    //region clubs methods
+    public void insertNewClub(String clubName) throws SQLException {
+        String plsql = "BEGIN PACKAGE_CLUBS.INSERT_NEW_CLUB(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setString(1, clubName);
+        statement.execute();
+        statement.close();
+    }
+
+    public void deleteClub(String clubName) throws SQLException {
+        String plsql = "BEGIN PACKAGE_CLUBS.DELETE_CLUB(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setString(1, clubName);
+        statement.execute();
+        statement.close();
+    }
+
+    public boolean existClub(String clubName) throws SQLException {
+        String plsql = "BEGIN ? := PACKAGE_CLUBS.EXISTS_CLUB(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setString(2, clubName);
+        statement.registerOutParameter(1, Types.NUMERIC);
+        statement.execute();
+        Integer result = statement.getInt(1);
+        statement.close();
+        if (result == 1) return true;
+        return false;
+    }
+    //endregion
 }

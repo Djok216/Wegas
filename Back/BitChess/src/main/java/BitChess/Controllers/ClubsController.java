@@ -6,13 +6,12 @@ import BitChess.Models.Clubs.MembersModel;
 import BitChess.Models.Clubs.SimpleStatisticModel;
 import BitChess.Models.ResponseMessageModel;
 import BitChess.Services.ConcreteDatabaseService;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.sql.SQLException;
 import java.util.Vector;
 
 /**
@@ -28,9 +27,14 @@ public class ClubsController {
     @RequestMapping(value = "/clubs/addClub", method = RequestMethod.POST)
     public ResponseEntity<ResponseMessageModel> addClub(@RequestBody ClubModel clubModel) {
         try {
+            if(!clubModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            databaseService.insertNewClub(clubModel.getClubName());
             return new ResponseEntity<>(new ResponseMessageModel("Club added successfully."), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (SQLException sqlEx) {
+            return new ResponseEntity<>(new ResponseMessageModel("A club with the same name already exists"),HttpStatus.OK);
+        }
+        catch (Exception ex) {
+            return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -38,9 +42,12 @@ public class ClubsController {
     @RequestMapping(value = "/clubs/deleteClub", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseMessageModel> deleteClub(@RequestBody ClubModel clubModel) {
         try {
+            if(!clubModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if(!databaseService.existClub(clubModel.getClubName())) return new ResponseEntity<>(new ResponseMessageModel("Cannot delete nonexistent club."), HttpStatus.OK);
+            else databaseService.deleteClub(clubModel.getClubName());
             return new ResponseEntity<>(new ResponseMessageModel("Club deleted successfully."), HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -99,30 +106,30 @@ public class ClubsController {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/clubs/{clubName}/addMember")
-    public ResponseEntity<ResponseMessageModel> addClubMember(@PathVariable String clubName) {
+    @GetMapping(value = "/clubs/{clubId}/addMember")
+    public ResponseEntity<ResponseMessageModel> addClubMember(@PathVariable Integer clubId) {
         try {
             // check if club name exists
-            return new ResponseEntity<>(new ResponseMessageModel(clubName), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessageModel(clubId.toString()), HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @CrossOrigin
-    @GetMapping(value = "/clubs/{clubName}/deleteMember")
-    public ResponseEntity<ResponseMessageModel> deleteClubMember(@PathVariable String clubName) {
+    @GetMapping(value = "/clubs/{clubId}/deleteMember")
+    public ResponseEntity<ResponseMessageModel> deleteClubMember(@PathVariable Integer clubId) {
         try {
             // check if clubname exists
-            return new ResponseEntity<>(new ResponseMessageModel(clubName), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessageModel(clubId.toString()), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @CrossOrigin
-    @GetMapping(value = "/clubs/{clubName}/members")
-    public ResponseEntity<MembersModel> getMembers(@PathVariable String clubName) {
+    @GetMapping(value = "/clubs/{clubId}/members")
+    public ResponseEntity<MembersModel> getMembers(@PathVariable Integer clubId) {
         try {
             MembersModel membersModel = new MembersModel();
             membersModel.add("Cornel");

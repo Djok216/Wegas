@@ -1,5 +1,7 @@
 package BitChess.Models.Clubs;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.*;
 
 /**
@@ -23,5 +25,11 @@ public class ClubStatisticsModel {
 
     public void setStats(List<SimpleStatisticModel> stats) {
         this.stats = stats;
+    }
+
+    @JsonIgnore
+    public Boolean isValid() {
+        if(stats == null) return false;
+        return true;
     }
 }

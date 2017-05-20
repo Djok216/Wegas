@@ -1,0 +1,40 @@
+1. Indecsi
+	- Index de cautare la pagina home pe users.nickname.
+	- Index de join pe stats, la alegere. :)
+	- Index pe order by la nr membrii.
+	- Index pe users.name/users.nickname pentru select simplu.
+	- Index group by la statistica cluburi: nume club + nr membrii.
+
+2. Triggere
+	- Soft delete
+		-> delete user 
+				null - games, thread, post (o sa se numeasca deleted user)
+		-> insert
+				- data
+				- id
+
+3. View-uri materializate
+	http://stackoverflow.com/questions/4463354/what-are-materialized-views
+
+
+4. Exportare: destul de ok
+	
+Extra: 
+	Statistici:
+		-Cluburi:	-> nume club + nr. membri - group by
+					-> cluburile cu cel mai mare rating
+					-> cele mai populare cluburi(cei mai multi membri)
+		-Statistici: -> useri cu top rating (5, 10, etc.)
+					 -> threadurile cu cele mai multe comentarii (view)
+					 -> nr. de jocuri jucate in ultimele n zile
+					 -> nr. de postari pe categorii
+					 -> nr. total de utilizatori
+					 -> cei mai activi utilizatori(cu cele mai multe postari/comentarii)(view)
+					 -> nr. de postari blocate ale unui utilizatori(view)
+
+
+Cum se afla planul de executie pentru un select? Acest feature il vom folosi pentru a arata eficienta indexului.
+	1. Se foloseste comanda:
+		EXPLAIN PLAN FOR SELECT * FROM DUAL;
+	2. Se preia planul de executie din baza de date:
+		SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);

@@ -29,6 +29,6 @@ public class ClubStatisticsModel extends Vector {
 
     @JsonIgnore
     public Boolean isValid() {
-        return getStats()==null;
+        return !(getStats()==null);
     }
 }

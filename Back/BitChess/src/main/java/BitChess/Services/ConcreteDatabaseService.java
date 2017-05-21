@@ -251,7 +251,7 @@ public class ConcreteDatabaseService {
         return members;
     }
 
-    public ClubStatisticsModel getClubsPopularity(Integer topX) throws SQLException {
+    public ClubStatisticsModel getClubsByPopularity(Integer topX) throws SQLException {
         ClubStatisticsModel clubStatisticsModel = new ClubStatisticsModel();
         String plsql = "BEGIN ? := PACKAGE_CLUBS.GET_CLUBS_BY_POPULARITY(?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
@@ -266,6 +266,22 @@ public class ConcreteDatabaseService {
         resultSet.close();
         statement.close();
         return clubStatisticsModel;
+    }
+
+    public ClubStatisticsModel getClubsByRating(Integer topX) throws SQLException {
+        ClubStatisticsModel clubRatingModel = new ClubStatisticsModel();
+        String plsql = "BEGIN ? := PACKAGE_CLUBS.GET_CLUBS_BY_RATING(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2, topX);
+        statement.registerOutParameter(1, OracleTypes.CURSOR);
+        statement.execute();
+
+        ResultSet resultSet = (ResultSet) statement.getObject(1);
+        while (resultSet.next())
+            clubRatingModel.add(new SimpleStatisticModel(resultSet.getString(1), resultSet.getInt(2)));
+        resultSet.close();
+        statement.close();
+        return clubRatingModel;
     }
     //endregion
 }

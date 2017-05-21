@@ -26,6 +26,6 @@ public class ClubMemberModel {
 
     @JsonIgnore
     public Boolean isValid() {
-        return getMemberName() == null;
+        return !(getMemberName() == null);
     }
 }

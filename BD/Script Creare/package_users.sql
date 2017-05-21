@@ -6,6 +6,7 @@ CREATE OR REPLACE PACKAGE PACKAGE_USERS AS
   FUNCTION GET_PASSWORD(p_nickname USERS.NICKNAME%TYPE) RETURN USERS.PASSWORD%TYPE;
   PROCEDURE INSERT_NEW_REGULAR_USER(p_name USERS.NAME%TYPE, p_email USERS.EMAIL%TYPE, p_nickname USERS.NICKNAME%TYPE, p_password USERS.PASSWORD%TYPE);
   FUNCTION DUMMY(p_param integer) RETURN INTEGER;
+  FUNCTION COMPUTE_RATING(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER;
 END;
 /
 CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
@@ -82,7 +83,21 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
       v_arr(v_ind) := v_id_game;
       v_ind := v_ind + 1;
     END LOOP;
+    CLOSE hist;
     return v_arr;
+  END;
+  
+  FUNCTION COMPUTE_RATING(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER AS
+    v_wins INTEGER;
+    v_looses INTEGER;
+    v_draws INTEGER;
+    v_rating INTEGER;
+  BEGIN
+      select wins, looses, draws into v_wins, v_looses, v_draws from USERS
+      where lower(nickname) = lower(p_nickname);
+      
+      v_rating := v_wins*10 - v_looses*5 + v_draws;
+      return v_rating;
   END;
 END;
 /

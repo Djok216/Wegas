@@ -22,6 +22,9 @@ CREATE OR REPLACE PACKAGE PACKAGE_CLUBS AS
   FUNCTION GET_GENERAL_STATISTICS RETURN SYS_REFCURSOR;
   FUNCTION GET_CLUB_MEMBERS(p_club_name CLUBS.NAME%TYPE) RETURN SYS_REFCURSOR;
   FUNCTION GET_CLUBS_BY_POPULARITY(p_top_x integer) RETURN SYS_REFCURSOR;
+  FUNCTION GET_CLUBS_BY_RATING(p_top_x integer) RETURN SYS_REFCURSOR;
+  
+  PROCEDURE UPDATE_CLUBS_RATINGS;
 END;
 /
 CREATE OR REPLACE PACKAGE BODY PACKAGE_CLUBS AS
@@ -126,6 +129,45 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_CLUBS AS
     where rownum <= p_top_x;
     return v_cursor;
   END;
+  
+  FUNCTION GET_CLUBS_BY_RATING(p_top_x integer) RETURN SYS_REFCURSOR IS
+    v_cursor SYS_REFCURSOR;
+  BEGIN
+      OPEN v_cursor FOR select * from
+      (select name, rating from clubs order by rating desc)
+      where rownum <= p_top_x;
+    return v_cursor;
+  END;
+  
+  PROCEDURE UPDATE_CLUBS_RATINGS IS
+    v_cursor SYS_REFCURSOR;
+    v_club_name CLUBS.NAME%TYPE;
+  BEGIN
+    OPEN v_cursor FOR SELECT NAME FROM CLUBS;
+    LOOP
+      FETCH v_cursor INTO v_club_name;
+      EXIT WHEN v_cursor%NOTFOUND;
+      DECLARE
+        v_cursor_members SYS_REFCURSOR;
+        v_current_user USERS.NAME%TYPE;
+        v_club_rating INTEGER := 0;
+        v_nr_of_users INTEGER := 1;
+      BEGIN
+        OPEN v_cursor_members FOR select name from users where club_id = (select id from 
+        clubs where lower(name) = lower(v_club_name));
+        LOOP
+          FETCH v_cursor_members INTO v_current_user;
+          EXIT WHEN v_cursor_members%NOTFOUND;
+          v_club_rating := v_club_rating + PACKAGE_USERS.COMPUTE_RATING(v_current_user);
+          v_nr_of_users := v_nr_of_users + 1;
+        END LOOP;
+        CLOSE v_cursor_members;
+        v_club_rating := v_club_rating / v_nr_of_users;
+        UPDATE CLUBS SET RATING = v_club_rating where lower(name) = lower(v_club_name);
+      END;
+    END LOOP;
+    CLOSE v_cursor;
+  END;
 END;
 /
 commit;
@@ -154,19 +196,23 @@ SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
 DECLARE
   v_cursor SYS_REFCURSOR;
 BEGIN
-  V_CURSOR := PACKAGE_CLUBS.GET_CLUB_MEMBERS('Jessicabaker');
+  PACKAGE_CLUBS.UPDATE_CLUBS_RATINGS;
 END;
 
-DROP INDEX CLUB_NAME_INDEX;
-CREATE INDEX CLUB_NAME_INDEX ON USERS(NAME ASC);
 
 EXPLAIN PLAN FOR select name from users where club_id = (select id from clubs where lower(name) = lower('Jessicabaker'));
 SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
 
 select c.name club_name, count(u.id) members from users u join clubs c on c.id = u.club_id group by c.name;
 
+select * from
+(select name, rating from clubs order by rating desc)
+where rownum < 10;
 
-
-
+select * from
+    (select c.name club_name, count(u.id) members from users u join clubs c
+    on c.id = u.club_id group by c.name order by count(u.id) desc, club_name)
+    where rownum <= 10;
+    
 select * from users;
 select * from clubs;

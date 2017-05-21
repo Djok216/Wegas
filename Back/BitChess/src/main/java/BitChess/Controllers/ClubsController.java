@@ -6,7 +6,6 @@ import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.AbstractClientHttpResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -60,18 +59,10 @@ public class ClubsController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/clubs/statistics/rating", method = RequestMethod.GET)
-    public ResponseEntity<ClubStatisticsModel> getRatingStatistics() {
+    @RequestMapping(value = "/clubs/statistics/rating/{topX}", method = RequestMethod.GET)
+    public ResponseEntity<ClubStatisticsModel> getRatingStatistics(@PathVariable Integer topX) {
         try {
-            SimpleStatisticModel simpleStatisticModel = new SimpleStatisticModel("test Club", 10);
-            SimpleStatisticModel simpleStatisticModel1 = new SimpleStatisticModel("AK Club", 15);
-            SimpleStatisticModel simpleStatisticModel2 = new SimpleStatisticModel("example Club", 1);
-            Vector<SimpleStatisticModel> v = new Vector<>();
-            v.add(simpleStatisticModel);
-            v.add(simpleStatisticModel1);
-            v.add(simpleStatisticModel2);
-            ClubStatisticsModel clubStatisticsModel = new ClubStatisticsModel(v);
-            return new ResponseEntity<>(clubStatisticsModel, HttpStatus.OK);
+            return new ResponseEntity<>(databaseService.getClubsByRating(topX), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -81,7 +72,7 @@ public class ClubsController {
     @RequestMapping(value = "/clubs/statistics/popularity/{topX}", method = RequestMethod.GET)
     public ResponseEntity<?> getPopularityStatistics(@PathVariable Integer topX) {
         try {
-            return new ResponseEntity<>(databaseService.getClubsPopularity(topX), HttpStatus.OK);
+            return new ResponseEntity<>(databaseService.getClubsByPopularity(topX), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
         }

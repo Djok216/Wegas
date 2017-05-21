@@ -38,6 +38,6 @@ public class SimpleStatisticModel {
 
     @JsonIgnore
     public Boolean isValid() {
-        return getClubName() == null || getStatistic() == null;
+        return !(getClubName() == null || getStatistic() == null);
     }
 }

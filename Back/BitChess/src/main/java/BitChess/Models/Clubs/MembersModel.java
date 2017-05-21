@@ -32,6 +32,6 @@ public class MembersModel extends Vector {
 
     @JsonIgnore
     public Boolean isValid() {
-        return getMembers() == null;
+        return !(getMembers() == null);
     }
 }

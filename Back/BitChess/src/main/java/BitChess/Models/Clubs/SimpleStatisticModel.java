@@ -1,13 +1,11 @@
 package BitChess.Models.Clubs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * Project name BitChess.
  * Created by Turcu Nicusor on 20-May-17.
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SimpleStatisticModel {
     private String clubName;
     private Integer statistic;
@@ -23,7 +21,7 @@ public class SimpleStatisticModel {
     }
 
     public String getClubName() {
-        return clubName;
+        return this.clubName;
     }
 
     public void setClubName(String clubName) {
@@ -31,7 +29,7 @@ public class SimpleStatisticModel {
     }
 
     public Integer getStatistic() {
-        return statistic;
+        return this.statistic;
     }
 
     public void setStatistic(Integer statistic) {
@@ -40,7 +38,6 @@ public class SimpleStatisticModel {
 
     @JsonIgnore
     public Boolean isValid() {
-        if(clubName == null || statistic == null) return false;
-        return true;
+        return getClubName() == null || getStatistic() == null;
     }
 }

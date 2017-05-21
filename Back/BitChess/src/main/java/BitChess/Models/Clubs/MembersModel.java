@@ -2,7 +2,6 @@ package BitChess.Models.Clubs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.util.List;
 import java.util.Vector;
@@ -13,7 +12,7 @@ import java.util.Vector;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MembersModel extends Vector {
-    List<String> members;
+    private List<String> members;
 
     public MembersModel() {
         members = new Vector<>();
@@ -33,7 +32,6 @@ public class MembersModel extends Vector {
 
     @JsonIgnore
     public Boolean isValid() {
-        if(members == null) return false;
-        return true;
+        return getMembers() == null;
     }
 }

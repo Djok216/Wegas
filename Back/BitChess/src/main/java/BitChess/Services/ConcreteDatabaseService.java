@@ -1,5 +1,7 @@
 package BitChess.Services;
 
+import BitChess.Models.Clubs.ClubStatisticsModel;
+import BitChess.Models.Clubs.SimpleStatisticModel;
 import BitChess.Models.OneCategory;
 import BitChess.Models.OneThread;
 import org.springframework.stereotype.Service;
@@ -189,8 +191,8 @@ public class ConcreteDatabaseService {
     public boolean isClubMember(String clubName, String userName) throws SQLException {
         String plsql = "BEGIN ? := PACKAGE_CLUBS.IS_MEMBER(?,?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
-        statement.setString(2,clubName);
-        statement.setString(3,userName);
+        statement.setString(2, clubName);
+        statement.setString(3, userName);
         statement.registerOutParameter(1, Types.NUMERIC);
         statement.execute();
         Integer result = statement.getInt(1);
@@ -202,8 +204,8 @@ public class ConcreteDatabaseService {
     public void addClubMember(String clubName, String userName) throws SQLException {
         String plsql = "BEGIN PACKAGE_CLUBS.ADD_MEMBER(?,?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
-        statement.setString(1,clubName);
-        statement.setString(2,userName);
+        statement.setString(1, clubName);
+        statement.setString(2, userName);
         statement.execute();
         statement.close();
     }
@@ -211,9 +213,59 @@ public class ConcreteDatabaseService {
     public void deleteClubMember(String userName) throws SQLException {
         String plsql = "BEGIN PACKAGE_CLUBS.DELETE_MEMBER(?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
-        statement.setString(1,userName);
+        statement.setString(1, userName);
         statement.execute();
         statement.close();
+    }
+
+    public ClubStatisticsModel getGeneralStatistic() throws SQLException {
+        ClubStatisticsModel clubStatisticsModel = new ClubStatisticsModel();
+        String plsql = "BEGIN ? := PACKAGE_CLUBS.GET_GENERAL_STATISTICS; END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.registerOutParameter(1, OracleTypes.CURSOR);
+        statement.execute();
+
+        ResultSet resultSet = (ResultSet) statement.getObject(1);
+        while (resultSet.next()) {
+            clubStatisticsModel.add(new SimpleStatisticModel(resultSet.getString(1), resultSet.getInt(2)));
+        }
+        resultSet.close();
+        statement.close();
+        return clubStatisticsModel;
+    }
+
+    public Vector<String> getClubMembers(String clubName) throws SQLException {
+        Vector<String> members = new Vector<>();
+        String plsql = "BEGIN ? := PACKAGE_CLUBS.GET_CLUB_MEMBERS(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setString(2, clubName);
+        statement.registerOutParameter(1, OracleTypes.CURSOR);
+        statement.execute();
+
+        ResultSet resultSet = (ResultSet) statement.getObject(1);
+        while (resultSet.next()) {
+            members.add(resultSet.getString(1));
+        }
+        resultSet.close();
+        statement.close();
+        return members;
+    }
+
+    public ClubStatisticsModel getClubsPopularity(Integer topX) throws SQLException {
+        ClubStatisticsModel clubStatisticsModel = new ClubStatisticsModel();
+        String plsql = "BEGIN ? := PACKAGE_CLUBS.GET_CLUBS_BY_POPULARITY(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2, topX);
+        statement.registerOutParameter(1, OracleTypes.CURSOR);
+        statement.execute();
+
+        ResultSet resultSet = (ResultSet) statement.getObject(1);
+        while (resultSet.next()) {
+            clubStatisticsModel.add(new SimpleStatisticModel(resultSet.getString(1), resultSet.getInt(2)));
+        }
+        resultSet.close();
+        statement.close();
+        return clubStatisticsModel;
     }
     //endregion
 }

@@ -18,6 +18,10 @@ CREATE OR REPLACE PACKAGE PACKAGE_CLUBS AS
   FUNCTION IS_MEMBER(p_club_name CLUBS.NAME%TYPE, p_user_name USERS.NAME%TYPE) RETURN INTEGER;
   PROCEDURE ADD_MEMBER(p_club_name CLUBS.NAME%TYPE, p_user_name USERS.NAME%TYPE);
   PROCEDURE DELETE_MEMBER(p_user_name USERS.NAME%TYPE);
+  
+  FUNCTION GET_GENERAL_STATISTICS RETURN SYS_REFCURSOR;
+  FUNCTION GET_CLUB_MEMBERS(p_club_name CLUBS.NAME%TYPE) RETURN SYS_REFCURSOR;
+  FUNCTION GET_CLUBS_BY_POPULARITY(p_top_x integer) RETURN SYS_REFCURSOR;
 END;
 /
 CREATE OR REPLACE PACKAGE BODY PACKAGE_CLUBS AS
@@ -86,7 +90,8 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_CLUBS AS
   BEGIN
     -- CHECKED USER FROM JAVA, PACKAGE_USERS.EXISTS_USER
     -- CHECKED CLUB_NAME FROM JAVA, PACKAGE_CLUBS.EXISTS_CLUB
-    UPDATE users set club_id = (select id from clubs where lower(name) like lower(p_club_name)) where lower(name) = lower(p_user_name);
+    UPDATE users set club_id = (select id from clubs where lower(name) like 
+    lower(p_club_name)) where lower(name) = lower(p_user_name);
   END;
 
   PROCEDURE DELETE_MEMBER(p_user_name USERS.NAME%TYPE) AS
@@ -95,17 +100,73 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_CLUBS AS
     -- CHECKED CLUB_NAME FROM JAVA, PACKAGE_CLUBS.EXISTS_CLUB
     UPDATE users set club_id = NULL where lower(name) = lower(p_user_name);
   END;
+  
+  FUNCTION GET_GENERAL_STATISTICS RETURN SYS_REFCURSOR IS
+    v_cursor SYS_REFCURSOR;
+  BEGIN
+    OPEN v_cursor FOR select c.name club_name, count(u.id) members from users u
+    join clubs c on c.id = u.club_id group by c.name;
+    RETURN v_cursor;
+  END;
+  
+  FUNCTION GET_CLUB_MEMBERS(p_club_name CLUBS.NAME%TYPE) RETURN SYS_REFCURSOR IS
+    v_cursor SYS_REFCURSOR;
+  BEGIN
+    OPEN v_cursor FOR select name from users where club_id = (select id from 
+    clubs where lower(name) = lower(p_club_name));
+    RETURN v_cursor;
+  END;
+  
+  FUNCTION GET_CLUBS_BY_POPULARITY(p_top_x integer) RETURN SYS_REFCURSOR IS
+    v_cursor SYS_REFCURSOR;
+  BEGIN
+    OPEN v_cursor FOR select * from
+    (select c.name club_name, count(u.id) members from users u join clubs c
+    on c.id = u.club_id group by c.name order by count(u.id) desc, club_name)
+    where rownum <= p_top_x;
+    return v_cursor;
+  END;
 END;
 /
 commit;
 /
-select * from clubs;
+/*
+EXPLAIN PLAN FOR select count(u.id), c.id from users u join clubs c on c.id = u.club_id group by c.id;
+SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+-- inainte de index
+----------------------------------------------------------------------------
+| Id  | Operation          | Name  | Rows  | Bytes | Cost (%CPU)| Time     |
+----------------------------------------------------------------------------
+|   0 | SELECT STATEMENT   |       |   640 |  1280 |    18   (6)| 00:00:01 |
+|   1 |  HASH GROUP BY     |       |   640 |  1280 |    18   (6)| 00:00:01 |
+|*  2 |   TABLE ACCESS FULL| USERS |  1258 |  2516 |    17   (0)| 00:00:01 |
+----------------------------------------------------------------------------
+-- dupa index
+--------------------------------------------------------------------------------------------
+| Id  | Operation            | Name                | Rows  | Bytes | Cost (%CPU)| Time     |
+--------------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT     |                     |   640 |  1280 |     4   (0)| 00:00:01 |
+|   1 |  SORT GROUP BY NOSORT|                     |   640 |  1280 |     4   (0)| 00:00:01 |
+|*  2 |   INDEX FULL SCAN    | USERS_CLUB_ID_INDEX |  1258 |  2516 |     4   (0)| 00:00:01 |
+--------------------------------------------------------------------------------------------
+*/
 
-set serveroutput on;
+DECLARE
+  v_cursor SYS_REFCURSOR;
 BEGIN
-  PACKAGE_CLUBS.ADD_MEMBER('nicusori', 'nicusor');
-  --PACKAGE_CLUBS.DELETE_MEMBER('nicusor');
-  DBMS_OUTPUT.PUT_LINE(PACKAGE_CLUBS.IS_MEMBER('nicusori', 'nicusor'));
+  V_CURSOR := PACKAGE_CLUBS.GET_CLUB_MEMBERS('Jessicabaker');
 END;
 
+DROP INDEX CLUB_NAME_INDEX;
+CREATE INDEX CLUB_NAME_INDEX ON USERS(NAME ASC);
+
+EXPLAIN PLAN FOR select name from users where club_id = (select id from clubs where lower(name) = lower('Jessicabaker'));
+SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+select c.name club_name, count(u.id) members from users u join clubs c on c.id = u.club_id group by c.name;
+
+
+
+
 select * from users;
+select * from clubs;

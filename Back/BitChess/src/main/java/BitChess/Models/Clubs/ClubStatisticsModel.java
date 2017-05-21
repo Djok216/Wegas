@@ -8,8 +8,8 @@ import java.util.*;
  * Project name BitChess.
  * Created by Turcu Nicusor on 20-May-17.
  */
-public class ClubStatisticsModel {
-    List<SimpleStatisticModel> stats;
+public class ClubStatisticsModel extends Vector {
+    private List<SimpleStatisticModel> stats;
 
     public ClubStatisticsModel() {
         stats = new Vector<>();
@@ -29,7 +29,6 @@ public class ClubStatisticsModel {
 
     @JsonIgnore
     public Boolean isValid() {
-        if(stats == null) return false;
-        return true;
+        return getStats()==null;
     }
 }

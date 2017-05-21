@@ -1,9 +1,6 @@
 package BitChess.Controllers;
 
-import BitChess.Models.Clubs.ClubModel;
-import BitChess.Models.Clubs.ClubStatisticsModel;
-import BitChess.Models.Clubs.MembersModel;
-import BitChess.Models.Clubs.SimpleStatisticModel;
+import BitChess.Models.Clubs.*;
 import BitChess.Models.ResponseMessageModel;
 import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,30 +103,38 @@ public class ClubsController {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/clubs/{clubId}/addMember")
-    public ResponseEntity<ResponseMessageModel> addClubMember(@PathVariable Integer clubId) {
+    @RequestMapping(value = "/clubs/{clubName}/addMember",method = RequestMethod.POST)
+    public ResponseEntity<ResponseMessageModel> addClubMember(@PathVariable String clubName, @RequestBody ClubMemberModel clubMemberModel) {
         try {
-            // check if club name exists
-            return new ResponseEntity<>(new ResponseMessageModel(clubId.toString()), HttpStatus.OK);
+            if(!clubMemberModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if(!databaseService.existClub(clubName)) return new ResponseEntity<>(new ResponseMessageModel("Cannot add member to a nonexistent club."), HttpStatus.OK);
+            if(databaseService.checkUserExists(clubMemberModel.getMemberName())!=1) return new ResponseEntity<>(new ResponseMessageModel("Cannot add nonexistent user to a club."), HttpStatus.OK);
+            if(databaseService.isClubMember(clubName, clubMemberModel.getMemberName())) return new ResponseEntity<>(new ResponseMessageModel("User is already a member to this club."), HttpStatus.OK);
+            else databaseService.addClubMember(clubName, clubMemberModel.getMemberName());
+            return new ResponseEntity<>(new ResponseMessageModel("Member added successfully."), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @CrossOrigin
-    @GetMapping(value = "/clubs/{clubId}/deleteMember")
-    public ResponseEntity<ResponseMessageModel> deleteClubMember(@PathVariable Integer clubId) {
+    @RequestMapping(value = "/clubs/{clubName}/deleteMember", method = RequestMethod.PUT)
+    public ResponseEntity<ResponseMessageModel> deleteClubMember(@PathVariable String clubName, @RequestBody ClubMemberModel clubMemberModel) {
         try {
-            // check if clubname exists
-            return new ResponseEntity<>(new ResponseMessageModel(clubId.toString()), HttpStatus.OK);
+            if(!clubMemberModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if(!databaseService.existClub(clubName)) return new ResponseEntity<>(new ResponseMessageModel("Cannot delete member from a nonexistent club."), HttpStatus.OK);
+            if(databaseService.checkUserExists(clubMemberModel.getMemberName())!=1) return new ResponseEntity<>(new ResponseMessageModel("Cannot delete nonexistent user from a club."), HttpStatus.OK);
+            if(!databaseService.isClubMember(clubName, clubMemberModel.getMemberName())) return new ResponseEntity<>(new ResponseMessageModel("User don't belong to this club."), HttpStatus.OK);
+            else databaseService.deleteClubMember(clubMemberModel.getMemberName());
+            return new ResponseEntity<>(new ResponseMessageModel("Member deleted successfully."), HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @CrossOrigin
-    @GetMapping(value = "/clubs/{clubId}/members")
-    public ResponseEntity<MembersModel> getMembers(@PathVariable Integer clubId) {
+    @RequestMapping(value = "/clubs/{clubName}/members", method = RequestMethod.GET)
+    public ResponseEntity<MembersModel> getMembers(@PathVariable String clubName) {
         try {
             MembersModel membersModel = new MembersModel();
             membersModel.add("Cornel");

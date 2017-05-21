@@ -2,7 +2,6 @@ package BitChess.Services;
 
 import BitChess.Models.OneCategory;
 import BitChess.Models.OneThread;
-import javafx.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.sql.CallableStatement;
@@ -185,6 +184,36 @@ public class ConcreteDatabaseService {
         statement.close();
         if (result == 1) return true;
         return false;
+    }
+
+    public boolean isClubMember(String clubName, String userName) throws SQLException {
+        String plsql = "BEGIN ? := PACKAGE_CLUBS.IS_MEMBER(?,?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setString(2,clubName);
+        statement.setString(3,userName);
+        statement.registerOutParameter(1, Types.NUMERIC);
+        statement.execute();
+        Integer result = statement.getInt(1);
+        statement.close();
+        if (result == 1) return true;
+        return false;
+    }
+
+    public void addClubMember(String clubName, String userName) throws SQLException {
+        String plsql = "BEGIN PACKAGE_CLUBS.ADD_MEMBER(?,?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setString(1,clubName);
+        statement.setString(2,userName);
+        statement.execute();
+        statement.close();
+    }
+
+    public void deleteClubMember(String userName) throws SQLException {
+        String plsql = "BEGIN PACKAGE_CLUBS.DELETE_MEMBER(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setString(1,userName);
+        statement.execute();
+        statement.close();
     }
     //endregion
 }

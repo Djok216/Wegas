@@ -1,32 +1,3 @@
--- Add data in user table
-BEGIN
-  -- add entries in users table
-  DECLARE
-    v_name users.name%type;
-    v_email users.email%type;
-    v_nickname users.nickname%type;
-    v_password users.password%type;
-    v_wins users.wins%type;
-    v_looses users.looses%type;
-    v_draws users.draws%type;
-    v_created_at users.created_at%type;
-    v_status_id users.status_id%type;
-  BEGIN
-    FOR v_cont in 1..10  LOOP
-      v_name := initcap(DBMS_RANDOM.string('l', dbms_random.value(10,20)));
-      v_email := v_name||'@info.uaic.ro';
-      v_nickname := DBMS_RANDOM.string('l', DBMS_RANDOM.value(5,10));
-      v_password :=  DBMS_RANDOM.string('p', DBMS_RANDOM.value(7,10));
-      v_wins := DBMS_RANDOM.value(10,50);
-      v_looses := DBMS_RANDOM.value(5,20);
-      v_draws := DBMS_RANDOM.value(6,10);
-      v_created_at := CURRENT_TIMESTAMP();
-      v_status_id := DBMS_RANDOM.value(1,2);
-      INSERT INTO USERS(id, name, email, nickname, password, facebook_id, wins, looses, draws, created_at, status_id, club_id) VALUES (USER_ID.NEXTVAL, v_name, v_email, v_nickname, v_password, null, v_wins, v_looses, v_draws, v_created_at, v_status_id, NULL);
-    END LOOP;
-  END;
-END;
-/
 CREATE OR REPLACE PACKAGE PACKAGE_USERS AS
   -- defined types
   TYPE GAME_HISTORY IS TABLE OF games.id%TYPE INDEX BY PLS_INTEGER;
@@ -35,6 +6,7 @@ CREATE OR REPLACE PACKAGE PACKAGE_USERS AS
   FUNCTION GET_PASSWORD(p_nickname USERS.NICKNAME%TYPE) RETURN USERS.PASSWORD%TYPE;
   PROCEDURE INSERT_NEW_REGULAR_USER(p_name USERS.NAME%TYPE, p_email USERS.EMAIL%TYPE, p_nickname USERS.NICKNAME%TYPE, p_password USERS.PASSWORD%TYPE);
   FUNCTION DUMMY(p_param integer) RETURN INTEGER;
+  FUNCTION COMPUTE_RATING(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER;
 END;
 /
 CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
@@ -55,7 +27,7 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
   PROCEDURE INSERT_NEW_REGULAR_USER(p_name USERS.NAME%TYPE, p_email USERS.EMAIL%TYPE, p_nickname USERS.NICKNAME%TYPE, p_password USERS.PASSWORD%TYPE) AS
   BEGIN
     -- 2 for regular user
-    INSERT INTO USERS VALUES(USER_ID.NEXTVAL, p_name, p_email, p_nickname, p_password, null, 0, 0, 0, CURRENT_TIMESTAMP, 2, NULL);
+    INSERT INTO USERS VALUES(USER_ID.NEXTVAL, p_name, p_email, p_nickname, p_password, null, DBMS_RANDOM.VALUE(10,50), DBMS_RANDOM.VALUE(10,50), DBMS_RANDOM.VALUE(10,100), CURRENT_TIMESTAMP, 2, NULL);
     -- TO DO TRIGGER OR NOT.
   END;
   
@@ -111,7 +83,21 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
       v_arr(v_ind) := v_id_game;
       v_ind := v_ind + 1;
     END LOOP;
+    CLOSE hist;
     return v_arr;
+  END;
+  
+  FUNCTION COMPUTE_RATING(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER AS
+    v_wins INTEGER;
+    v_looses INTEGER;
+    v_draws INTEGER;
+    v_rating INTEGER;
+  BEGIN
+      select wins, looses, draws into v_wins, v_looses, v_draws from USERS
+      where lower(nickname) = lower(p_nickname);
+      
+      v_rating := v_wins*10 - v_looses*5 + v_draws;
+      return v_rating;
   END;
 END;
 /

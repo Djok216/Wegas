@@ -7,9 +7,11 @@
 @".\package_clubs.sql"
 @".\package_forum.sql"
 
+/*
 SELECT * FROM USER_STATUS;
 SELECT * FROM STATUS;
 SELECT * FROM CATEGORY;
 SELECT * FROM USERS;
 SELECT * FROM CLUBS;
 SELECT * FROM THREAD;
+*/

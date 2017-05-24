@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LoginService} from "./login.service";
 import {MdSnackBar} from '@angular/material';
 
@@ -32,9 +32,5 @@ export class LoginComponent{
                 duration: 2000,
               })
       );
-  }
-
-  facebookLogin() {
-
   }
 }

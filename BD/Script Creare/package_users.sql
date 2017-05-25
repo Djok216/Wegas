@@ -7,6 +7,7 @@ CREATE OR REPLACE PACKAGE PACKAGE_USERS AS
   PROCEDURE INSERT_NEW_REGULAR_USER(p_name USERS.NAME%TYPE, p_email USERS.EMAIL%TYPE, p_nickname USERS.NICKNAME%TYPE, p_password USERS.PASSWORD%TYPE);
   FUNCTION DUMMY(p_param integer) RETURN INTEGER;
   FUNCTION COMPUTE_RATING(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER;
+  FUNCTION SET_USER_BY_NICKNAME(p_nickname varchar2) RETURN SYS_REFCURSOR;
 END;
 /
 CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
@@ -85,6 +86,17 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
     END LOOP;
     CLOSE hist;
     return v_arr;
+  END;
+  
+  FUNCTION SET_USER_BY_NICKNAME(p_nickname varchar2) RETURN SYS_REFCURSOR IS
+    v_user_id integer;
+    v_curuser SYS_REFCURSOR;
+  BEGIN
+    select id into v_user_id from users where nickname like p_nickname;  
+    OPEN v_curuser FOR SELECT users.ID, facebook_id, name,  email, nickname, password, wins, looses, 
+    draws, created_at, club_id,  status_id, user_status.description FROM users join user_status on users.status_id=user_status.id
+    where users.id=v_user_id;
+    RETURN v_curuser;
   END;
   
   FUNCTION COMPUTE_RATING(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER AS

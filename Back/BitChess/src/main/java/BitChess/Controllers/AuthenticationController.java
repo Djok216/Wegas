@@ -82,4 +82,5 @@ public class AuthenticationController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

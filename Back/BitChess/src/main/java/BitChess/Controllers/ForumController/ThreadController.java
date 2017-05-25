@@ -1,8 +1,12 @@
-package BitChess.Controllers;
+package BitChess.Controllers.ForumController;
 
+import BitChess.Controllers.AuthenticationController;
 import BitChess.Models.*;
+import BitChess.Models.Forum.ExistsModel;
+import BitChess.Models.Forum.OneCategory;
+import BitChess.Models.Forum.OneThread;
+import BitChess.Models.Forum.ThreadModel;
 import BitChess.Services.ConcreteDatabaseService;
-import BitChess.Controllers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +24,7 @@ public class ThreadController {
     @Autowired
     CategoryController categorycontroller;
     @Autowired
-    AuthenticationController authenticationController;
+    AuthenticationController authentificationController;
 
     @CrossOrigin
     @RequestMapping(value = "/AllThreads", method = RequestMethod.GET)
@@ -59,10 +63,12 @@ public class ThreadController {
             ThreadModel threadModel = new ThreadModel();
             NicknameModel nicknameModel=new NicknameModel();
             nicknameModel.setNickname(loginModel.getUsername());
-            ExistsUserModel existsModel = authenticationController.checkExistsUser(nicknameModel).getBody();
+            ExistsUserModel existsModel = authentificationController.checkExistsUser(nicknameModel).getBody();
             if(existsModel.getExists() == 0 )
                 return new ResponseEntity
                         (new ResponseMessageModel("User does not exists in database"), HttpStatus.OK);
+
+            UserModel user = databaseService.setUserByNickname(nicknameModel.getNickname());
             threadModel.thread = databaseService.getThreadsByUser(nicknameModel.getNickname());
             System.out.print(threadModel.thread.toString());
             return new ResponseEntity(threadModel, HttpStatus.OK);
@@ -70,7 +76,6 @@ public class ThreadController {
             return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
     @CrossOrigin
     @RequestMapping(value = "/category/ThreadExists", method = RequestMethod.POST)
@@ -80,6 +85,22 @@ public class ThreadController {
             ExistsModel existsThread = new ExistsModel();
             existsThread.setExists(databaseService.checkThreadExits(oneThread.getId()));
             return new ResponseEntity<>(existsThread, HttpStatus.OK);
+        }catch (SQLException sqlEx) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/category/AddThread", method = RequestMethod.POST)
+    public ResponseEntity addThread(@RequestBody OneThread oneThread) {
+        try {
+            if (oneThread.getId() == null || oneThread.getCategoryId() == null || oneThread.getUserId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            UserModel userModel =  databaseService.setUserByNickname(databaseService.getNicknameById(oneThread.getUserId()));
+            System.out.println(userModel.toString() + "????????????");
+           // databaseService.addThread(oneThread);
+
+            return new ResponseEntity
+                    (new ResponseMessageModel("ThreadAdded"), HttpStatus.OK);
         }catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

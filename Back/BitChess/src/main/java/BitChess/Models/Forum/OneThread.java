@@ -1,4 +1,4 @@
-package BitChess.Models;
+package BitChess.Models.Forum;
 
 /**
  * Created by Tamara on 18.05.2017.

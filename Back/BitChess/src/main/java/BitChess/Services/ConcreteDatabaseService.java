@@ -2,8 +2,10 @@ package BitChess.Services;
 
 import BitChess.Models.Clubs.ClubStatisticsModel;
 import BitChess.Models.Clubs.SimpleStatisticModel;
-import BitChess.Models.OneCategory;
-import BitChess.Models.OneThread;
+import BitChess.Models.Forum.OneCategory;
+import BitChess.Models.Forum.OneThread;
+
+import BitChess.Models.UserModel;
 import org.springframework.stereotype.Service;
 
 import java.sql.CallableStatement;
@@ -13,6 +15,8 @@ import java.sql.Types;
 import java.util.Vector;
 
 import oracle.jdbc.OracleTypes;
+
+import javax.xml.transform.Result;
 
 /**
  * Project name BitChess.
@@ -157,6 +161,38 @@ public class ConcreteDatabaseService {
         resultSet.close();
         statement.close();
         return threads;
+    }
+
+    public UserModel setUserByNickname(String nickname) throws SQLException {
+        String plsql = "BEGIN ? := PACKAGE_USERS. SET_USER_BY_NICKNAME(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        UserModel user = new UserModel();
+        statement.setString(2, nickname);
+        statement.registerOutParameter(1, OracleTypes.CURSOR);
+        statement.execute();
+        ResultSet resultSet = (ResultSet) statement.getObject(1);
+        while (resultSet.next()) {
+            user = new UserModel(resultSet.getInt(1), resultSet.getString(2),
+                    resultSet.getString(3), resultSet.getString(4), resultSet.getString(5),
+                    resultSet.getString(6),  resultSet.getInt(7), resultSet.getInt(8),
+                    resultSet.getInt(9),
+                    resultSet.getString( 10), resultSet.getInt(11), resultSet.getInt(12),
+                    resultSet.getString(13));
+        }
+        resultSet.close();
+        statement.close();
+        return user;
+    }
+
+    public String getNicknameById(int id) throws SQLException {
+        String plsql = "BEGIN ? := PACKAGE_USERS. GET_NICKNAME_BY_ID(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2, id);
+        statement.registerOutParameter(1, Types.VARCHAR);
+        statement.execute();
+        String result = statement.getString(1);
+        statement.close();
+        return result;
     }
 
     //region clubs methods

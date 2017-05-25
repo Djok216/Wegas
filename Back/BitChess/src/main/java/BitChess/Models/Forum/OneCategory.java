@@ -1,4 +1,4 @@
-package BitChess.Models;
+package BitChess.Models.Forum;
 
 /**
  * Project name BitChess.

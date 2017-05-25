@@ -1,6 +1,6 @@
 package BitChess.Models;
 
-import javafx.util.Pair;
+import BitChess.Models.Forum.OneCategory;
 
 import java.util.Vector;
 

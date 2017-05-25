@@ -1,6 +1,8 @@
-package BitChess.Controllers;
+package BitChess.Controllers.ForumController;
 
 import BitChess.Models.*;
+import BitChess.Models.Forum.ExistsModel;
+import BitChess.Models.Forum.OneCategory;
 import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

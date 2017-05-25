@@ -1,4 +1,4 @@
-package BitChess.Controllers;
+package BitChess.Controllers.ForumController;
 
 import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;

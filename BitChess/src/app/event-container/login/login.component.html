@@ -23,7 +23,8 @@
               <tr>
                 <th class="mdl-data-table__cell--non-numeric">
                   <md-input-container>
-                    <input #input_password name="password" mdInput placeholder="Password" style="width: 30em" type="password">
+                    <input #input_password name="password" mdInput placeholder="Password" style="width: 30em"
+                           type="password">
                   </md-input-container>
                 </th>
               </tr>
@@ -34,14 +35,18 @@
               </tr>
               <tr>
                 <th>
-                  <button md-button class="mdl-button mld-js-button mdl-button--primary" (click)="onLoginClick(input_username.value, input_password.value)">Login</button>
+                  <button md-button class="mdl-button mld-js-button mdl-button--primary"
+                          (click)="onLoginClick(input_username.value, input_password.value)">Login
+                  </button>
                   <button class="mdl-button mld-js-button mdl-button--primary">Forgot password?</button>
                 </th>
               </tr>
               <tr>
                 <th>
                   Login with
-                  <button md-button class="mdl-button mld-js-button mdl-button--primary" onclick="facebookLogin()">Facebook</button>
+                  <button md-button class="mdl-button mld-js-button mdl-button--primary" onclick="facebookLogin()">
+                    Facebook
+                  </button>
                 </th>
               </tr>
               </tbody>

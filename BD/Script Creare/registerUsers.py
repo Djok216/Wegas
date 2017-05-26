@@ -3,7 +3,7 @@ from random import randint as randInt
 
 def populate(username, password, email, wins, loses):
   info = username + ' ' + password + ' ' + password + ' ' + email + ' ' + wins + ' ' + loses
-  r = requests.post('http://localhost:8181/public/user/registerPy', data = info)
+  r = requests.post('http://localhost:4500/public/user/registerPy', data = info)
   print (r.status_code, r.reason)
 
 fin = open("name.txt", "r")

@@ -18,4 +18,8 @@ export class LoginService {
     return this._http.post('http://localhost:4500/user/login' , JSON.stringify(body),{headers: headers})
       .map(res => res.json());
   }
+
+  logout() {
+    localStorage.removeItem('currentUser');
+  }
 }

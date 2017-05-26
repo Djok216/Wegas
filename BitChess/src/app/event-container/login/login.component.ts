@@ -8,29 +8,35 @@ import {MdSnackBar} from '@angular/material';
   styleUrls: ['./login.component.css'],
   providers: [LoginService]
 })
-export class LoginComponent{
-  answer : string;
-  username : string;
-  password : string;
+export class LoginComponent {
+  answer: string;
+  username: string;
+  password: string;
+  token: string;
 
-  constructor(private _loginService : LoginService, public snackBar: MdSnackBar) { }
+  constructor(private _loginService: LoginService, public snackBar: MdSnackBar) {
+  }
 
-  updateUsername(username : string) {
+  updateUsername(username: string) {
     this.username = username;
   }
 
-  updatePassword(password : string) {
+  updatePassword(password: string) {
     this.password = password;
   }
 
-  onLoginClick(current_username : string, current_password : string) {
+  onLoginClick(current_username: string, current_password: string) {
     this._loginService.sendLogin(current_username, current_password)
       .subscribe(
-        data => this.answer = JSON.stringify(data).replace(/\"/g, ""),
+        data => {
+          this.answer = JSON.stringify(data['responseMessage']).replace(/\"/g, "");
+          this.token = JSON.stringify(data['token']);
+          localStorage.setItem('currentUser', this.token);
+        },
         error => alert(error),
         () => this.snackBar.open(this.answer, "", {
-                duration: 2000,
-              })
+          duration: 2000,
+        })
       );
   }
 }

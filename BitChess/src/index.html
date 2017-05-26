@@ -14,47 +14,48 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
   <script>
-    window.fbAsyncInit = function() {
+    window.fbAsyncInit = function () {
       FB.init({
-        appId      : '432359763790011',
-        xfbml      : true,
-        version    : 'v2.9'
+        appId: '432359763790011',
+        xfbml: true,
+        version: 'v2.9'
       });
       FB.AppEvents.logPageView();
     };
 
-    (function(d, s, id){
+    (function (d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
+      if (d.getElementById(id)) {
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
       js.src = "//connect.facebook.net/en_US/sdk.js";
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
     function facebookLogin() {
-      FB.login( function (response) {
+      FB.login(function (response) {
         if (response.authResponse) {
-          console.log('Welcome!  Fetching your information.... ');
-
           access_token = response.authResponse.accessToken; //get access token
           user_id = response.authResponse.userID; //get FB UID
           name = response.name;
 
-          FB.api('/me?access_token='+access_token, {scope : 'email' } ,function (response) {
+          FB.api('/me?access_token=' + access_token, {scope: 'email'}, function (response) {
             var email = response.email;
             var name = response.name;
             console.log(access_token);
-
+            console.log(name);
           });
         } else {
           console.log('User cancelled login or did not fully authorize.');
         }
-      },{scope : 'email' });
+      }, {scope: 'email'});
 
     }
   </script>
 </head>
 <body ng-app="BitChess">
-  <app-root>Loading...</app-root>
+<app-root>Loading...</app-root>
 </body>
 </html>

@@ -6,6 +6,8 @@ import BitChess.Models.Forum.OneCategory;
 import BitChess.Models.Forum.OneThread;
 
 import BitChess.Models.UserModel;
+import com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
+import jdk.nashorn.internal.codegen.CompilerConstants;
 import org.springframework.stereotype.Service;
 
 import java.sql.CallableStatement;
@@ -35,6 +37,23 @@ public class ConcreteDatabaseService {
         }
         return -1;
     }
+
+    public Vector<String> findUsers(String stringMatch) throws SQLException {
+        Vector<String> users = new Vector<>();
+        String plsql = "BEGIN ? := PACKAGE_USERS.GET_USERS_MATCH(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setString(2, stringMatch);
+        statement.registerOutParameter(1, OracleTypes.CURSOR);
+        statement.execute();
+
+        ResultSet resultSet = (ResultSet) statement.getObject(1);
+        while (resultSet.next())
+            users.add(resultSet.getString(1));
+        resultSet.close();
+        statement.close();
+        return users;
+    }
+
 
     public int checkUserExists(String nickname) throws SQLException {
         Integer result;

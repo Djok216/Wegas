@@ -1,6 +1,7 @@
 package BitChess.Controllers;
 
 import BitChess.Models.*;
+import BitChess.Models.Clubs.ClubMemberModel;
 import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,15 +23,18 @@ public class AuthenticationController {
     @CrossOrigin
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
     public ResponseEntity<ResponseMessageModel> validateLogin(@RequestBody LoginModel loginModel) {
-        if(loginModel.getUsername() == null || loginModel.getPassword() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (loginModel.getUsername() == null || loginModel.getPassword() == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         NicknameModel username = new NicknameModel();
         username.setNickname(loginModel.getUsername());
         ExistsUserModel existsUserModel = checkExistsUser(username).getBody();
-        if(existsUserModel.getExists() == 0) return new ResponseEntity<>(new ResponseMessageModel("Username does not exists in database"), HttpStatus.OK);
+        if (existsUserModel.getExists() == 0)
+            return new ResponseEntity<>(new ResponseMessageModel("Username does not exists in database"), HttpStatus.OK);
 
         ResponseMessageModel password = getPassword(username).getBody();
 
-        if(!password.getResponseMessage().equals(loginModel.getPassword())) return new ResponseEntity<>(new ResponseMessageModel("Invalid password"), HttpStatus.OK);
+        if (!password.getResponseMessage().equals(loginModel.getPassword()))
+            return new ResponseEntity<>(new ResponseMessageModel("Invalid password"), HttpStatus.OK);
 
         return new ResponseEntity<>(new ResponseMessageModel("Login success!"), HttpStatus.OK);
     }
@@ -39,13 +43,22 @@ public class AuthenticationController {
     @RequestMapping(value = "/user/userExists", method = RequestMethod.POST)
     public ResponseEntity<ExistsUserModel> checkExistsUser(@RequestBody NicknameModel userNickname) {
         try {
-            if(userNickname.getNickname() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if (userNickname.getNickname() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             ExistsUserModel existsUser = new ExistsUserModel();
             existsUser.setExists(databaseService.checkUserExists(userNickname.getNickname()));
             return new ResponseEntity<>(existsUser, HttpStatus.OK);
-        }
-        catch (SQLException sqlEx) {
+        } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/findUsers/string_match=\"{stringMatch}\"", method = RequestMethod.GET)
+    public ResponseEntity<?> findUsers(@PathVariable String stringMatch) {
+        try {
+            return new ResponseEntity<>(databaseService.findUsers(stringMatch), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -53,12 +66,11 @@ public class AuthenticationController {
     @RequestMapping(value = "/user/getPassword", method = RequestMethod.POST)
     public ResponseEntity<ResponseMessageModel> getPassword(@RequestBody NicknameModel userNickname) {
         try {
-            if(userNickname.getNickname() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if (userNickname.getNickname() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             ResponseMessageModel responseMessageModel = new ResponseMessageModel("");
             responseMessageModel.setResponseMessage(databaseService.getPassword(userNickname.getNickname()));
             return new ResponseEntity<>(responseMessageModel, HttpStatus.OK);
-        }
-        catch (SQLException sqlEx) {
+        } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -73,12 +85,11 @@ public class AuthenticationController {
             NicknameModel username = new NicknameModel();
             username.setNickname(registerModel.getUsername());
             ExistsUserModel existsUserModel = checkExistsUser(username).getBody();
-            if (existsUserModel.getExists()>0)
-                return new ResponseEntity<>(new ResponseMessageModel("Username aleady exists."), HttpStatus.OK);
+            if (existsUserModel.getExists() > 0)
+                return new ResponseEntity<>(new ResponseMessageModel("Username already exists."), HttpStatus.OK);
             databaseService.register(registerModel.getUsername(), registerModel.getPassword(), registerModel.getEmail());
             return new ResponseEntity<>(new ResponseMessageModel("Register success!"), HttpStatus.OK);
-        }
-        catch (SQLException sqlEx) {
+        } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -29,11 +29,21 @@ EXPLAIN PLAN FOR select c.name club_name, count(u.id) members from users u
 SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
 */
 -- TRIGGERS FOR CLUBS --
+-- Actualizarea id-urilor automata
 CREATE OR REPLACE TRIGGER CLUBS_ID_TRG
   BEFORE INSERT ON CLUBS
   FOR EACH ROW
 BEGIN
   :new.id := CLUB_ID.nextval;
+END;
+/
+-- Atunci cand se sterge un club se sterge automat si referinta utilizatorilor
+-- ce au fost in acel club.
+CREATE OR REPLACE TRIGGER CLUB_DELETE_TRG
+  BEFORE DELETE ON CLUBS
+  FOR EACH ROW
+BEGIN
+  UPDATE USERS SET CLUB_ID = NULL WHERE CLUB_ID = :old.id;
 END;
 /
 CREATE OR REPLACE PACKAGE PACKAGE_CLUBS AS

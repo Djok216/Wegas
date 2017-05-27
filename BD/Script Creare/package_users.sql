@@ -1,3 +1,36 @@
+-- INDEX ON SIMPLE SELECT, FOR EXISTS USER, ON LIKE CONDITION, 
+/*DROP INDEX USERS_NICKNAME;
+CREATE INDEX USERS_NICKNAME ON USERS(NICKNAME);
+*/
+/*
+-- INAINTE DE INDEX;
+----------------------------------------------------------------------------
+| Id  | Operation          | Name  | Rows  | Bytes | Cost (%CPU)| Time     |
+----------------------------------------------------------------------------
+|   0 | SELECT STATEMENT   |       |     1 |   129 |    17   (0)| 00:00:01 |
+|   1 |  SORT AGGREGATE    |       |     1 |   129 |            |          |
+|*  2 |   TABLE ACCESS FULL| USERS |  3441 |   433K|    17   (0)| 00:00:01 |
+----------------------------------------------------------------------------
+-- DUPA INDEX;
+----------------------------------------------------------------------------------------
+| Id  | Operation             | Name           | Rows  | Bytes | Cost (%CPU)| Time     |
+----------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT      |                |     1 |   129 |     7   (0)| 00:00:01 |
+|   1 |  SORT AGGREGATE       |                |     1 |   129 |            |          |
+|*  2 |   INDEX FAST FULL SCAN| USERS_NICKNAME |  3441 |   433K|     7   (0)| 00:00:01 |
+----------------------------------------------------------------------------------------
+--
+EXPLAIN PLAN FOR SELECT count(*) from users where lower(nickname) like lower('%a%');
+SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+*/
+-- TRIGGERS FOR USERS --
+CREATE OR REPLACE TRIGGER USER_ID_TRG
+  BEFORE INSERT ON USERS
+  FOR EACH ROW
+BEGIN
+  :new.id := USER_ID.nextval;
+END;
+/
 CREATE OR REPLACE PACKAGE PACKAGE_USERS AS
   -- defined types
   TYPE GAME_HISTORY IS TABLE OF games.id%TYPE INDEX BY PLS_INTEGER;
@@ -21,14 +54,17 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
   FUNCTION EXISTS_USER(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER AS
     v_cnt INTEGER;
   BEGIN
-    SELECT COUNT(*) INTO v_cnt from users where lower(nickname) = lower(p_nickname);
+    SELECT COUNT(*) INTO v_cnt from users where lower(nickname) like lower(p_nickname);
     RETURN v_cnt;
   END;
   
   PROCEDURE INSERT_NEW_REGULAR_USER(p_name USERS.NAME%TYPE, p_email USERS.EMAIL%TYPE, p_nickname USERS.NICKNAME%TYPE, p_password USERS.PASSWORD%TYPE) AS
   BEGIN
     -- 2 for regular user
-    INSERT INTO USERS VALUES(USER_ID.NEXTVAL, p_name, p_email, p_nickname, p_password, null, DBMS_RANDOM.VALUE(10,50), DBMS_RANDOM.VALUE(10,50), DBMS_RANDOM.VALUE(10,100), CURRENT_TIMESTAMP, 2, NULL);
+    INSERT INTO USERS(NAME, EMAIL, NICKNAME, PASSWORD, FACEBOOK_ID, WINS, LOOSES,
+    DRAWS, CREATED_AT, STATUS_ID, CLUB_ID) VALUES(p_name, p_email, p_nickname,
+    p_password, null, DBMS_RANDOM.VALUE(10,50), DBMS_RANDOM.VALUE(10,50),
+    DBMS_RANDOM.VALUE(10,100), CURRENT_TIMESTAMP, 2, NULL);
     -- TO DO TRIGGER OR NOT.
   END;
   

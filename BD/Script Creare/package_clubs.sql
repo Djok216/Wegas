@@ -1,5 +1,35 @@
+-- Index pentru statistica generala, hash join + group by
+/*
+DROP INDEX USERS_CLUB_ID;
+CREATE INDEX USERS_CLUB_ID ON USERS (CLUB_ID);
+*/
+/*
+-- INAINTE DE INDEX
+-----------------------------------------------------------------------------
+| Id  | Operation           | Name  | Rows  | Bytes | Cost (%CPU)| Time     |
+-----------------------------------------------------------------------------
+|   0 | SELECT STATEMENT    |       |  1263 |   191K|    22  (10)| 00:00:01 |
+|   1 |  HASH GROUP BY      |       |  1263 |   191K|    22  (10)| 00:00:01 |
+|*  2 |   HASH JOIN         |       |  1263 |   191K|    21   (5)| 00:00:01 |
+|   3 |    TABLE ACCESS FULL| USERS |  4001 | 52013 |    17   (0)| 00:00:01 |
+|   4 |    TABLE ACCESS FULL| CLUBS |  1001 |   138K|     3   (0)| 00:00:01 |
+-----------------------------------------------------------------------------
+-- DUPA INDEX
+----------------------------------------------------------------------------------------
+| Id  | Operation              | Name          | Rows  | Bytes | Cost (%CPU)| Time     |
+----------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT       |               |  1263 |   191K|     9  (23)| 00:00:01 |
+|   1 |  HASH GROUP BY         |               |  1263 |   191K|     9  (23)| 00:00:01 |
+|*  2 |   HASH JOIN            |               |  1263 |   191K|     8  (13)| 00:00:01 |
+|   3 |    INDEX FAST FULL SCAN| USERS_CLUB_ID |  4001 | 52013 |     4   (0)| 00:00:01 |
+|   4 |    TABLE ACCESS FULL   | CLUBS         |  1001 |   138K|     3   (0)| 00:00:01 |
+----------------------------------------------------------------------------------------
+EXPLAIN PLAN FOR select c.name club_name, count(u.id) members from users u
+    join clubs c on c.id = u.club_id group by c.name;
+SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+*/
 -- TRIGGERS FOR CLUBS --
-CREATE OR REPLACE TRIGGER CLUBS_ID
+CREATE OR REPLACE TRIGGER CLUBS_ID_TRG
   BEFORE INSERT ON CLUBS
   FOR EACH ROW
 BEGIN
@@ -133,9 +163,8 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_CLUBS AS
   FUNCTION GET_CLUBS_BY_RATING(p_top_x integer) RETURN SYS_REFCURSOR IS
     v_cursor SYS_REFCURSOR;
   BEGIN
-      OPEN v_cursor FOR select * from
-      (select name, rating from clubs order by rating desc)
-      where rownum <= p_top_x;
+      OPEN v_cursor FOR SELECT * FROM (SELECT * FROM (select name, rating from
+      clubs) WHERE ROWNUM < p_top_x) order by rating desc;
     return v_cursor;
   END;
   
@@ -171,47 +200,3 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_CLUBS AS
 END;
 /
 commit;
-/*
-EXPLAIN PLAN FOR select count(u.id), c.id from users u join clubs c on c.id = u.club_id group by c.id;
-SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
--- inainte de index
-----------------------------------------------------------------------------
-| Id  | Operation          | Name  | Rows  | Bytes | Cost (%CPU)| Time     |
-----------------------------------------------------------------------------
-|   0 | SELECT STATEMENT   |       |   640 |  1280 |    18   (6)| 00:00:01 |
-|   1 |  HASH GROUP BY     |       |   640 |  1280 |    18   (6)| 00:00:01 |
-|*  2 |   TABLE ACCESS FULL| USERS |  1258 |  2516 |    17   (0)| 00:00:01 |
-----------------------------------------------------------------------------
--- dupa index
---------------------------------------------------------------------------------------------
-| Id  | Operation            | Name                | Rows  | Bytes | Cost (%CPU)| Time     |
---------------------------------------------------------------------------------------------
-|   0 | SELECT STATEMENT     |                     |   640 |  1280 |     4   (0)| 00:00:01 |
-|   1 |  SORT GROUP BY NOSORT|                     |   640 |  1280 |     4   (0)| 00:00:01 |
-|*  2 |   INDEX FULL SCAN    | USERS_CLUB_ID_INDEX |  1258 |  2516 |     4   (0)| 00:00:01 |
---------------------------------------------------------------------------------------------
-*/
-/*
-DECLARE
-  v_cursor SYS_REFCURSOR;
-BEGIN
-  PACKAGE_CLUBS.UPDATE_CLUBS_RATINGS;
-END;
-
-EXPLAIN PLAN FOR select name from users where club_id = (select id from clubs where lower(name) = lower('Jessicabaker'));
-SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
-
-select c.name club_name, count(u.id) members from users u join clubs c on c.id = u.club_id group by c.name;
-
--- get clubs by rating
-select * from
-(select name, rating from clubs order by rating desc)
-where rownum <= 10;
-
-select * from
-    (select c.name club_name, count(u.id) members from users u join clubs c
-    on c.id = u.club_id group by c.name order by count(u.id) desc, club_name)
-    where rownum <= 10;
-    
-select * from users;
-select * from clubs where name like '%icusori%';*/

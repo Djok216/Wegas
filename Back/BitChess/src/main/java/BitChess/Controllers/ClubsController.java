@@ -28,7 +28,7 @@ public class ClubsController {
             databaseService.insertNewClub(clubModel.getClubName());
             return new ResponseEntity<>(new ResponseMessageModel("Club added successfully."), HttpStatus.OK);
         } catch (SQLException sqlEx) {
-            return new ResponseEntity<>(new ResponseMessageModel("A club with the same name already exists"), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessageModel("A club with the same name already exists."), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -74,7 +74,7 @@ public class ClubsController {
         try {
             return new ResponseEntity<>(databaseService.getClubsByPopularity(topX), HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -118,7 +118,8 @@ public class ClubsController {
     @RequestMapping(value = "/clubs/{clubName}/members", method = RequestMethod.GET)
     public ResponseEntity<?> getMembers(@PathVariable String clubName) {
         try {
-            if (!databaseService.existClub(clubName)) return new ResponseEntity<>(new ResponseMessageModel("Club does not exists."), HttpStatus.OK);
+            if (!databaseService.existClub(clubName))
+                return new ResponseEntity<>(new ResponseMessageModel("Club does not exists."), HttpStatus.OK);
             return new ResponseEntity<>(databaseService.getClubMembers(clubName), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

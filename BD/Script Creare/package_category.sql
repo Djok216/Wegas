@@ -7,11 +7,16 @@ END;
 CREATE OR REPLACE PACKAGE BODY PACKAGE_CATEGORY AS
   PROCEDURE CREATE_DEFINED_CATEGORY AS
   BEGIN
-    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL, 'General Chess Discussion', 'The place to discuss general chess topics');
-    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL, 'Game analysis', 'Show us your game and let the community analyse it');
-    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL, 'Openings', 'Openings discussions');
-    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL, 'BitChess Feedback', 'Bug reports, feature requests, suggestions');
-    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL, 'Off-Topic Discussion', 'Everything that is not related to chess');
+    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL,
+    'General Chess Discussion', 'The place to discuss general chess topics');
+    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL,
+    'Game analysis', 'Show us your game and let the community analyse it');
+    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL,
+    'Openings', 'Openings discussions');
+    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL,
+    'BitChess Feedback', 'Bug reports, feature requests, suggestions');
+    INSERT INTO CATEGORY(ID, NAME, DESCRIPTION) VALUES(CATEGORY_ID.NEXTVAL,
+    'Off-Topic Discussion', 'Everything that is not related to chess');
   END CREATE_DEFINED_CATEGORY;
   
   FUNCTION GET_CATEGORIES RETURN SYS_REFCURSOR IS

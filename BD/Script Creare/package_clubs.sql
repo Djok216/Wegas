@@ -171,7 +171,6 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_CLUBS AS
 END;
 /
 commit;
-/
 /*
 EXPLAIN PLAN FOR select count(u.id), c.id from users u join clubs c on c.id = u.club_id group by c.id;
 SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
@@ -192,22 +191,22 @@ SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
 |*  2 |   INDEX FULL SCAN    | USERS_CLUB_ID_INDEX |  1258 |  2516 |     4   (0)| 00:00:01 |
 --------------------------------------------------------------------------------------------
 */
-
+/*
 DECLARE
   v_cursor SYS_REFCURSOR;
 BEGIN
   PACKAGE_CLUBS.UPDATE_CLUBS_RATINGS;
 END;
 
-
 EXPLAIN PLAN FOR select name from users where club_id = (select id from clubs where lower(name) = lower('Jessicabaker'));
 SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
 
 select c.name club_name, count(u.id) members from users u join clubs c on c.id = u.club_id group by c.name;
 
+-- get clubs by rating
 select * from
 (select name, rating from clubs order by rating desc)
-where rownum < 10;
+where rownum <= 10;
 
 select * from
     (select c.name club_name, count(u.id) members from users u join clubs c
@@ -215,4 +214,4 @@ select * from
     where rownum <= 10;
     
 select * from users;
-select * from clubs;
+select * from clubs where name like '%icusori%';*/

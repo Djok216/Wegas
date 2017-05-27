@@ -6,7 +6,7 @@
 @".\package_users.sql"
 @".\package_clubs.sql"
 @".\package_forum.sql"
-
+commit;
 /*
 SELECT * FROM USER_STATUS;
 SELECT * FROM STATUS;

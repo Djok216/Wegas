@@ -28,7 +28,7 @@ public class ThreadController {
 
     @CrossOrigin
     @RequestMapping(value = "/AllThreads", method = RequestMethod.GET)
-    public ResponseEntity getAllCategories() {
+    public ResponseEntity getAllThreads() {
         try {
             ThreadModel threadModel = new ThreadModel();
             threadModel.thread = databaseService.getAllThreads();
@@ -94,13 +94,28 @@ public class ThreadController {
     @RequestMapping(value = "/category/AddThread", method = RequestMethod.POST)
     public ResponseEntity addThread(@RequestBody OneThread oneThread) {
         try {
-            if (oneThread.getId() == null || oneThread.getCategoryId() == null || oneThread.getUserId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            UserModel userModel =  databaseService.setUserByNickname(databaseService.getNicknameById(oneThread.getUserId()));
-            System.out.println(userModel.toString() + "????????????");
-           // databaseService.addThread(oneThread);
+            if (oneThread.getName() == null || oneThread.getCategoryId() == null || oneThread.getUserId() == null)
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            OneCategory category=new OneCategory(oneThread.getCategoryId());
+            ExistsModel existsModel = categorycontroller.checkExistsCategory(category).getBody();
+            if(existsModel.getExists() == 0 )
+                return new ResponseEntity
+                        (new ResponseMessageModel("Category does not exists in database"), HttpStatus.OK);
 
+            NicknameModel nicknameModel=new NicknameModel();
+            nicknameModel.setNickname(databaseService.getNicknameById(oneThread.getUserId()));
+            ExistsUserModel existsModel2 = authentificationController.checkExistsUser(nicknameModel).getBody();
+            if(existsModel2.getExists() == 0 )
+                return new ResponseEntity
+                        (new ResponseMessageModel("User does not exists in database"), HttpStatus.OK);
+            UserModel userModel =  databaseService.setUserByNickname(databaseService.getNicknameById(oneThread.getUserId()));
+
+            if(userModel.getStatus_id()==3)//blocked
+                return new ResponseEntity
+                (new ResponseMessageModel("Blocked user, can not add thread"), HttpStatus.OK);
+            databaseService.addThread(oneThread);
             return new ResponseEntity
-                    (new ResponseMessageModel("ThreadAdded"), HttpStatus.OK);
+                    (new ResponseMessageModel("Thread Added"), HttpStatus.OK);
         }catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

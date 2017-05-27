@@ -5,7 +5,7 @@ import json
 
 
 def populate_users(username, password, email):
-    data = {'username': username, 'password': password, "email": email}
+    data = {'username': username, 'password': password, 'email': email}
     headers = {'Content-Type': 'application/json'}
     r = requests.post('http://localhost:4500/user/register', data=json.dumps(data), headers=headers)
     print(r.status_code, r.reason, r.text)

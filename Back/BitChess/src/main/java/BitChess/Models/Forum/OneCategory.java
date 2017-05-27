@@ -13,7 +13,9 @@ public class OneCategory {
         this.name = name;
         this.description = description;
     }
-
+    public OneCategory(Integer id){
+        this.id=id;
+    }
     public OneCategory(){
     }
 

@@ -20,6 +20,7 @@ import java.util.Vector;
 
 import oracle.jdbc.OracleTypes;
 
+import javax.jws.Oneway;
 import javax.xml.transform.Result;
 
 /**
@@ -39,7 +40,7 @@ public class ConcreteDatabaseService {
         }
         return -1;
     }
-
+    //authentification region begins
     public Vector<String> findUsers(String stringMatch) throws SQLException {
         Vector<String> users = new Vector<>();
         String plsql = "BEGIN ? := PACKAGE_USERS.GET_USERS_MATCH(?); END;";
@@ -54,43 +55,6 @@ public class ConcreteDatabaseService {
         resultSet.close();
         statement.close();
         return users;
-    }
-
-
-    public int checkUserExists(String nickname) throws SQLException {
-        Integer result;
-        String plsql = "BEGIN ? := PACKAGE_USERS.EXISTS_USER(?); END;";
-        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
-        statement.setString(2, nickname);
-        statement.registerOutParameter(1, Types.NUMERIC);
-        statement.execute();
-        result = statement.getInt(1);
-        statement.close();
-        return result;
-    }
-
-    public int checkCategoryExits(Integer id) throws SQLException { //false if 0
-        Integer result;
-        String plsql = "BEGIN ? := PACKAGE_CATEGORY.checkCategoryExists(?); END;";
-        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
-        statement.setInt(2, id);
-        statement.registerOutParameter(1, Types.NUMERIC);
-        statement.execute();
-        result = statement.getInt(1);
-        statement.close();
-        return result;
-    }
-
-    public int checkThreadExits(Integer id) throws SQLException { //false if 0
-        Integer result;
-        String plsql = "BEGIN ? := PACKAGE_forum.checkThreadExists(?); END;";
-        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
-        statement.setInt(2, id);
-        statement.registerOutParameter(1, Types.NUMERIC);
-        statement.execute();
-        result = statement.getInt(1);
-        statement.close();
-        return result;
     }
 
     public String getPassword(String nickname) throws SQLException {
@@ -114,6 +78,75 @@ public class ConcreteDatabaseService {
         statement.setString(4, password);
         statement.execute();
         statement.close();
+    }
+
+    public int checkUserExists(String nickname) throws SQLException {
+        Integer result;
+        String plsql = "BEGIN ? := PACKAGE_USERS.EXISTS_USER(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setString(2, nickname);
+        statement.registerOutParameter(1, Types.NUMERIC);
+        statement.execute();
+        result = statement.getInt(1);
+        statement.close();
+        return result;
+    }
+
+    public UserModel setUserByNickname(String nickname) throws SQLException {
+        String plsql = "BEGIN ? := PACKAGE_USERS.SET_USER_BY_NICKNAME(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        UserModel user = new UserModel();
+        statement.setString(2, nickname);
+        statement.registerOutParameter(1, OracleTypes.CURSOR);
+        statement.execute();
+        ResultSet resultSet = (ResultSet) statement.getObject(1);
+        while (resultSet.next()) {
+            user = new UserModel(resultSet.getInt(1), resultSet.getString(2),
+                    resultSet.getString(3), resultSet.getString(4), resultSet.getString(5),
+                    resultSet.getString(6), resultSet.getInt(7), resultSet.getInt(8),
+                    resultSet.getInt(9),
+                    resultSet.getString(10), resultSet.getInt(11), resultSet.getInt(12),
+                    resultSet.getString(13));
+        }
+        resultSet.close();
+        statement.close();
+        return user;
+    }
+    public String getNicknameById(int id) throws SQLException {
+        String plsql = "BEGIN ? := PACKAGE_USERS.GET_NICKNAME_BY_ID(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2, id);
+        statement.registerOutParameter(1, Types.VARCHAR);
+        statement.execute();
+        String result = statement.getString(1);
+        statement.close();
+        return result;
+    }
+    //authentifiaction region ends
+
+    //forum region begins
+    public int checkCategoryExits(Integer id) throws SQLException { //false if 0
+        Integer result;
+        String plsql = "BEGIN ? := PACKAGE_CATEGORY.checkCategoryExists(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2, id);
+        statement.registerOutParameter(1, Types.NUMERIC);
+        statement.execute();
+        result = statement.getInt(1);
+        statement.close();
+        return result;
+    }
+
+    public int checkThreadExits(Integer id) throws SQLException { //false if 0
+        Integer result;
+        String plsql = "BEGIN ? := PACKAGE_forum.checkThreadExists(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2, id);
+        statement.registerOutParameter(1, Types.NUMERIC);
+        statement.execute();
+        result = statement.getInt(1);
+        statement.close();
+        return result;
     }
 
     public Vector<OneCategory> getAllCategories() throws SQLException {
@@ -183,38 +216,18 @@ public class ConcreteDatabaseService {
         statement.close();
         return threads;
     }
-
-    public UserModel setUserByNickname(String nickname) throws SQLException {
-        String plsql = "BEGIN ? := PACKAGE_USERS. SET_USER_BY_NICKNAME(?); END;";
+    public void addThread(OneThread thread) throws SQLException {
+        String plsql = "BEGIN PACKAGE_FORUM.INSERT_THREAD(?, ?, ?, ?, ?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
-        UserModel user = new UserModel();
-        statement.setString(2, nickname);
-        statement.registerOutParameter(1, OracleTypes.CURSOR);
+        statement.setString(1, thread.getName());
+        statement.setString(2, thread.getDescription());
+        statement.setInt(3, thread.getUserId());
+        statement.setInt(4, thread.getStatusId());
+        statement.setInt(5, thread.getCategoryId());
         statement.execute();
-        ResultSet resultSet = (ResultSet) statement.getObject(1);
-        while (resultSet.next()) {
-            user = new UserModel(resultSet.getInt(1), resultSet.getString(2),
-                    resultSet.getString(3), resultSet.getString(4), resultSet.getString(5),
-                    resultSet.getString(6), resultSet.getInt(7), resultSet.getInt(8),
-                    resultSet.getInt(9),
-                    resultSet.getString(10), resultSet.getInt(11), resultSet.getInt(12),
-                    resultSet.getString(13));
-        }
-        resultSet.close();
         statement.close();
-        return user;
     }
-
-    public String getNicknameById(int id) throws SQLException {
-        String plsql = "BEGIN ? := PACKAGE_USERS. GET_NICKNAME_BY_ID(?); END;";
-        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
-        statement.setInt(2, id);
-        statement.registerOutParameter(1, Types.VARCHAR);
-        statement.execute();
-        String result = statement.getString(1);
-        statement.close();
-        return result;
-    }
+    //forum region ends
 
     //region clubs methods
     public void insertNewClub(String clubName) throws SQLException {

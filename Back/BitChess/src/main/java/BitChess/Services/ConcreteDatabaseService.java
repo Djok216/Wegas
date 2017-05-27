@@ -5,6 +5,8 @@ import BitChess.Models.Clubs.SimpleStatisticModel;
 import BitChess.Models.Forum.OneCategory;
 import BitChess.Models.Forum.OneThread;
 
+import BitChess.Models.Games.GameEndedModel;
+import BitChess.Models.Games.GameStartedModel;
 import BitChess.Models.UserModel;
 import com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
 import jdk.nashorn.internal.codegen.CompilerConstants;
@@ -337,6 +339,33 @@ public class ConcreteDatabaseService {
         resultSet.close();
         statement.close();
         return clubRatingModel;
+    }
+    //endregion
+
+
+    //region package games
+    public Integer addGameStarted(GameStartedModel gameStartedModel) throws SQLException {
+        Integer gameId;
+        String plsql = "BEGIN ? := PACKAGE_GAMES.ADD_GAME_STARTED(?,?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2,gameStartedModel.getFirstPlayerId());
+        statement.setInt(3, gameStartedModel.getSecondPlayerId());
+        statement.registerOutParameter(1, Types.NUMERIC);
+        statement.execute();
+
+        gameId = statement.getInt(1);
+        statement.close();
+        return gameId;
+    }
+
+    public void addGameEnded(GameEndedModel gameEndedModel) throws SQLException {
+        String plsql = "BEGIN PACKAGE_GAMES.ADD_GAME_ENDED(?,?,?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(1,gameEndedModel.getGameId());
+        statement.setString(2,gameEndedModel.getMovements());
+        statement.setString(3,gameEndedModel.getGameResult());
+        statement.execute();
+        statement.close();
     }
     //endregion
 }

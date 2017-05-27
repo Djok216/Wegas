@@ -46,8 +46,8 @@ CREATE TABLE OPENINGS (
   
 CREATE TABLE GAMES (
   id               number(10, 0) NOT NULL, 
-  movements        varchar2(1999) NOT NULL, 
-  game_result      char(1) NOT NULL, 
+  movements        varchar2(1999), 
+  game_result      char(10), 
   started_at       timestamp(6) NOT NULL, 
   first_player_id  number(10) NOT NULL, 
   second_player_id number(10) NOT NULL, 

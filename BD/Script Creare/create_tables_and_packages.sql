@@ -9,9 +9,8 @@
 @".\package_users.sql"
 @".\package_clubs.sql"
 @".\package_forum.sql"
-/ -- update clubs rating
+@".\package_games.sql"
 commit;
-
 /*
 DECLARE
   v_cursor SYS_REFCURSOR;

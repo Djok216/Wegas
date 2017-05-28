@@ -5,6 +5,7 @@ import BitChess.Models.Clubs.SimpleStatisticModel;
 import BitChess.Models.Forum.OneCategory;
 import BitChess.Models.Forum.OneThread;
 
+import BitChess.Models.Friends.FriendshipModel;
 import BitChess.Models.Games.GameEndedModel;
 import BitChess.Models.Games.GameStartedModel;
 import BitChess.Models.UserModel;
@@ -259,7 +260,7 @@ public class ConcreteDatabaseService {
         statement.close();
     }
 
-    public boolean existClub(String clubName) throws SQLException {
+    public boolean existsClub(String clubName) throws SQLException {
         String plsql = "BEGIN ? := PACKAGE_CLUBS.EXISTS_CLUB(?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
         statement.setString(2, clubName);
@@ -406,4 +407,28 @@ public class ConcreteDatabaseService {
         return result==1;
     }
     //endregion
+
+    // region package friends
+    public boolean existsFriendship(FriendshipModel friendshipModel) throws SQLException {
+        Integer result;
+        String plsql = "BEGIN ? := PACKAGE_FRIENDS.CHECH_FRIENDSHIP_EXISTS(?,?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2, friendshipModel.getFirstPlayerId());
+        statement.setInt(3, friendshipModel.getSecondPlayerId());
+        statement.registerOutParameter(1, Types.NUMERIC);
+        statement.execute();
+        result = statement.getInt(1);
+        statement.close();
+        return result==1;
+    }
+    public void addFriends(FriendshipModel friendshipModel) throws SQLException {
+        Integer result;
+        String plsql = "BEGIN PACKAGE_FRIENDS.ADD_FRIENDS(?,?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(1, friendshipModel.getFirstPlayerId());
+        statement.setInt(2, friendshipModel.getSecondPlayerId());
+        statement.execute();
+        statement.close();
+    }
+    // endregion
 }

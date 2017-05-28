@@ -5,6 +5,7 @@ BEGIN
   :new.id := GAMES_ID.nextval;
 END;
 /
+-- trigger ce actualizeaza wins, looses, draws
 CREATE OR REPLACE TRIGGER GAME_ENDED_TRG
   BEFORE UPDATE OF GAME_RESULT ON GAMES
   REFERENCING OLD AS OLD NEW AS NEW
@@ -20,6 +21,15 @@ BEGIN
     UPDATE USERS SET WINS = WINS + 1 WHERE ID = :OLD.SECOND_PLAYER_ID;
     UPDATE USERS SET LOOSES = LOOSES + 1 WHERE ID = :OLD.FIRST_PLAYER_ID;
   END IF;
+END;
+/
+-- trigger ce marcheaza ca sters un utilizator atunci cand se sterge din tabela users
+CREATE OR REPLACE TRIGGER GAME_USER_DELETE
+  BEFORE DELETE ON USERS
+  FOR EACH ROW
+BEGIN
+  UPDATE GAMES SET FIRST_PLAYER_ID = NULL WHERE first_player_id = :OLD.ID;
+  UPDATE GAMES SET SECOND_PLAYER_ID = NULL WHERE second_player_id = :OLD.ID;
 END;
 /
 CREATE OR REPLACE PACKAGE PACKAGE_GAMES AS
@@ -49,14 +59,13 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_GAMES AS
 END;
 
 /*
-1	43	30	23
-2	42	31	96
-*/
+1	0	0	0
+2	0	0	1
 
 select id, wins, looses, draws from users where rownum < 3;
 
 select * from games where id = 1048;
-/*
+
 DECLARE
   v_id number;
 BEGIN

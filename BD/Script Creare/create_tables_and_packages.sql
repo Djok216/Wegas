@@ -10,6 +10,7 @@
 @".\package_clubs.sql"
 @".\package_forum.sql"
 @".\package_games.sql"
+@".\package_friends.sql"
 commit;
 /*
 DECLARE

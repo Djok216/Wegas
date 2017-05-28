@@ -38,7 +38,7 @@ public class ClubsController {
     public ResponseEntity<ResponseMessageModel> deleteClub(@RequestBody ClubModel clubModel) {
         try {
             if (!clubModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            if (!databaseService.existClub(clubModel.getClubName()))
+            if (!databaseService.existsClub(clubModel.getClubName()))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot delete nonexistent club."), HttpStatus.OK);
             else databaseService.deleteClub(clubModel.getClubName());
             return new ResponseEntity<>(new ResponseMessageModel("Club deleted successfully."), HttpStatus.OK);
@@ -82,7 +82,7 @@ public class ClubsController {
     public ResponseEntity<ResponseMessageModel> addClubMember(@PathVariable String clubName, @RequestBody ClubMemberModel clubMemberModel) {
         try {
             if (!clubMemberModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            if (!databaseService.existClub(clubName))
+            if (!databaseService.existsClub(clubName))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot add member to a nonexistent club."), HttpStatus.OK);
             if (!databaseService.existsUser(clubMemberModel.getMemberName()))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot add nonexistent user to a club."), HttpStatus.OK);
@@ -100,7 +100,7 @@ public class ClubsController {
     public ResponseEntity<ResponseMessageModel> deleteClubMember(@PathVariable String clubName, @RequestBody ClubMemberModel clubMemberModel) {
         try {
             if (!clubMemberModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            if (!databaseService.existClub(clubName))
+            if (!databaseService.existsClub(clubName))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot delete member from a nonexistent club."), HttpStatus.OK);
             if (!databaseService.existsUser(clubMemberModel.getMemberName()))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot delete nonexistent user from a club."), HttpStatus.OK);
@@ -117,7 +117,7 @@ public class ClubsController {
     @RequestMapping(value = "/clubs/{clubName}/members", method = RequestMethod.GET)
     public ResponseEntity<?> getMembers(@PathVariable String clubName) {
         try {
-            if (!databaseService.existClub(clubName))
+            if (!databaseService.existsClub(clubName))
                 return new ResponseEntity<>(new ResponseMessageModel("Club does not exists."), HttpStatus.OK);
             return new ResponseEntity<>(databaseService.getClubMembers(clubName), HttpStatus.OK);
         } catch (Exception ex) {

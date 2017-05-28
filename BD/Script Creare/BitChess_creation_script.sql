@@ -49,8 +49,8 @@ CREATE TABLE GAMES (
   movements        varchar2(1999), 
   game_result      integer,   -- 0 - draw, 1 - first player wins, 2 - second player wins.
   started_at       timestamp(6) NOT NULL, 
-  first_player_id  number(10) NOT NULL, 
-  second_player_id number(10) NOT NULL, 
+  first_player_id  number(10), 
+  second_player_id number(10), 
   PRIMARY KEY (id));
   
 CREATE TABLE STATUS (

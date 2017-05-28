@@ -3,6 +3,7 @@ package BitChess.Services;
 import BitChess.Models.Clubs.ClubStatisticsModel;
 import BitChess.Models.Clubs.SimpleStatisticModel;
 import BitChess.Models.Forum.OneCategory;
+import BitChess.Models.Forum.OnePost;
 import BitChess.Models.Forum.OneThread;
 
 import BitChess.Models.Friends.FriendshipModel;
@@ -238,6 +239,16 @@ public class ConcreteDatabaseService {
         statement.setInt(3, thread.getUserId());
         statement.setInt(4, thread.getStatusId());
         statement.setInt(5, thread.getCategoryId());
+        statement.execute();
+        statement.close();
+    }
+    public void addPost(OnePost post) throws SQLException {
+        String plsql = "BEGIN PACKAGE_FORUM.INSERT_POST(?, ?, ?, ?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setString(1, post.getContent());
+        statement.setInt(2, post.getStatusId());
+        statement.setInt(3, post.getThreadId());
+        statement.setInt(4, post.getUserId());
         statement.execute();
         statement.close();
     }

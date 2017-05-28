@@ -14,6 +14,9 @@ CREATE OR REPLACE PACKAGE package_FORUM AS
   PROCEDURE INSERT_THREAD(p_name THREAD.NAME%TYPE, p_description THREAD.DESCRIPTION%TYPE, 
                             p_user_id THREAD.USER_ID%TYPE,
                                 p_status_id THREAD.STATUS_ID%TYPE, p_category_id THREAD.CATEGORY_ID%TYPE);
+  
+  PROCEDURE INSERT_POST(p_content POST.CONTENT%TYPE, p_status_id POST.STATUS_ID%TYPE, 
+                            p_thread_id POST.THREAD_ID%TYPE, p_user_id POST.USER_ID%TYPE);  
 END;
 /
 CREATE OR REPLACE PACKAGE BODY package_FORUM AS
@@ -58,6 +61,13 @@ CREATE OR REPLACE PACKAGE BODY package_FORUM AS
   BEGIN
     INSERT INTO THREAD(NAME, description, created_at, user_id, status_id, category_id) 
     VALUES(p_name, p_description,CURRENT_TIMESTAMP, p_user_id, p_status_id, p_category_id);
+  END;
+  
+  procedure INSERT_POST(p_content POST.CONTENT%TYPE, p_status_id POST.STATUS_ID%TYPE, 
+                            p_thread_id POST.THREAD_ID%TYPE, p_user_id POST.USER_ID%TYPE) AS
+  BEGIN
+    INSERT INTO POST(content, status_id, thread_id, user_id, created_at) 
+    VALUES(p_content, p_status_id, p_thread_id, p_user_id, CURRENT_TIMESTAMP);
   END;
 END;
 /

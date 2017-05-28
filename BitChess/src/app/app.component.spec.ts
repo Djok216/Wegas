@@ -1,3 +1,4 @@
+///<reference path="../../node_modules/@types/jasmine/index.d.ts"/>
 import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';

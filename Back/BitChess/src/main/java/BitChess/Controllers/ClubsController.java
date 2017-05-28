@@ -84,7 +84,7 @@ public class ClubsController {
             if (!clubMemberModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             if (!databaseService.existClub(clubName))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot add member to a nonexistent club."), HttpStatus.OK);
-            if (databaseService.checkUserExists(clubMemberModel.getMemberName()) != 1)
+            if (!databaseService.existsUser(clubMemberModel.getMemberName()))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot add nonexistent user to a club."), HttpStatus.OK);
             if (databaseService.isClubMember(clubName, clubMemberModel.getMemberName()))
                 return new ResponseEntity<>(new ResponseMessageModel("User is already a member to this club."), HttpStatus.OK);
@@ -102,7 +102,7 @@ public class ClubsController {
             if (!clubMemberModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             if (!databaseService.existClub(clubName))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot delete member from a nonexistent club."), HttpStatus.OK);
-            if (databaseService.checkUserExists(clubMemberModel.getMemberName()) != 1)
+            if (!databaseService.existsUser(clubMemberModel.getMemberName()))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot delete nonexistent user from a club."), HttpStatus.OK);
             if (!databaseService.isClubMember(clubName, clubMemberModel.getMemberName()))
                 return new ResponseEntity<>(new ResponseMessageModel("User don't belong to this club."), HttpStatus.OK);

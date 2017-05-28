@@ -21,6 +21,7 @@ import java.util.Vector;
 import oracle.jdbc.OracleTypes;
 
 import javax.jws.Oneway;
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import javax.xml.transform.Result;
 
 /**
@@ -80,7 +81,7 @@ public class ConcreteDatabaseService {
         statement.close();
     }
 
-    public int checkUserExists(String nickname) throws SQLException {
+    public Boolean existsUser(String nickname) throws SQLException {
         Integer result;
         String plsql = "BEGIN ? := PACKAGE_USERS.EXISTS_USER(?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
@@ -89,7 +90,19 @@ public class ConcreteDatabaseService {
         statement.execute();
         result = statement.getInt(1);
         statement.close();
-        return result;
+        return result == 1;
+    }
+
+    public Boolean existsUser(Integer id) throws SQLException {
+        int result;
+        String plsql = "BEGIN ? := PACKAGE_USERS.EXISTS_USER(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2, id);
+        statement.registerOutParameter(1, Types.NUMERIC);
+        statement.execute();
+        result = statement.getInt(1);
+        statement.close();
+        return result==1;
     }
 
     public UserModel setUserByNickname(String nickname) throws SQLException {
@@ -376,9 +389,21 @@ public class ConcreteDatabaseService {
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
         statement.setInt(1,gameEndedModel.getGameId());
         statement.setString(2,gameEndedModel.getMovements());
-        statement.setString(3,gameEndedModel.getGameResult());
+        statement.setInt(3,gameEndedModel.getGameResult());
         statement.execute();
         statement.close();
+    }
+
+    public Boolean existsGame(Integer id) throws SQLException {
+        Integer result;
+        String plsql = "BEGIN ? := PACKAGE_GAMES.EXISTS_GAME(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2, id);
+        statement.registerOutParameter(1, Types.NUMERIC);
+        statement.execute();
+        result = statement.getInt(1);
+        statement.close();
+        return result==1;
     }
     //endregion
 }

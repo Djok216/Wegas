@@ -7,13 +7,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * Created by Turcu Nicusor on 27-May-17.
  */
 public class GameEndedModel {
-    private Integer gameId;
-    private String movements, gameResult;
+    private Integer gameId, gameResult;
+    private String movements;
 
     public GameEndedModel() {
     }
 
-    public GameEndedModel(Integer gameId, String movements, String gameResult) {
+    public GameEndedModel(Integer gameId, String movements, Integer gameResult) {
         this.gameId = gameId;
         this.movements = movements;
         this.gameResult = gameResult;
@@ -35,11 +35,11 @@ public class GameEndedModel {
         this.movements = movements;
     }
 
-    public String getGameResult() {
+    public Integer getGameResult() {
         return gameResult;
     }
 
-    public void setGameResult(String gameResult) {
+    public void setGameResult(Integer gameResult) {
         this.gameResult = gameResult;
     }
 

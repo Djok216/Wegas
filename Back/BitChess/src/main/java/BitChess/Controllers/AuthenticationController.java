@@ -1,7 +1,6 @@
 package BitChess.Controllers;
 
 import BitChess.Models.*;
-import BitChess.Models.Clubs.ClubMemberModel;
 import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,7 +44,7 @@ public class AuthenticationController {
         try {
             if (userNickname.getNickname() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             ExistsUserModel existsUser = new ExistsUserModel();
-            existsUser.setExists(databaseService.checkUserExists(userNickname.getNickname()));
+            existsUser.setExists(databaseService.existsUser(userNickname.getNickname())?1:0);
             return new ResponseEntity<>(existsUser, HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -35,5 +35,8 @@ with open("data/Akobian.pgn", "r") as f:
         string = game.board().variation_san(moves)
         game_id = add_game_started()
         movements = string[:1998]
-        game_result = game.headers["Result"]
+        game_result_string = game.headers["Result"]
+        game_result = {'1-0': 1,
+                       '0-1': 2,
+                       '1/2-1/2': 0}[game_result_string]
         add_game_ended(game_id, movements, game_result)

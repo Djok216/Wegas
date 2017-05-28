@@ -23,7 +23,11 @@ public class GamesController {
     @RequestMapping(value = "/games/addGameStarted", method = RequestMethod.POST)
     public ResponseEntity<?> addGameStarted(@RequestBody GameStartedModel gameStartedModel) {
         try {
-            if(!gameStartedModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if (!gameStartedModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if (!databaseService.existsUser(gameStartedModel.getFirstPlayerId()))
+                return new ResponseEntity<Object>(new ResponseMessageModel("First user does not exists in database."), HttpStatus.OK);
+            if (!databaseService.existsUser(gameStartedModel.getSecondPlayerId()))
+                return new ResponseEntity<Object>(new ResponseMessageModel("Second user does not exists in database."), HttpStatus.OK);
             GameIdModel gameIdModel = new GameIdModel(databaseService.addGameStarted(gameStartedModel));
             return new ResponseEntity<>(gameIdModel, HttpStatus.OK);
         } catch (Exception ex) {
@@ -35,7 +39,9 @@ public class GamesController {
     @RequestMapping(value = "/games/addGameEnded", method = RequestMethod.PUT)
     public ResponseEntity<?> addGameEnded(@RequestBody GameEndedModel gameEndedModel) {
         try {
-            if(!gameEndedModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if (!gameEndedModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if(!databaseService.existsGame(gameEndedModel.getGameId()))
+                return new ResponseEntity<Object>(new ResponseMessageModel("Invalid game id."), HttpStatus.OK);
             databaseService.addGameEnded(gameEndedModel);
             return new ResponseEntity<>(new ResponseMessageModel("Game successfully saved."), HttpStatus.OK);
         } catch (Exception ex) {

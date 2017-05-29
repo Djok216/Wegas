@@ -9,6 +9,9 @@ import BitChess.Models.Forum.OneThread;
 import BitChess.Models.Friends.FriendshipModel;
 import BitChess.Models.Games.GameEndedModel;
 import BitChess.Models.Games.GameStartedModel;
+import BitChess.Models.Stats.CategoriesSModel;
+import BitChess.Models.Stats.TopActiveUsersModel;
+import BitChess.Models.Stats.TopThreadsModel;
 import BitChess.Models.UserModel;
 import com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
 import jdk.nashorn.internal.codegen.CompilerConstants;
@@ -442,4 +445,78 @@ public class ConcreteDatabaseService {
         statement.close();
     }
     // endregion
+
+    //statistics
+    public Integer getNumberOfUsers() throws SQLException {
+        Integer result;
+        String plsql = "BEGIN ? := PACKAGE_stats_functions.nr_of_users(); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.registerOutParameter(1, Types.NUMERIC);
+        statement.execute();
+        result = statement.getInt(1);
+        statement.close();
+        return result;
+    }
+
+    public Integer getNumberOfLatestGames(Integer nr_of_days) throws SQLException {
+        Integer result;
+        String plsql = "BEGIN ? := PACKAGE_stats_functions.nr_of_latest_games(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2, nr_of_days);
+        statement.registerOutParameter(1, Types.NUMERIC);
+        statement.execute();
+        result = statement.getInt(1);
+        statement.close();
+        return result;
+    }
+
+    public TopThreadsModel getTopDiscussedThreads() throws SQLException {
+        TopThreadsModel vector = new TopThreadsModel();
+        String plsql = "BEGIN ? := PACKAGE_stats_functions.top_discussed_threads(); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.registerOutParameter(1, OracleTypes.CURSOR);
+        statement.execute();
+
+        ResultSet resultSet = (ResultSet) statement.getObject(1);
+        while (resultSet.next())
+            vector.addTopThread(resultSet.getString(1), resultSet.getInt(2));
+        resultSet.close();
+        statement.close();
+
+        return vector;
+    }
+
+    public TopActiveUsersModel getTopActiveUsers() throws SQLException {
+        TopActiveUsersModel vector = new TopActiveUsersModel();
+        String plsql = "BEGIN ? := PACKAGE_stats_functions.top_active_users(); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.registerOutParameter(1, OracleTypes.CURSOR);
+        statement.execute();
+
+        ResultSet resultSet = (ResultSet) statement.getObject(1);
+        while (resultSet.next())
+            vector.addTopUser(resultSet.getString(1), resultSet.getInt(2));
+        resultSet.close();
+        statement.close();
+
+        return vector;
+    }
+
+    public CategoriesSModel getThreadsbyCategory() throws SQLException {
+        CategoriesSModel vector = new CategoriesSModel();
+        String plsql = "BEGIN ? := PACKAGE_stats_functions.nr_posts_by_category(); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.registerOutParameter(1, OracleTypes.CURSOR);
+        statement.execute();
+
+        ResultSet resultSet = (ResultSet) statement.getObject(1);
+        while (resultSet.next())
+            vector.addCategoryStats(resultSet.getString(1), resultSet.getInt(2));
+        resultSet.close();
+        statement.close();
+
+        return vector;
+    }
+
+    //end statistics
 }

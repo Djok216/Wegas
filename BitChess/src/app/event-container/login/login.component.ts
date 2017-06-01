@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {LoginService} from "./login.service";
 import {MdSnackBar} from '@angular/material';
+import {Cookie} from 'ng2-cookies/ng2-cookies';
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'app-login',
@@ -8,13 +10,18 @@ import {MdSnackBar} from '@angular/material';
   styleUrls: ['./login.component.css'],
   providers: [LoginService]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   answer: string;
   username: string;
   password: string;
   token: string;
 
-  constructor(private _loginService: LoginService, public snackBar: MdSnackBar) {
+  constructor(private _loginService: LoginService, public snackBar: MdSnackBar, private router: Router) {
+  }
+
+  ngOnInit() {
+    if (Cookie.get('sessionId') != null)
+      this.router.navigateByUrl('');
   }
 
   updateUsername(username: string) {
@@ -32,6 +39,8 @@ export class LoginComponent {
           this.answer = JSON.stringify(data['responseMessage']).replace(/\"/g, "");
           this.token = JSON.stringify(data['token']);
           localStorage.setItem('currentUser', this.token);
+          Cookie.set('sessionId', '1Iunie2017');
+          this.router.navigateByUrl('');
         },
         error => alert(error),
         () => this.snackBar.open(this.answer, "", {

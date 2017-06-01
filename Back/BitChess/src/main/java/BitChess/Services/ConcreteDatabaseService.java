@@ -5,7 +5,6 @@ import BitChess.Models.Clubs.SimpleStatisticModel;
 import BitChess.Models.Forum.OneCategory;
 import BitChess.Models.Forum.OnePost;
 import BitChess.Models.Forum.OneThread;
-
 import BitChess.Models.Friends.FriendshipModel;
 import BitChess.Models.Games.GameEndedModel;
 import BitChess.Models.Games.GameStartedModel;
@@ -13,8 +12,7 @@ import BitChess.Models.Stats.CategoriesSModel;
 import BitChess.Models.Stats.TopActiveUsersModel;
 import BitChess.Models.Stats.TopThreadsModel;
 import BitChess.Models.UserModel;
-import com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
-import jdk.nashorn.internal.codegen.CompilerConstants;
+import oracle.jdbc.OracleTypes;
 import org.springframework.stereotype.Service;
 
 import java.sql.CallableStatement;
@@ -22,12 +20,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Vector;
-
-import oracle.jdbc.OracleTypes;
-
-import javax.jws.Oneway;
-import javax.swing.plaf.synth.SynthTextAreaUI;
-import javax.xml.transform.Result;
 
 /**
  * Project name BitChess.
@@ -140,6 +132,17 @@ public class ConcreteDatabaseService {
         statement.close();
         return result;
     }
+
+    public void setToken(String nickname, String token) throws SQLException {
+        String plsql = "BEGIN PACKAGE_USERS.SET_TOKEN_BY_NICKNAME(?, ?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setString(1, nickname);
+        statement.setString(2, token);
+        statement.execute();
+        statement.close();
+    }
+
+
     //authentifiaction region ends
 
     //forum region begins

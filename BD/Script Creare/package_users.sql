@@ -44,6 +44,7 @@ CREATE OR REPLACE PACKAGE PACKAGE_USERS AS
   FUNCTION DUMMY(p_param integer) RETURN INTEGER;
   FUNCTION COMPUTE_RATING(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER;
   FUNCTION SET_USER_BY_NICKNAME(p_nickname varchar2) RETURN SYS_REFCURSOR;
+  PROCEDURE SET_TOKEN_BY_NICKNAME(p_nickname varchar2, p_token varchar2);
 END;
 /
 CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
@@ -79,8 +80,8 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
   BEGIN
     -- 2 for regular user
     INSERT INTO USERS(NAME, EMAIL, NICKNAME, PASSWORD, FACEBOOK_ID, WINS, LOOSES,
-    DRAWS, CREATED_AT, STATUS_ID, CLUB_ID) VALUES(p_name, p_email, p_nickname,
-    p_password, null, 0, 0, 0, CURRENT_TIMESTAMP, 2, NULL);
+    DRAWS, CREATED_AT, STATUS_ID, CLUB_ID, TOKEN, TOKEN_TIME_ACCESS) VALUES(p_name, p_email, p_nickname,
+    p_password, null, 0, 0, 0, CURRENT_TIMESTAMP, 2, NULL, NULL, CURRENT_TIMESTAMP);
     -- TO DO TRIGGER OR NOT.
   END;
   
@@ -170,6 +171,12 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
       v_rating := v_wins*10 - v_looses*5 + v_draws;
       return v_rating;
   END;
+  
+  procedure SET_TOKEN_BY_NICKNAME(p_nickname varchar2, p_token varchar2) is
+  begin
+    update users set token=p_token, token_time_access=CURRENT_TIMESTAMP
+        where lower(nickname) like lower(p_nickname);
+  end;
 END;
 /
 commit;

@@ -20,7 +20,8 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_FRIENDS AS
     return v_cnt;
   END;
 END;
-
+/*
 select * from friends;
 
 select * from users where rownum < 3;
+*/

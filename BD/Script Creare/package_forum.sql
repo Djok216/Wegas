@@ -5,13 +5,6 @@ BEGIN
   :new.id := THREAD_ID.nextval;
 END;
 /
-CREATE OR REPLACE TRIGGER POST_ID_TRG
-  BEFORE INSERT ON post
-  FOR EACH ROW
-BEGIN
-  :new.id := COMMENT_ID.nextval;
-END;
-/
 CREATE OR REPLACE PACKAGE package_FORUM AS
   FUNCTION DUMMY RETURN INTEGER;
   Function checkThreadExists(p_id integer) return integer;

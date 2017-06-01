@@ -21,7 +21,7 @@ public class AuthenticationController {
 
     @CrossOrigin
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessageModel> validateLogin(@RequestBody LoginModel loginModel) {
+    public ResponseEntity<?> validateLogin(@RequestBody LoginModel loginModel) {
         if (loginModel.getUsername() == null || loginModel.getPassword() == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         NicknameModel username = new NicknameModel();
@@ -34,8 +34,14 @@ public class AuthenticationController {
 
         if (!password.getResponseMessage().equals(loginModel.getPassword()))
             return new ResponseEntity<>(new ResponseMessageModel("Invalid password"), HttpStatus.OK);
-
-        return new ResponseEntity<>(new ResponseMessageModel("Login success!"), HttpStatus.OK);
+        String token = new String("awwwwwwwwwknaslkdasnlaaaaaaaaaaa111111111111111111111222222222");
+        TokenModel tokenModel = new TokenModel(token);
+        try {
+            databaseService.setToken(username.getNickname(), tokenModel.getToken());
+        } catch (SQLException sqlEx){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(tokenModel, HttpStatus.OK);
     }
 
     @CrossOrigin

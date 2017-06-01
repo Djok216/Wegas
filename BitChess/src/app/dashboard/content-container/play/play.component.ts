@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Cookie} from 'ng2-cookies/ng2-cookies';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-play',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlayComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private router: Router) {
   }
 
+  ngOnInit() {
+    if (Cookie.get('sessionId') == null) {
+      this.router.navigateByUrl('/login');
+    }
+  }
 }

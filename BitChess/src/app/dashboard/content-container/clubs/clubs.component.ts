@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-clubs',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClubsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
+    if (Cookie.get('sessionId') == null) {
+      this.router.navigateByUrl('/login');
+    }
   }
-
 }

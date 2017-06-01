@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
+import {Router} from "@angular/router";
 
 declare let Chess: any;
 declare let ChessBoard: any;
@@ -10,10 +12,13 @@ declare let ChessBoard: any;
 })
 export class LiveComponent implements OnInit{
   board : any;
-  constructor() {
-  }
+  constructor(private router:Router) { }
 
   ngOnInit() {
+    if (Cookie.get('sessionId') == null) {
+      this.router.navigateByUrl('/login');
+    }
+
     let board = null;
     let game = new Chess();
 

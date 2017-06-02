@@ -45,6 +45,7 @@ CREATE OR REPLACE PACKAGE PACKAGE_USERS AS
   FUNCTION COMPUTE_RATING(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER;
   FUNCTION SET_USER_BY_NICKNAME(p_nickname varchar2) RETURN SYS_REFCURSOR;
   PROCEDURE SET_TOKEN_BY_NICKNAME(p_nickname varchar2, p_token varchar2);
+  FUNCTION LOG_OUT(p_token varchar2) RETURN NUMBER;
 END;
 /
 CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
@@ -177,6 +178,15 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
     update users set token=p_token, token_time_access=CURRENT_TIMESTAMP
         where lower(nickname) like lower(p_nickname);
   end;
+  
+  FUNCTION LOG_OUT(p_token varchar2) RETURN NUMBER is 
+    v_res integer;
+  begin
+    select count(*) into v_res from users where token=p_token;
+    update users set token=null where token=p_token;
+    return v_res;
+  end;
+  
 END;
 /
 commit;

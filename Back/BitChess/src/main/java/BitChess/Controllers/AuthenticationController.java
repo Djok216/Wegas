@@ -45,6 +45,21 @@ public class AuthenticationController {
     }
 
     @CrossOrigin
+    @RequestMapping(value = "/user/logout", method = RequestMethod.POST)
+    public ResponseEntity<ResponseMessageModel> logOut(@RequestBody TokenModel tokenModel) {
+        if (tokenModel.getToken() == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        try {
+            Integer res=databaseService.logOutUser(tokenModel.getToken());
+            if (res==0)
+                return new ResponseEntity<>(new ResponseMessageModel("Token not found"), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessageModel("Logged out successful!"), HttpStatus.OK);
+        } catch (SQLException sqlEx){
+            return new ResponseEntity<>(new ResponseMessageModel(sqlEx.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
     @RequestMapping(value = "/user/userExists", method = RequestMethod.POST)
     public ResponseEntity<ExistsUserModel> checkExistsUser(@RequestBody NicknameModel userNickname) {
         try {

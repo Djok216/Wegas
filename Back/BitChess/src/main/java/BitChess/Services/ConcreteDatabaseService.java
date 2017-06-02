@@ -142,6 +142,20 @@ public class ConcreteDatabaseService {
         statement.close();
     }
 
+    public Integer logOutUser(String token) throws  SQLException{
+        String plsql = " BEGIN  ? := PACKAGE_USERS.LOG_OUT(?); END;";
+        System.out.println(1);
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        System.out.println(2);
+        statement.setString(2, token);
+        statement.registerOutParameter(1, Types.INTEGER);
+        statement.execute();
+        Integer result = statement.getInt(1);
+        System.out.println(3);
+        statement.close();
+        System.out.println(result);
+        return result;
+    }
 
     //authentifiaction region ends
 

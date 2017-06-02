@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MdMenuModule } from '@angular/material';
 import {Router} from "@angular/router";
 @Component({
   selector: 'app-menu-section',

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
+import {Component, OnInit} from '@angular/core';
+import {Cookie} from 'ng2-cookies/ng2-cookies';
 @Component({
   selector: 'app-authenticate-section',
   templateUrl: './authenticate-section.component.html',
@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthenticateSectionComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
+  cookieExists() {
+    return Cookie.get('sessionId') == null;
+  }
 }

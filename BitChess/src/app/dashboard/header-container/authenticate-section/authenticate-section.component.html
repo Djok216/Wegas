@@ -1,6 +1,11 @@
 <div class="authenticate" fxLayout fxLayoutAlign="end center">
-  <section layout="row" fxLayout fxLayoutAlign="end center">
-    <button md-button routerLink="/login" class="btnLogin">Login</button>
-    <button md-button routerLink="/register" class="btnRegister">Register</button>
-  </section>
+  <div>
+    <section *ngIf="cookieExists() == true" layout="row" fxLayout fxLayoutAlign="end center">
+      <button md-button routerLink="/login" class="btnLogin">Login</button>
+      <button md-button routerLink="/register" class="btnRegister">Register</button>
+    </section>
+    <section *ngIf="cookieExists() == false" layout="row" fxLayout fxLayoutAlign="end center">
+      <button md-button routerLink="/login" class="btnProfile">Profile</button>
+    </section>
+  </div>
 </div>

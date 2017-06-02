@@ -37,6 +37,7 @@ import { ForumContentComponent } from './dashboard/content-container/forum/forum
 import { InfoLearnComponent } from './dashboard/content-container/learn/info-learn/info-learn.component';
 import { ContentLearnComponent } from './dashboard/content-container/learn/content-learn/content-learn.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {BackendService} from "./BackendService/backend.service";
 
 @NgModule({
   declarations: [
@@ -76,7 +77,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     BrowserAnimationsModule,
     FlexLayoutModule
   ],
-  providers: [HttpModule],
+  providers: [HttpModule, BackendService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

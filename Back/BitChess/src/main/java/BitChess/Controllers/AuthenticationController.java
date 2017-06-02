@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.UUID;
 
-
 /**
  * Project name BitChess.
  * Created by Turcu Nicusor on 09-May-17.

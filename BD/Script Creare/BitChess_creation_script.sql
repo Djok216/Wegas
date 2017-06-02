@@ -85,7 +85,7 @@ CREATE TABLE CATEGORY (
   
 CREATE TABLE CLUBS (
   id     number(10) NOT NULL, 
-  name   varchar2(255) NOT NULL, 
+  name   varchar2(255) UNIQUE, 
   rating number(10, 0) NOT NULL, 
   PRIMARY KEY (id));
   

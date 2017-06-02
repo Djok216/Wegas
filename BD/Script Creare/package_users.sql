@@ -191,20 +191,38 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
   FUNCTION CHECK_TOKEN(p_token varchar2) RETURN NUMBER is 
     v_res integer;
     v_data_token TIMESTAMP(6);
+    v_count integer;
   begin
-        select token_time_access into v_data_token from users where token=p_token;
-        v_data_token:= v_data_token + 30/1440;
-        v_res:=1;
-        if(CURRENT_TIMESTAMP > v_data_token) then
-            v_res:=0; --tokenul nu mai este valid
-        end if;
-        return v_res;
+      select count(*) into v_count from users where token = p_token;
+      if v_count = 0 then
+        return -1; -- tokenul este invalid
+      end if;
+      select token_time_access into v_data_token from users where token=p_token;
+      -- + 30 de minute de la data de cand a fost actualizat
+      v_data_token:= v_data_token + 30/1440;
+      v_res:=1; -- tokenul este valid
+      UPDATE USERS SET TOKEN_TIME_ACCESS = CURRENT_TIMESTAMP WHERE TOKEN = P_TOKEN;
+      if(CURRENT_TIMESTAMP > v_data_token) then
+        v_res:=0; --tokenul nu mai este valid
+        UPDATE USERS SET TOKEN = NULL, TOKEN_TIME_ACCESS = NULL WHERE TOKEN = P_TOKEN;
+        RETURN V_RES;
+      end if;
+      return v_res;
     end;
 END;
 /
+--select * from users where token is not null;
 commit;
 /
 /*
+set serveroutput on;
+DECLARE
+  v_token varchar2(10000);
+BEGIN
+  v_token := 'PMYrmaR3friFG40nWrlZdZ/e3GoI2ytp92FrFd1uowvEDUwe3vWipILcQVIgYdr1wiMhvs1kmLyfqma92s8H0C+eCs8KpzJjZtrVwD5mho8';
+  DBMS_OUTPUT.PUT_LINE(PACKAGE_USERS.CHECK_TOKEN(v_token));
+END;
+
 SET SERVEROUTPUT ON;
 DECLARE
   v_result integer;

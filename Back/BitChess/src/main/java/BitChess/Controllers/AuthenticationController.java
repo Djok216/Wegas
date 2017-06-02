@@ -38,12 +38,13 @@ public class AuthenticationController {
 
         if (!password.getResponseMessage().equals(loginModel.getPassword()))
             return new ResponseEntity<>(new ResponseMessageModel("Invalid password"), HttpStatus.OK);
-        String key = UUID.randomUUID().toString().toUpperCase() + "|" + loginModel.getUsername() + "|" +
-                loginModel.getPassword() + "|" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+        String key = UUID.randomUUID().toString().toUpperCase() + loginModel.getUsername() +
+                loginModel.getPassword() + new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
         encryptor.setAlgorithm("PBEWithMD5AndDES");
         encryptor.setPassword("SDGsd356904#$%#^TfdDSG##@");
         String token = encryptor.encrypt(key);
+        token = token.replaceAll("=","");
         TokenModel tokenModel = new TokenModel(token);
         try {
             databaseService.setToken(username.getNickname(), tokenModel.getToken());
@@ -81,7 +82,6 @@ public class AuthenticationController {
             if(res==1)
                 tokenModel.setValid(true);
             return new ResponseEntity<>(tokenModel, HttpStatus.OK);
-
         } catch (SQLException sqlEx){
             return new ResponseEntity<>(new ResponseMessageModel(sqlEx.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

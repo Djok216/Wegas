@@ -3,10 +3,15 @@
 import requests
 import json
 
+with open("data/token.txt", "r") as f:
+    tokens = f.readlines()
+token = tokens[0]
+
 
 def populate_clubs(club_name):
     data = {'clubName': club_name}
-    headers = {'Content-Type': 'application/json'}
+    headers = {'Content-Type': 'application/json',
+               'Authorization': token}
     r = requests.post('http://localhost:4500/clubs/addClub', data=json.dumps(data), headers=headers)
     print(r.status_code, r.reason, r.text)
 

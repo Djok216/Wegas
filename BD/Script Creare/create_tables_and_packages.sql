@@ -66,3 +66,4 @@ EXPLAIN PLAN FOR select us.description, count(u.id) from user_status us join use
 on us.id = u.status_id group by us.description;
 SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
 */
+select * from clubs;

@@ -2,6 +2,7 @@ package BitChess.Controllers;
 
 import BitChess.Models.Clubs.*;
 import BitChess.Models.ResponseMessageModel;
+import BitChess.Services.AutorizationService;
 import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,12 +19,14 @@ import java.sql.SQLException;
 public class ClubsController {
     @Autowired
     private ConcreteDatabaseService databaseService;
+    AutorizationService autorizationService = new AutorizationService();
 
-    @CrossOrigin
     @RequestMapping(value = "/clubs/addClub", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessageModel> addClub(@RequestBody ClubModel clubModel) {
+    public ResponseEntity<ResponseMessageModel> addClub(@RequestHeader("Authorization") String token, @RequestBody ClubModel clubModel) {
         try {
             if (!clubModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if (!autorizationService.checkCredentials(databaseService, token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             databaseService.insertNewClub(clubModel.getClubName());
             return new ResponseEntity<>(new ResponseMessageModel("Club added successfully."), HttpStatus.OK);
         } catch (SQLException sqlEx) {
@@ -35,9 +38,11 @@ public class ClubsController {
 
     @CrossOrigin
     @RequestMapping(value = "/clubs/deleteClub", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseMessageModel> deleteClub(@RequestBody ClubModel clubModel) {
+    public ResponseEntity<ResponseMessageModel> deleteClub(@RequestHeader("Authorization") String token, @RequestBody ClubModel clubModel) {
         try {
             if (!clubModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if (!autorizationService.checkCredentials(databaseService, token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             if (!databaseService.existsClub(clubModel.getClubName()))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot delete nonexistent club."), HttpStatus.OK);
             else databaseService.deleteClub(clubModel.getClubName());
@@ -79,9 +84,12 @@ public class ClubsController {
 
     @CrossOrigin
     @RequestMapping(value = "/clubs/{clubName}/addMember", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessageModel> addClubMember(@PathVariable String clubName, @RequestBody ClubMemberModel clubMemberModel) {
+    public ResponseEntity<ResponseMessageModel> addClubMember(@RequestHeader("Authorization") String token, @PathVariable
+            String clubName, @RequestBody ClubMemberModel clubMemberModel) {
         try {
             if (!clubMemberModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if (!autorizationService.checkCredentials(databaseService, token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             if (!databaseService.existsClub(clubName))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot add member to a nonexistent club."), HttpStatus.OK);
             if (!databaseService.existsUser(clubMemberModel.getMemberName()))
@@ -97,9 +105,12 @@ public class ClubsController {
 
     @CrossOrigin
     @RequestMapping(value = "/clubs/{clubName}/deleteMember", method = RequestMethod.PUT)
-    public ResponseEntity<ResponseMessageModel> deleteClubMember(@PathVariable String clubName, @RequestBody ClubMemberModel clubMemberModel) {
+    public ResponseEntity<ResponseMessageModel> deleteClubMember(@RequestHeader("Authorization") String token, @PathVariable
+            String clubName, @RequestBody ClubMemberModel clubMemberModel) {
         try {
             if (!clubMemberModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if (!autorizationService.checkCredentials(databaseService, token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             if (!databaseService.existsClub(clubName))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot delete member from a nonexistent club."), HttpStatus.OK);
             if (!databaseService.existsUser(clubMemberModel.getMemberName()))

@@ -3,10 +3,15 @@ import requests
 import json
 from random import randint
 
+with open("data/token.txt", "r") as f:
+    tokens = f.readlines()
+token = tokens[0]
+
 
 def subscribe_users(username, clubname):
     data = {'memberName': username}
-    headers = {'Content-Type': 'application/json'}
+    headers = {'Content-Type': 'application/json',
+               'Authorization': token}
     r = requests.post('http://localhost:4500/clubs/' + clubname + '/addMember', data=json.dumps(data), headers=headers)
     print(r.status_code, r.reason, r.text)
 

@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
   title = 'BitChess!';
 
   ngOnInit() {
-    let token = Cookie.get('sessionId');
+    const token = Cookie.get('sessionId');
     if (token != null) {
       Cookie.delete('sessionId');
       Cookie.set('sessionId', token);
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHander(event) {
-    let token = Cookie.get('sessionId');
+    const token = Cookie.get('sessionId');
     if (token != null) {
       Cookie.delete('sessionId');
       // o zi o impart la 24 de ore si imi da o ora, si apoi impart la 2 si da jumatate de ora.

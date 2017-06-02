@@ -22,9 +22,16 @@
         "styles.css"
       ],
       "scripts": [
-          "assets/javascript/chess.js",
-          "assets/javascript/chessboard.js",
-          "assets/javascript/jquery-2.2.4.min.js"
+        "assets/js/board.js",
+        "assets/js/font_fit.js",
+        "assets/js/kingdom.js",
+        "assets/js/moves_manager.js",
+        "assets/js/stockfish6.js",
+        "assets/js/stockfish5.js",
+        "assets/js/girdle.js",
+        "assets/javascript/chess.js",
+        "assets/javascript/chessboard.js",
+        "assets/javascript/jquery-2.2.4.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

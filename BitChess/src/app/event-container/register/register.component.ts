@@ -25,9 +25,9 @@ export class RegisterComponent implements OnInit {
   onRegisterClick(username: string, pass: string, confPass: string, email: string) {
     this._RegisterService.userRegister(username, pass, confPass, email)
       .subscribe(
-        data => this.answer = JSON.stringify(data).replace(/\"/g, ""),
+        data => this.answer = JSON.stringify(data).replace(/\"/g, ''),
         error => alert(error),
-        () => this.snackBar.open(this.answer, "", {
+        () => this.snackBar.open(this.answer, '', {
           duration: 2000,
         })
       );

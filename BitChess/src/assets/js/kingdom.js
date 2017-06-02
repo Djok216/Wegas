@@ -266,7 +266,6 @@ var GameChess = function Game() {
         fen = str.match(/Fen\: (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)/),
         checkers = str.match(/Checkers\:(.*)/),
         res;
-
       if (!san || !uci || !checkers || !key) {
         error("Invalid d response: \n" + str);
       }
@@ -298,7 +297,6 @@ var GameChess = function Game() {
       if (res.checkers.length === 1 && res.checkers[0] === "") {
         res.checkers = [];
       }
-
       cb(res);
     });
   }

@@ -36,11 +36,12 @@ export class LoginComponent implements OnInit {
     this._loginService.sendLogin(current_username, current_password)
       .subscribe(
         data => {
-          this.token = JSON.stringify(data['token']);
+          this.token =  JSON.parse(JSON.stringify(data))['token'];
           if (this.token != null) {
+            console.log(this.token);
             this.answer = "Login success!";
             localStorage.setItem('currentUser', this.token);
-            Cookie.set('sessionId', '1Iunie2017');
+            Cookie.set('sessionId', this.token);
             this.router.navigateByUrl('');
           }
           else this.answer = "Login failed!";

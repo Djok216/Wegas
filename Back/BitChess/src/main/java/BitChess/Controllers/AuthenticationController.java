@@ -2,12 +2,17 @@ package BitChess.Controllers;
 
 import BitChess.Models.*;
 import BitChess.Services.ConcreteDatabaseService;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.UUID;
+
 
 /**
  * Project name BitChess.
@@ -34,7 +39,12 @@ public class AuthenticationController {
 
         if (!password.getResponseMessage().equals(loginModel.getPassword()))
             return new ResponseEntity<>(new ResponseMessageModel("Invalid password"), HttpStatus.OK);
-        String token = new String("awwwwwwwwwknaslkdasnlaaaaaaaaaaa111111111111111111111222222222");
+        String key = UUID.randomUUID().toString().toUpperCase() + "|" + loginModel.getUsername() + "|" +
+                loginModel.getPassword() + "|" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+        encryptor.setAlgorithm("PBEWithMD5AndDES");
+        encryptor.setPassword("SDGsd356904#$%#^TfdDSG##@");
+        String token = encryptor.encrypt(key);
         TokenModel tokenModel = new TokenModel(token);
         try {
             databaseService.setToken(username.getNickname(), tokenModel.getToken());

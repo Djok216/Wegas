@@ -6,3 +6,6 @@
 	mvn spring-boot:run.
 	Observatie: Nu imi mai amintesc sigur dar stiu ca trebuie setata ceva variabila de sitem, in caz ca nu recunoaste comanda.
 3. Serverul il gasiti la portul 4500.
+
+Fixes:
+	https://stackoverflow.com/questions/6111408/maven2-missing-artifact-but-jars-are-in-place

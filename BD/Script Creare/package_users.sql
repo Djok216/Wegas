@@ -46,6 +46,7 @@ CREATE OR REPLACE PACKAGE PACKAGE_USERS AS
   FUNCTION SET_USER_BY_NICKNAME(p_nickname varchar2) RETURN SYS_REFCURSOR;
   PROCEDURE SET_TOKEN_BY_NICKNAME(p_nickname varchar2, p_token varchar2);
   FUNCTION LOG_OUT(p_token varchar2) RETURN NUMBER;
+  FUNCTION CHECK_TOKEN(p_token varchar2) RETURN NUMBER;
 END;
 /
 CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
@@ -187,6 +188,18 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
     return v_res;
   end;
   
+  FUNCTION CHECK_TOKEN(p_token varchar2) RETURN NUMBER is 
+    v_res integer;
+    v_data_token TIMESTAMP(6);
+  begin
+        select token_time_access into v_data_token from users where token=p_token;
+        v_data_token:= v_data_token + 30/1440;
+        v_res:=1;
+        if(CURRENT_TIMESTAMP > v_data_token) then
+            v_res:=0; --tokenul nu mai este valid
+        end if;
+        return v_res;
+    end;
 END;
 /
 commit;

@@ -70,6 +70,25 @@ public class AuthenticationController {
     }
 
     @CrossOrigin
+    @RequestMapping(value = "/user/checkToken", method = RequestMethod.POST)
+    public ResponseEntity<?> checkToken(@RequestBody TokenModel tokenModel) {
+        if (tokenModel.getToken() == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        try {
+            Integer res=databaseService.checkToken(tokenModel.getToken());
+            System.out.println(res);
+            if (res==-1 || res==0)
+                tokenModel.setValid(false);
+            if(res==1)
+                tokenModel.setValid(true);
+            return new ResponseEntity<>(tokenModel, HttpStatus.OK);
+
+        } catch (SQLException sqlEx){
+            return new ResponseEntity<>(new ResponseMessageModel(sqlEx.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
     @RequestMapping(value = "/user/userExists", method = RequestMethod.POST)
     public ResponseEntity<ExistsUserModel> checkExistsUser(@RequestBody NicknameModel userNickname) {
         try {

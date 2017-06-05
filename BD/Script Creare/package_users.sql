@@ -47,6 +47,7 @@ CREATE OR REPLACE PACKAGE PACKAGE_USERS AS
   PROCEDURE SET_TOKEN_BY_NICKNAME(p_nickname varchar2, p_token varchar2);
   FUNCTION LOG_OUT(p_token varchar2) RETURN NUMBER;
   FUNCTION CHECK_TOKEN(p_token varchar2) RETURN NUMBER;
+  FUNCTION GET_ID_BY_TOKEN(p_token varchar2) RETURN NUMBER;
   FUNCTION GET_NICKNAME_BY_ID(p_id USERS.ID%TYPE) RETURN USERS.NICKNAME%TYPE;
 END;
 /
@@ -210,6 +211,14 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
       end if;
       return v_res;
     end;
+    
+    FUNCTION GET_ID_BY_TOKEN(p_token varchar2) RETURN NUMBER IS
+        v_id integer;
+    BEGIN
+        v_id:=-1;
+        select id into v_id from users where token like p_token;
+        return v_id;
+    END;
 END;
 /
 --select * from users where token is not null;

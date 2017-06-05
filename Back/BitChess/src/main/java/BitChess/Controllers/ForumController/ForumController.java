@@ -9,6 +9,7 @@ import BitChess.Models.Forum.PostModel;
 import BitChess.Models.NicknameModel;
 import BitChess.Models.ResponseMessageModel;
 import BitChess.Models.UserModel;
+import BitChess.Services.AutorizationService;
 import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,38 +32,41 @@ public class ForumController {
     AuthenticationController authentificationController;
     @Autowired
     ThreadController threadcontroller;
+    AutorizationService autorizationService = new AutorizationService();
 
     @CrossOrigin
     @RequestMapping(value = "/category/thread/addpost", method = RequestMethod.POST)
-    public ResponseEntity addPost(@RequestBody OnePost onePost) {
+    public ResponseEntity addPost(@RequestHeader("Authorization") String token, @RequestBody OnePost onePost) {
         try {
-            if (onePost.getContent() == null || onePost.getUserId() == null || onePost.getThreadId() == null)
+            if (!autorizationService.checkCredentials(databaseService, token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
+
+            if (onePost.getContent() == null || onePost.getThreadId() == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+            onePost.setUserId(databaseService.getIdByToken(token));
+            NicknameModel nicknameModel = new NicknameModel();
+            nicknameModel.setNickname(databaseService.getNicknameById(onePost.getUserId()));
+            ExistsUserModel existsModel2 = authentificationController.checkExistsUser(nicknameModel).getBody();
+            if (existsModel2.getExists() == 0)
+                return new ResponseEntity
+                        (new ResponseMessageModel("User does not exists in database"), HttpStatus.OK);
+            UserModel userModel = databaseService.setUserByNickname(databaseService.getNicknameById(onePost.getUserId()));
+            if (userModel.getStatus_id() == 3)//blocked
+                return new ResponseEntity
+                        (new ResponseMessageModel("Blocked user, can not add Post"), HttpStatus.OK);
+
             OneThread thread = new OneThread();
             thread.setId(onePost.getThreadId());
             ExistsModel existsModel = threadController.checkExistsThread(thread).getBody();
-            if(existsModel.getExists() == 0 )
+            if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Thread does not exists in database"), HttpStatus.OK);
-
-            NicknameModel nicknameModel=new NicknameModel();
-            nicknameModel.setNickname(databaseService.getNicknameById(onePost.getUserId()));
-            ExistsUserModel existsModel2 = authentificationController.checkExistsUser(nicknameModel).getBody();
-            System.out.println("!!1");
-            if(existsModel2.getExists() == 0 )
-                return new ResponseEntity
-                        (new ResponseMessageModel("User does not exists in database"), HttpStatus.OK);
-            UserModel userModel =  databaseService.setUserByNickname(databaseService.getNicknameById(onePost.getUserId()));
-            System.out.println("!!2");
-            if(userModel.getStatus_id()==3)//blocked
-                return new ResponseEntity
-                        (new ResponseMessageModel("Blocked user, can not add comment"), HttpStatus.OK);
-            System.out.println("!!3");
             databaseService.addPost(onePost);
-            System.out.println("!!4");
+
             return new ResponseEntity
                     (new ResponseMessageModel("Post Added"), HttpStatus.OK);
-        }catch (SQLException sqlEx) {
+        } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -74,7 +78,7 @@ public class ForumController {
         try {
             PostModel postModel = new PostModel();
             ExistsModel existsModel = threadcontroller.checkExistsThread(thread).getBody();
-            if(existsModel.getExists() == 0 )
+            if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Thread does not exists in database"), HttpStatus.OK);
 
@@ -82,20 +86,30 @@ public class ForumController {
             System.out.print(postModel.posts.toString());
             return new ResponseEntity(postModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
-            return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @CrossOrigin
     @RequestMapping(value = "/category/thread/deletePost", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseMessageModel> deletePost(@RequestBody OnePost post) {
+    public ResponseEntity<ResponseMessageModel> deletePost(@RequestHeader("Authorization") String token, @RequestBody OnePost post) {
         try {
+            if (!autorizationService.checkCredentials(databaseService, token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
+
             if (post.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             ExistsModel existsModel = checkExistsPost(post).getBody();
 
-            if(existsModel.getExists() == 0 )
+            if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Post does not exists in database"), HttpStatus.OK);
+
+            NicknameModel nicknameModel = new NicknameModel();
+            UserModel userModel = databaseService.setUserByNickname(databaseService.getNicknameById(databaseService.getIdByToken(token)));
+            if (userModel.getStatus_id() != 1)//blocked
+                return new ResponseEntity
+                        (new ResponseMessageModel("Not Admin, can not delete Post"), HttpStatus.OK);
+
             databaseService.deletePost(post.getId());
             return new ResponseEntity<>(new ResponseMessageModel("Post deleted successfully."), HttpStatus.OK);
         } catch (Exception ex) {
@@ -111,7 +125,7 @@ public class ForumController {
             ExistsModel existsPost = new ExistsModel();
             existsPost.setExists(databaseService.checkPostExits(post.getId()));
             return new ResponseEntity<>(existsPost, HttpStatus.OK);
-        }catch (SQLException sqlEx) {
+        } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -163,6 +163,16 @@ public class ConcreteDatabaseService {
         statement.close();
         return result;
     }
+    public  Integer getIdByToken(String token) throws SQLException{
+        String plsql = " BEGIN  ? := PACKAGE_USERS.GET_ID_BY_TOKEN(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setString(2, token);
+        statement.registerOutParameter(1, Types.INTEGER);
+        statement.execute();
+        Integer result = statement.getInt(1);
+        statement.close();
+        return result;
+    }
 
     //authentifiaction region ends
 

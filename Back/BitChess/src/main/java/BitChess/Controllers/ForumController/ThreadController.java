@@ -3,6 +3,7 @@ package BitChess.Controllers.ForumController;
 import BitChess.Controllers.AuthenticationController;
 import BitChess.Models.*;
 import BitChess.Models.Forum.*;
+import BitChess.Services.AutorizationService;
 import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ public class ThreadController {
     CategoryController categorycontroller;
     @Autowired
     AuthenticationController authentificationController;
+    AutorizationService autorizationService = new AutorizationService();
 
     @CrossOrigin
     @RequestMapping(value = "/AllThreads", method = RequestMethod.GET)
@@ -32,7 +34,7 @@ public class ThreadController {
             System.out.print(threadModel.thread.toString());
             return new ResponseEntity(threadModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
-            return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -42,14 +44,14 @@ public class ThreadController {
         try {
             ThreadModel threadModel = new ThreadModel();
             ExistsModel existsModel = categorycontroller.checkExistsCategory(category).getBody();
-            if(existsModel.getExists() == 0 )
+            if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Category does not exists in database"), HttpStatus.OK);
             threadModel.thread = databaseService.getThreadsByCategory(category.getId());
             System.out.print(threadModel.thread.toString());
             return new ResponseEntity(threadModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
-            return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -58,10 +60,10 @@ public class ThreadController {
     public ResponseEntity getThreadsByUser(@RequestBody LoginModel loginModel) {
         try {
             ThreadModel threadModel = new ThreadModel();
-            NicknameModel nicknameModel=new NicknameModel();
+            NicknameModel nicknameModel = new NicknameModel();
             nicknameModel.setNickname(loginModel.getUsername());
             ExistsUserModel existsModel = authentificationController.checkExistsUser(nicknameModel).getBody();
-            if(existsModel.getExists() == 0 )
+            if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("User does not exists in database"), HttpStatus.OK);
 
@@ -70,7 +72,7 @@ public class ThreadController {
             System.out.print(threadModel.thread.toString());
             return new ResponseEntity(threadModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
-            return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -82,50 +84,65 @@ public class ThreadController {
             ExistsModel existsThread = new ExistsModel();
             existsThread.setExists(databaseService.checkThreadExits(oneThread.getId()));
             return new ResponseEntity<>(existsThread, HttpStatus.OK);
-        }catch (SQLException sqlEx) {
+        } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @CrossOrigin
     @RequestMapping(value = "/category/AddThread", method = RequestMethod.POST)
-    public ResponseEntity addThread(@RequestBody OneThread oneThread) {
+    public ResponseEntity addThread(@RequestHeader("Authorization") String token, @RequestBody OneThread oneThread) {
         try {
-            if (oneThread.getName() == null || oneThread.getCategoryId() == null || oneThread.getUserId() == null)
-                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            OneCategory category=new OneCategory(oneThread.getCategoryId());
+            if (!autorizationService.checkCredentials(databaseService, token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
+            if (oneThread.getName() == null || oneThread.getCategoryId() == null)
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            oneThread.setUserId(databaseService.getIdByToken(token));
+            OneCategory category = new OneCategory(oneThread.getCategoryId());
             ExistsModel existsModel = categorycontroller.checkExistsCategory(category).getBody();
-            if(existsModel.getExists() == 0 )
+            if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Category does not exists in database"), HttpStatus.OK);
 
-            NicknameModel nicknameModel=new NicknameModel();
+            NicknameModel nicknameModel = new NicknameModel();
             nicknameModel.setNickname(databaseService.getNicknameById(oneThread.getUserId()));
             ExistsUserModel existsModel2 = authentificationController.checkExistsUser(nicknameModel).getBody();
-            if(existsModel2.getExists() == 0 )
+            if (existsModel2.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("User does not exists in database"), HttpStatus.OK);
-            UserModel userModel =  databaseService.setUserByNickname(databaseService.getNicknameById(oneThread.getUserId()));
-            if(userModel.getStatus_id()==3)//blocked
+            UserModel userModel = databaseService.setUserByNickname(databaseService.getNicknameById(oneThread.getUserId()));
+            if (userModel.getStatus_id() == 3)//blocked
                 return new ResponseEntity
-                (new ResponseMessageModel("Blocked user, can not add thread"), HttpStatus.OK);
+                        (new ResponseMessageModel("Blocked user, can not add thread"), HttpStatus.OK);
             databaseService.addThread(oneThread);
             return new ResponseEntity
                     (new ResponseMessageModel("Thread Added"), HttpStatus.OK);
-        }catch (SQLException sqlEx) {
+        } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @CrossOrigin
     @RequestMapping(value = "/category/deleteThread", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseMessageModel> deleteThread(@RequestBody OneThread thread) {
+    public ResponseEntity<ResponseMessageModel> deleteThread(@RequestHeader("Authorization") String token, @RequestBody OneThread thread) {
         try {
-            if (thread.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            ExistsModel existsModel = checkExistsThread(thread).getBody();
+            if (!autorizationService.checkCredentials(databaseService, token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
 
-            if(existsModel.getExists() == 0 )
+            if (thread.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            thread.setUserId(databaseService.getIdByToken(token));
+
+            ExistsModel existsModel = checkExistsThread(thread).getBody();
+            if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Thread does not exists in database"), HttpStatus.OK);
+
+            NicknameModel nicknameModel = new NicknameModel();
+            UserModel userModel = databaseService.setUserByNickname(databaseService.getNicknameById(databaseService.getIdByToken(token)));
+            if (userModel.getStatus_id() != 1)//blocked
+                return new ResponseEntity
+                        (new ResponseMessageModel("Not Admin, can not delete Thread"), HttpStatus.OK);
+
             databaseService.deleteThread(thread.getId());
             return new ResponseEntity<>(new ResponseMessageModel("Thread deleted successfully."), HttpStatus.OK);
         } catch (Exception ex) {

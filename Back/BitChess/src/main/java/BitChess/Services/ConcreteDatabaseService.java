@@ -270,8 +270,14 @@ public class ConcreteDatabaseService {
         statement.close();
     }
     public void addPost(OnePost post) throws SQLException {
+        post.setStatusId(1);
         String plsql = "BEGIN PACKAGE_FORUM.INSERT_POST(?, ?, ?, ?); END;";
+        System.out.println("wtf");
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        System.out.println(post.getContent());
+        System.out.println(post.getStatusId());
+        System.out.println(post.getThreadId());
+        System.out.println(post.getUserId());
         statement.setString(1, post.getContent());
         statement.setInt(2, post.getStatusId());
         statement.setInt(3, post.getThreadId());
@@ -279,6 +285,25 @@ public class ConcreteDatabaseService {
         statement.execute();
         statement.close();
     }
+    public Vector<OnePost> getPostsByThread(int thread) throws SQLException {
+        Vector<OnePost> posts = new Vector<>();
+        String plsql = "BEGIN ? := PACKAGE_FORUM.GET_POSTS_BY_THREADS(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2, thread);
+        statement.registerOutParameter(1, OracleTypes.CURSOR);
+        statement.execute();
+        ResultSet resultSet = (ResultSet) statement.getObject(1);
+        while (resultSet.next()) {
+            posts.add(new OnePost(resultSet.getInt(1), resultSet.getString(2),
+                    resultSet.getInt(3), resultSet.getInt(4),
+                    resultSet.getInt(5), resultSet.getString(6)));
+        }
+        resultSet.close();
+        statement.close();
+        return posts;
+    }
+
+
     //forum region ends
 
     //region clubs methods

@@ -2,10 +2,7 @@ package BitChess.Controllers.ForumController;
 
 import BitChess.Controllers.AuthenticationController;
 import BitChess.Models.ExistsUserModel;
-import BitChess.Models.Forum.ExistsModel;
-import BitChess.Models.Forum.OneCategory;
-import BitChess.Models.Forum.OnePost;
-import BitChess.Models.Forum.OneThread;
+import BitChess.Models.Forum.*;
 import BitChess.Models.NicknameModel;
 import BitChess.Models.ResponseMessageModel;
 import BitChess.Models.UserModel;
@@ -29,6 +26,8 @@ public class ForumController {
     ThreadController threadController;
     @Autowired
     AuthenticationController authentificationController;
+    @Autowired
+    ThreadController threadcontroller;
 
     @CrossOrigin
     @RequestMapping(value = "/category/thread/addpost", method = RequestMethod.POST)
@@ -64,5 +63,25 @@ public class ForumController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    @CrossOrigin
+    @RequestMapping(value = "/PostsByThreads", method = RequestMethod.POST)
+    public ResponseEntity getPostsByThreads(@RequestBody OneThread thread) {
+        try {
+            PostModel postModel = new PostModel();
+            ExistsModel existsModel = threadcontroller.checkExistsThread(thread).getBody();
+            if(existsModel.getExists() == 0 )
+                return new ResponseEntity
+                        (new ResponseMessageModel("Thread does not exists in database"), HttpStatus.OK);
+
+            postModel.posts = databaseService.getPostsByThread(thread.getId());
+            System.out.print(postModel.posts.toString());
+            return new ResponseEntity(postModel, HttpStatus.OK);
+        } catch (SQLException sqlEx) {
+            return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }

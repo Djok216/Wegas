@@ -109,7 +109,6 @@ public class ThreadController {
                 return new ResponseEntity
                         (new ResponseMessageModel("User does not exists in database"), HttpStatus.OK);
             UserModel userModel =  databaseService.setUserByNickname(databaseService.getNicknameById(oneThread.getUserId()));
-
             if(userModel.getStatus_id()==3)//blocked
                 return new ResponseEntity
                 (new ResponseMessageModel("Blocked user, can not add thread"), HttpStatus.OK);

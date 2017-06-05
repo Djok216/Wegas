@@ -302,8 +302,31 @@ public class ConcreteDatabaseService {
         statement.close();
         return posts;
     }
-
-
+    public int checkPostExits(Integer id) throws SQLException { //false if 0
+        Integer result;
+        String plsql = "BEGIN ? := PACKAGE_forum.checkPostExists(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(2, id);
+        statement.registerOutParameter(1, Types.NUMERIC);
+        statement.execute();
+        result = statement.getInt(1);
+        statement.close();
+        return result;
+    }
+    public void deletePost(Integer id) throws SQLException {
+        String plsql = "BEGIN PACKAGE_FORUM.DELETE_POST(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(1, id);
+        statement.execute();
+        statement.close();
+    }
+    public void deleteThread(Integer id) throws SQLException {
+        String plsql = "BEGIN PACKAGE_FORUM.DELETE_THREAD(?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setInt(1, id);
+        statement.execute();
+        statement.close();
+    }
     //forum region ends
 
     //region clubs methods

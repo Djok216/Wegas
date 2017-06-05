@@ -2,7 +2,10 @@ package BitChess.Controllers.ForumController;
 
 import BitChess.Controllers.AuthenticationController;
 import BitChess.Models.ExistsUserModel;
-import BitChess.Models.Forum.*;
+import BitChess.Models.Forum.ExistsModel;
+import BitChess.Models.Forum.OnePost;
+import BitChess.Models.Forum.OneThread;
+import BitChess.Models.Forum.PostModel;
 import BitChess.Models.NicknameModel;
 import BitChess.Models.ResponseMessageModel;
 import BitChess.Models.UserModel;
@@ -83,5 +86,34 @@ public class ForumController {
         }
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "/category/thread/deletePost", method = RequestMethod.DELETE)
+    public ResponseEntity<ResponseMessageModel> deletePost(@RequestBody OnePost post) {
+        try {
+            if (post.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            ExistsModel existsModel = checkExistsPost(post).getBody();
+
+            if(existsModel.getExists() == 0 )
+                return new ResponseEntity
+                        (new ResponseMessageModel("Post does not exists in database"), HttpStatus.OK);
+            databaseService.deletePost(post.getId());
+            return new ResponseEntity<>(new ResponseMessageModel("Post deleted successfully."), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/category/thread/postExists", method = RequestMethod.POST)
+    public ResponseEntity<ExistsModel> checkExistsPost(@RequestBody OnePost post) {
+        try {
+            if (post.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            ExistsModel existsPost = new ExistsModel();
+            existsPost.setExists(databaseService.checkPostExits(post.getId()));
+            return new ResponseEntity<>(existsPost, HttpStatus.OK);
+        }catch (SQLException sqlEx) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

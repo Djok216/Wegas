@@ -2,10 +2,7 @@ package BitChess.Controllers.ForumController;
 
 import BitChess.Controllers.AuthenticationController;
 import BitChess.Models.*;
-import BitChess.Models.Forum.ExistsModel;
-import BitChess.Models.Forum.OneCategory;
-import BitChess.Models.Forum.OneThread;
-import BitChess.Models.Forum.ThreadModel;
+import BitChess.Models.Forum.*;
 import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -117,6 +114,22 @@ public class ThreadController {
                     (new ResponseMessageModel("Thread Added"), HttpStatus.OK);
         }catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @CrossOrigin
+    @RequestMapping(value = "/category/deleteThread", method = RequestMethod.DELETE)
+    public ResponseEntity<ResponseMessageModel> deleteThread(@RequestBody OneThread thread) {
+        try {
+            if (thread.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            ExistsModel existsModel = checkExistsThread(thread).getBody();
+
+            if(existsModel.getExists() == 0 )
+                return new ResponseEntity
+                        (new ResponseMessageModel("Thread does not exists in database"), HttpStatus.OK);
+            databaseService.deleteThread(thread.getId());
+            return new ResponseEntity<>(new ResponseMessageModel("Thread deleted successfully."), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

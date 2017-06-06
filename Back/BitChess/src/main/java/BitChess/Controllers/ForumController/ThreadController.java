@@ -39,15 +39,15 @@ public class ThreadController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/ThreadsByCategory", method = RequestMethod.POST)
-    public ResponseEntity getThreadsByCategory(@RequestBody OneCategory category) {
+    @RequestMapping(value = "/getThreadByCategory/{category}", method = RequestMethod.GET)
+    public ResponseEntity getThreadsByCategory(@PathVariable int category) {
         try {
             ThreadModel threadModel = new ThreadModel();
             ExistsModel existsModel = categorycontroller.checkExistsCategory(category).getBody();
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Category does not exists in database"), HttpStatus.OK);
-            threadModel.thread = databaseService.getThreadsByCategory(category.getId());
+            threadModel.thread = databaseService.getThreadsByCategory(category);
             System.out.print(threadModel.thread.toString());
             return new ResponseEntity(threadModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
@@ -56,18 +56,18 @@ public class ThreadController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/ThreadsByUser", method = RequestMethod.POST)
-    public ResponseEntity getThreadsByUser(@RequestBody LoginModel loginModel) {
+    @RequestMapping(value = "/getThreadsByUser/{user}", method = RequestMethod.GET)
+    public ResponseEntity getThreadsByUser(@PathVariable int user) {
         try {
             ThreadModel threadModel = new ThreadModel();
             NicknameModel nicknameModel = new NicknameModel();
-            nicknameModel.setNickname(loginModel.getUsername());
+            UserModel userModel = databaseService.setUserByNickname(databaseService.getNicknameById(user));
+            nicknameModel.setNickname(userModel.getNickname());
             ExistsUserModel existsModel = authentificationController.checkExistsUser(nicknameModel).getBody();
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("User does not exists in database"), HttpStatus.OK);
 
-            UserModel user = databaseService.setUserByNickname(nicknameModel.getNickname());
             threadModel.thread = databaseService.getThreadsByUser(nicknameModel.getNickname());
             System.out.print(threadModel.thread.toString());
             return new ResponseEntity(threadModel, HttpStatus.OK);
@@ -77,12 +77,16 @@ public class ThreadController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/category/ThreadExists", method = RequestMethod.POST)
-    public ResponseEntity<ExistsModel> checkExistsThread(@RequestBody OneThread oneThread) {
+    @RequestMapping(value = "/{category}/threadExists/{thread}", method = RequestMethod.GET)
+    public ResponseEntity<ExistsModel> checkExistsThread(@PathVariable int category, @PathVariable int thread) {
         try {
-            if (oneThread.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            ExistsModel existsModel = categorycontroller.checkExistsCategory(category).getBody();
+            if (existsModel.getExists() == 0)
+                return new ResponseEntity
+                        (new ResponseMessageModel("Category does not exists in database"), HttpStatus.OK);
+
             ExistsModel existsThread = new ExistsModel();
-            existsThread.setExists(databaseService.checkThreadExits(oneThread.getId()));
+            existsThread.setExists(databaseService.checkThreadExits(thread));
             return new ResponseEntity<>(existsThread, HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -90,15 +94,15 @@ public class ThreadController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/category/AddThread", method = RequestMethod.POST)
-    public ResponseEntity addThread(@RequestHeader("Authorization") String token, @RequestBody OneThread oneThread) {
+    @RequestMapping(value = "/{category}/AddThread", method = RequestMethod.POST)
+    public ResponseEntity addThread(@RequestHeader("Authorization") String token, @RequestBody OneThread oneThread, @PathVariable int category) {
         try {
             if (!autorizationService.checkCredentials(databaseService, token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
-            if (oneThread.getName() == null || oneThread.getCategoryId() == null)
+            if (oneThread.getName() == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            oneThread.setCategoryId(category);
             oneThread.setUserId(databaseService.getIdByToken(token));
-            OneCategory category = new OneCategory(oneThread.getCategoryId());
             ExistsModel existsModel = categorycontroller.checkExistsCategory(category).getBody();
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
@@ -123,8 +127,8 @@ public class ThreadController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/category/deleteThread", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseMessageModel> deleteThread(@RequestHeader("Authorization") String token, @RequestBody OneThread thread) {
+    @RequestMapping(value = "/{category}/deleteThread", method = RequestMethod.DELETE)
+    public ResponseEntity<ResponseMessageModel> deleteThread(@RequestHeader("Authorization") String token, @RequestBody OneThread thread, @PathVariable int category) {
         try {
             if (!autorizationService.checkCredentials(databaseService, token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
@@ -132,7 +136,7 @@ public class ThreadController {
             if (thread.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             thread.setUserId(databaseService.getIdByToken(token));
 
-            ExistsModel existsModel = checkExistsThread(thread).getBody();
+            ExistsModel existsModel = checkExistsThread(thread.getId(), category).getBody();
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Thread does not exists in database"), HttpStatus.OK);

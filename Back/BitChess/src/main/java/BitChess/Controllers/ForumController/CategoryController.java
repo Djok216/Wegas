@@ -1,8 +1,7 @@
 package BitChess.Controllers.ForumController;
 
-import BitChess.Models.*;
+import BitChess.Models.CategoryModel;
 import BitChess.Models.Forum.ExistsModel;
-import BitChess.Models.Forum.OneCategory;
 import BitChess.Services.AutorizationService;
 import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +35,11 @@ public class CategoryController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/category/categoryExists", method = RequestMethod.POST)
-    public ResponseEntity<ExistsModel> checkExistsCategory(@RequestBody OneCategory oneCategory) {
+    @RequestMapping(value = "/{category}/exists", method = RequestMethod.GET)
+    public ResponseEntity<ExistsModel> checkExistsCategory(@PathVariable int category) {
         try {
-            if (oneCategory.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             ExistsModel existsCategory = new ExistsModel();
-            existsCategory.setExists(databaseService.checkCategoryExits(oneCategory.getId()));
+            existsCategory.setExists(databaseService.checkCategoryExits(category));
             return new ResponseEntity<>(existsCategory, HttpStatus.OK);
         }catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

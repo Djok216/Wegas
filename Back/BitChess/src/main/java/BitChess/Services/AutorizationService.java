@@ -16,6 +16,7 @@ public class AutorizationService {
     public Boolean checkCredentials(ConcreteDatabaseService databaseService, String token) {
         try {
             Integer res = databaseService.checkToken(token);
+            System.out.println("wtf");
             if (res == -1 || res == 0)
                 return false;
             return true;

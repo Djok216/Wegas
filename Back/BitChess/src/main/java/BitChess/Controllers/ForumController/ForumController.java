@@ -35,13 +35,13 @@ public class ForumController {
     AutorizationService autorizationService = new AutorizationService();
 
     @CrossOrigin
-    @RequestMapping(value = "{category}/{thread}/addpost", method = RequestMethod.POST)
+    @RequestMapping(value = "/{category}/{thread}/addpost", method = RequestMethod.POST)
     public ResponseEntity addPost(@RequestHeader("Authorization") String token, @RequestBody OnePost onePost,
                                   @PathVariable int category, @PathVariable int thread) {
-        try {
+       try {
+        System.out.println(token);
             if (!autorizationService.checkCredentials(databaseService, token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
-
             if (onePost.getContent() == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             onePost.setThreadId(thread);
@@ -70,7 +70,8 @@ public class ForumController {
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
+
+     }
 
 
     @CrossOrigin

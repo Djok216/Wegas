@@ -33,10 +33,10 @@ public class StatisticsController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/stats/nroflatestgames", method = RequestMethod.POST)
-    public ResponseEntity getNrOfLatestGames(@RequestBody GamesAndDays nr_days) {
+    @RequestMapping(value = "/stats/{nroflatestgames}", method = RequestMethod.GET)
+    public ResponseEntity getNrOfLatestGames(@PathVariable int nroflatestgames) {
         try {
-            Integer nr = databaseService.getNumberOfLatestGames(nr_days.getNr_days());
+            Integer nr = databaseService.getNumberOfLatestGames(nroflatestgames);
             return new ResponseEntity(nr, HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,49 +1,15 @@
 <h1 style="text-decoration: rgba(78,55,104,0.96)">Posts</h1>
 <div style="padding-bottom: 10px;">
   <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
-    <thead>
-    <tr>
-      <th class="mdl-data-table__cell--non-numeric">Post Name</th>
-      <th class="mdl-data-table__cell--non-numeric" style="text-align:center">Description</th>
-      <th>Last Active User</th>
-    </tr>
-    </thead>
     <tbody>
-    <tr>
+    <tr *ngFor="let xthread of wtfThread" id="{{xthread.name}}">
       <td><a (click)="changeRoute('live')">General Chess Discussion</a></td>
-      <td>The place to discuss general chess topics</td>
-      <td style="color: red;">Djok</td>
-    </tr>
-    <tr>
-      <td><a (click)="changeRoute('live')">Why you should report cheaters</a></td>
-      <td>The place to discuss general chess topics</td>
-      <td style="color: red;">Catavencu</td>
-    </tr>
-    <tr>
-      <td><a (click)="changeRoute('live')">Run out of time with mate in one</a></td>
-      <td>The place to discuss general chess topics</td>
-      <td style="color: red;">Djok</td>
-    </tr>
-    <tr>
-      <td><a (click)="changeRoute('live')">Looking For Beginner To Learn/Improve With</a></td>
-      <td>The place to discuss general chess topics</td>
-      <td style="color: red;">Catavencu</td>
-    </tr>
-    <tr>
-      <td><a (click)="changeRoute('live')">How did you guys find your opening?</a></td>
-      <td>The place to discuss general chess topics</td>
-      <td style="color: red;">Djok</td>
-    </tr>
-    <tr>
-      <td><a (click)="changeRoute('live')">Looking For Beginner To Learn/Improve With</a></td>
-      <td>The place to discuss general chess topics</td>
-      <td style="color: red;">Catavencu</td>
-    </tr>
-    <tr>
-      <td><a (click)="changeRoute('live')">Chigorin Defence</a></td>
-      <td>The place to discuss general chess topics</td>
+      <td>
+        <a class="thread_name" href="/{{xthread.ThreadName}}">{{xthread.name}}</a></td>
+      {{xthread.name}}
       <td style="color: red;">Djok</td>
     </tr>
     </tbody>
   </table>
 </div>
+

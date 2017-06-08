@@ -95,15 +95,18 @@ public class ThreadController {
 
     @CrossOrigin
     @RequestMapping(value = "/{category}/AddThread", method = RequestMethod.POST)
-    public ResponseEntity addThread(@RequestHeader("Authorization") String token, @RequestBody OneThread oneThread, @PathVariable int category) {
+    public ResponseEntity addThread(@RequestHeader("Authorization") String token, @RequestBody OneThread oneThread,
+                                    @PathVariable int category) {
         try {
+
             if (!autorizationService.checkCredentials(databaseService, token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
+
             if (oneThread.getName() == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             oneThread.setCategoryId(category);
             oneThread.setUserId(databaseService.getIdByToken(token));
-            ExistsModel existsModel = categorycontroller.checkExistsCategory(category).getBody();
+            ExistsModel existsModel = categorycontroller.checkExistsCategory(oneThread.getCategoryId()).getBody();
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Category does not exists in database"), HttpStatus.OK);

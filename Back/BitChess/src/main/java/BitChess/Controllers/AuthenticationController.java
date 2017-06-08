@@ -1,6 +1,8 @@
 package BitChess.Controllers;
 
 import BitChess.Models.*;
+import BitChess.Models.Users.UserInfo;
+import BitChess.Services.AutorizationService;
 import BitChess.Services.ConcreteDatabaseService;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import java.util.UUID;
 public class AuthenticationController {
     @Autowired
     private ConcreteDatabaseService databaseService;
+    @Autowired
+    AutorizationService autorizationService = new AutorizationService();
 
     @CrossOrigin
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
@@ -34,21 +38,20 @@ public class AuthenticationController {
         if (existsUserModel.getExists() == 0)
             return new ResponseEntity<>(new ResponseMessageModel("Username does not exists in database"), HttpStatus.OK);
 
+        UserInfo userInfo;
+        try {
+            userInfo = databaseService.getUserInformationByUsername(loginModel.getUsername());
+        }
+        catch (Exception ex) {
+            userInfo = new UserInfo();
+        }
         ResponseMessageModel password = getPassword(username).getBody();
-
         if (!password.getResponseMessage().equals(loginModel.getPassword()))
             return new ResponseEntity<>(new ResponseMessageModel("Invalid password"), HttpStatus.OK);
-        String key = UUID.randomUUID().toString().toUpperCase() + loginModel.getUsername() +
-                loginModel.getPassword() + new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-        encryptor.setAlgorithm("PBEWithMD5AndDES");
-        encryptor.setPassword("SDGsd356904#$%#^TfdDSG##@");
-        String token = encryptor.encrypt(key);
-        token = token.replaceAll("=","");
-        TokenModel tokenModel = new TokenModel(token);
+        TokenModel tokenModel = new TokenModel(autorizationService.generateToken(userInfo.getNickname(), userInfo.getEmail()));
         try {
             databaseService.setToken(username.getNickname(), tokenModel.getToken());
-        } catch (SQLException sqlEx){
+        } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(tokenModel, HttpStatus.OK);
@@ -60,11 +63,11 @@ public class AuthenticationController {
         if (tokenModel.getToken() == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         try {
-            Integer res=databaseService.logOutUser(tokenModel.getToken());
-            if (res==0)
+            Integer res = databaseService.logOutUser(tokenModel.getToken());
+            if (res == 0)
                 return new ResponseEntity<>(new ResponseMessageModel("Token not found"), HttpStatus.OK);
             return new ResponseEntity<>(new ResponseMessageModel("Logged out successful!"), HttpStatus.OK);
-        } catch (SQLException sqlEx){
+        } catch (SQLException sqlEx) {
             return new ResponseEntity<>(new ResponseMessageModel(sqlEx.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -75,15 +78,10 @@ public class AuthenticationController {
         if (tokenModel.getToken() == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         try {
-            Integer res=databaseService.checkToken(tokenModel.getToken());
-            System.out.println(res);
-            if (res==-1 || res==0)
-                tokenModel.setValid(false);
-            if(res==1)
-                tokenModel.setValid(true);
+            tokenModel.setValid(autorizationService.checkCredentials(tokenModel.getToken()));
             return new ResponseEntity<>(tokenModel, HttpStatus.OK);
-        } catch (SQLException sqlEx){
-            return new ResponseEntity<>(new ResponseMessageModel(sqlEx.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -93,7 +91,7 @@ public class AuthenticationController {
         try {
             if (userNickname.getNickname() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             ExistsUserModel existsUser = new ExistsUserModel();
-            existsUser.setExists(databaseService.existsUser(userNickname.getNickname())?1:0);
+            existsUser.setExists(databaseService.existsUser(userNickname.getNickname()) ? 1 : 0);
             return new ResponseEntity<>(existsUser, HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

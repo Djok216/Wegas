@@ -24,7 +24,12 @@ export class ClubsComponent implements OnInit {
       this.backendService.getClubStatisticGeneral(Cookie.get('sessionId'))
         .subscribe(
           data => this.generalStatistic = JSON.parse(JSON.stringify(data)),
-          error => console.log('Error at getClubsStatisticGeneral.')
+          error => {
+            let json = JSON.parse(JSON.stringify(error))['_body'];
+            this.snackBar.open(json, "", {
+              duration: 2000,
+            })
+          }
         );
     }
   }
@@ -36,7 +41,12 @@ export class ClubsComponent implements OnInit {
           let jsonParsed = JSON.parse(JSON.stringify(data));
           this.answer = jsonParsed['responseMessage'];
         },
-        error => alert(error),
+        error => {
+          let json = JSON.parse(JSON.stringify(error))['_body'];
+          this.snackBar.open(json, "", {
+            duration: 2000,
+          })
+        },
         () => this.snackBar.open(this.answer, "", {
           duration: 2000,
         })

@@ -72,6 +72,24 @@ public class ConcreteDatabaseService {
         return userInfo;
     }
 
+    public UserInfo getUserInformationByUsername(String username) throws Exception {
+        String plsql = "select email, nickname, name, created_at,\n" +
+                "(select description from user_status where id = u.status_id),\n" +
+                "(select name from clubs where id = u.club_id),\n" +
+                "wins, looses, draws from users u\n" +
+                "where lower(nickname) like lower(?)";
+        PreparedStatement statement = DatabaseConnection.getConnection().prepareStatement(plsql);
+        statement.setString(1, username);
+        ResultSet rs = statement.executeQuery();
+        rs.next();
+        UserInfo userInfo = new UserInfo(rs.getString(1), rs.getString(2),
+                rs.getString(3), rs.getDate(4).toString(), rs.getString(5),
+                rs.getString(6), rs.getInt(7), rs.getInt(8),
+                rs.getInt(9));
+        statement.close();
+        return userInfo;
+    }
+
     public String getPassword(String nickname) throws SQLException {
         String result;
         String plsql = "BEGIN ? := PACKAGE_USERS.GET_PASSWORD(?); END;";

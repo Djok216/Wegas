@@ -20,9 +20,9 @@ public class TestController {
     private ConcreteDatabaseService databaseService;
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public ResponseEntity<TestModel> test() {
-        TestModel test = new TestModel();
-        test.test = databaseService.test();
-        return new ResponseEntity<>(test, HttpStatus.OK);
+    public ResponseEntity<?> test() {
+            TestModel test = new TestModel();
+            test.test = databaseService.test();
+            return new ResponseEntity<>(test, HttpStatus.OK);
     }
 }

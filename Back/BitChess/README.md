@@ -9,3 +9,10 @@
 
 Fixes:
 	https://stackoverflow.com/questions/6111408/maven2-missing-artifact-but-jars-are-in-place
+
+
+#Session management
+1. JSON Web Tokens
+	[JSON Web Tokens](https://jwt.io)
+	[RFC 7519](https://tools.ietf.org/html/rfc7519)
+	[Java JWT](https://bitbucket.org/b_c/jose4j/wiki/Home)

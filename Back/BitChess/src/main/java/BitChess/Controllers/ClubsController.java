@@ -25,7 +25,7 @@ public class ClubsController {
     public ResponseEntity<ResponseMessageModel> addClub(@RequestHeader("Authorization") String token, @RequestBody ClubModel clubModel) {
         try {
             if (!clubModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            if (!autorizationService.checkCredentials(databaseService, token))
+            if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             databaseService.insertNewClub(clubModel.getClubName());
             return new ResponseEntity<>(new ResponseMessageModel("Club added successfully."), HttpStatus.OK);
@@ -41,7 +41,7 @@ public class ClubsController {
     public ResponseEntity<ResponseMessageModel> deleteClub(@RequestHeader("Authorization") String token, @RequestBody ClubModel clubModel) {
         try {
             if (!clubModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            if (!autorizationService.checkCredentials(databaseService, token))
+            if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             if (!databaseService.existsClub(clubModel.getClubName()))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot delete nonexistent club."), HttpStatus.OK);
@@ -54,8 +54,10 @@ public class ClubsController {
 
     @CrossOrigin
     @RequestMapping(value = "/clubs/statistics/general", method = RequestMethod.GET)
-    public ResponseEntity<ClubStatisticsModel> getGeneralStatistics() {
+    public ResponseEntity<?> getGeneralStatistics(@RequestHeader("Authorization") String token) {
         try {
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             return new ResponseEntity<>(databaseService.getGeneralStatistic(), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -64,8 +66,10 @@ public class ClubsController {
 
     @CrossOrigin
     @RequestMapping(value = "/clubs/statistics/rating/{topX}", method = RequestMethod.GET)
-    public ResponseEntity<ClubStatisticsModel> getRatingStatistics(@PathVariable Integer topX) {
+    public ResponseEntity<?> getRatingStatistics(@RequestHeader("Authorization") String token, @PathVariable Integer topX) {
         try {
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             return new ResponseEntity<>(databaseService.getClubsByRating(topX), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -74,8 +78,10 @@ public class ClubsController {
 
     @CrossOrigin
     @RequestMapping(value = "/clubs/statistics/popularity/{topX}", method = RequestMethod.GET)
-    public ResponseEntity<?> getPopularityStatistics(@PathVariable Integer topX) {
+    public ResponseEntity<?> getPopularityStatistics(@RequestHeader("Authorization") String token, @PathVariable Integer topX) {
         try {
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             return new ResponseEntity<>(databaseService.getClubsByPopularity(topX), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -88,7 +94,7 @@ public class ClubsController {
             String clubName, @RequestBody ClubMemberModel clubMemberModel) {
         try {
             if (!clubMemberModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            if (!autorizationService.checkCredentials(databaseService, token))
+            if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             if (!databaseService.existsClub(clubName))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot add member to a nonexistent club."), HttpStatus.OK);
@@ -109,7 +115,7 @@ public class ClubsController {
             String clubName, @RequestBody ClubMemberModel clubMemberModel) {
         try {
             if (!clubMemberModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            if (!autorizationService.checkCredentials(databaseService, token))
+            if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             if (!databaseService.existsClub(clubName))
                 return new ResponseEntity<>(new ResponseMessageModel("Cannot delete member from a nonexistent club."), HttpStatus.OK);
@@ -126,8 +132,10 @@ public class ClubsController {
 
     @CrossOrigin
     @RequestMapping(value = "/clubs/{clubName}/members", method = RequestMethod.GET)
-    public ResponseEntity<?> getMembers(@PathVariable String clubName) {
+    public ResponseEntity<?> getMembers(@RequestHeader("Authorization") String token, @PathVariable String clubName) {
         try {
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             if (!databaseService.existsClub(clubName))
                 return new ResponseEntity<>(new ResponseMessageModel("Club does not exists."), HttpStatus.OK);
             return new ResponseEntity<>(databaseService.getClubMembers(clubName), HttpStatus.OK);

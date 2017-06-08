@@ -26,7 +26,7 @@ export class BackendService {
 
     return this.http.get('http://localhost:4500/clubs/statistics/general', {headers: header}).map(res => res.json());
   }
-  
+
   getThreadsName(token: string){
     let header = new Headers();
     header.append('Content-Type', 'application/json');

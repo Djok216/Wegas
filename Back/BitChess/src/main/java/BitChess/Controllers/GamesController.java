@@ -30,7 +30,7 @@ public class GamesController {
                 return new ResponseEntity<Object>(new ResponseMessageModel("First user does not exists in database."), HttpStatus.OK);
             if (!databaseService.existsUser(gameStartedModel.getSecondPlayerId()))
                 return new ResponseEntity<Object>(new ResponseMessageModel("Second user does not exists in database."), HttpStatus.OK);
-            if (!autorizationService.checkCredentials(databaseService, token))
+            if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             GameIdModel gameIdModel = new GameIdModel(databaseService.addGameStarted(gameStartedModel));
             return new ResponseEntity<>(gameIdModel, HttpStatus.OK);
@@ -46,7 +46,7 @@ public class GamesController {
             if (!gameEndedModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             if(!databaseService.existsGame(gameEndedModel.getGameId()))
                 return new ResponseEntity<Object>(new ResponseMessageModel("Invalid game id."), HttpStatus.OK);
-            if (!autorizationService.checkCredentials(databaseService, token))
+            if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             databaseService.addGameEnded(gameEndedModel);
             return new ResponseEntity<>(new ResponseMessageModel("Game successfully saved."), HttpStatus.OK);

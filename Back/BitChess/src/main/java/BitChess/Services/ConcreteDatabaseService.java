@@ -171,13 +171,9 @@ public class ConcreteDatabaseService {
         System.out.println(result);
         return result;
     }
-<<<<<<< HEAD
 
-    public Integer checkToken(String token) throws SQLException {
-=======
     public Integer checkToken(String token) throws  SQLException{
         System.out.println("1111");
->>>>>>> origin/master
         String plsql = " BEGIN  ? := PACKAGE_USERS.CHECK_TOKEN(?); END;";
         System.out.println("nu cuuum");
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);

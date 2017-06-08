@@ -23,14 +23,7 @@ export class ClubsComponent implements OnInit {
     } else {
       this.backendService.getClubStatisticGeneral(Cookie.get('sessionId'))
         .subscribe(
-<<<<<<< HEAD
-          data => {
-            let jsonParsed = JSON.parse(JSON.stringify(data));
-            this.generalStatistic = jsonParsed;
-          },
-=======
           data => this.generalStatistic = JSON.parse(JSON.stringify(data)),
->>>>>>> origin/master
           error => console.log('Error at getClubsStatisticGeneral.')
         );
     }

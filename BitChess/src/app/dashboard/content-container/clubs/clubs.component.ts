@@ -12,6 +12,7 @@ import {MdSnackBar} from "@angular/material";
 })
 export class ClubsComponent implements OnInit {
   generalStatistic: any = [];
+  answer : string;
 
   constructor(private backendService: BackendService, private router: Router, public snackBar: MdSnackBar) {
   }
@@ -26,10 +27,23 @@ export class ClubsComponent implements OnInit {
           data => {
             let jsonParsed = JSON.parse(JSON.stringify(data));
             this.generalStatistic = jsonParsed;
-            console.log(this.generalStatistic);
           },
           error => console.log('Error at getClubsStatisticGeneral.')
         )
     }
+  }
+
+  onSubscribeClick(club_name: string, user_name: string) {
+    this.backendService.registerUserToClub(Cookie.get('sessionId'), club_name, user_name = "No User")
+      .subscribe(
+        data => {
+          let jsonParsed = JSON.parse(JSON.stringify(data));
+          this.answer = jsonParsed['responseMessage'];
+        },
+        error => alert(error),
+        () => this.snackBar.open(this.answer, "", {
+          duration: 2000,
+        })
+      )
   }
 }

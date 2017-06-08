@@ -12,6 +12,11 @@
 @".\package_games.sql"
 @".\package_friends.sql"
 commit;
+
+select email, nickname, name, created_at, wins,
+(select description from user_status where id = u.status_id),  looses, draws from users u
+where lower(nickname) like lower('nicusor');
+
 /*
 DECLARE
   v_cursor SYS_REFCURSOR;

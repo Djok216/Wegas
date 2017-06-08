@@ -23,7 +23,7 @@ table#t01 tr:nth-child(odd) {
 .category_name{
   color: #3B5998;
   text-decoration: none;
-  font-size: large;
+  font-size: medium;
   text-decoration-style: solid;
 }
 

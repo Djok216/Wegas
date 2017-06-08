@@ -22,7 +22,6 @@ import { LoginComponent } from './event-container/login/login.component';
 import { RegisterComponent } from './event-container/register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {routes} from "./app-router";
-import {ProfileSectionComponent} from "./dashboard/header-container/profile-section/profile-section.component";
 import {AuthenticateSectionComponent} from "./dashboard/header-container/authenticate-section/authenticate-section.component";
 import { HomeComponent } from './dashboard/content-container/home/home.component';
 import { PlayComponent } from './dashboard/content-container/play/play.component';
@@ -38,6 +37,7 @@ import { InfoLearnComponent } from './dashboard/content-container/learn/info-lea
 import { ContentLearnComponent } from './dashboard/content-container/learn/content-learn/content-learn.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BackendService} from "./BackendService/backend.service";
+import { ProfileComponent } from './dashboard/content-container/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +46,6 @@ import {BackendService} from "./BackendService/backend.service";
     ContentContainerComponent,
     FooterContainerComponent,
     LogoSectionComponent,
-    ProfileSectionComponent,
     MenuSectionComponent,
     ContentSectionComponent,
     InfoSectionComponent,
@@ -66,7 +65,8 @@ import {BackendService} from "./BackendService/backend.service";
     ForumInfoComponent,
     ForumContentComponent,
     InfoLearnComponent,
-    ContentLearnComponent
+    ContentLearnComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

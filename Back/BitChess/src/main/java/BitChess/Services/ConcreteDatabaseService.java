@@ -12,13 +12,11 @@ import BitChess.Models.Stats.CategoriesSModel;
 import BitChess.Models.Stats.TopActiveUsersModel;
 import BitChess.Models.Stats.TopThreadsModel;
 import BitChess.Models.UserModel;
+import BitChess.Models.Users.UserInfo;
 import oracle.jdbc.OracleTypes;
 import org.springframework.stereotype.Service;
 
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.util.Vector;
 
 /**
@@ -38,6 +36,7 @@ public class ConcreteDatabaseService {
         }
         return -1;
     }
+
     //authentification region begins
     public Vector<String> findUsers(String stringMatch) throws SQLException {
         Vector<String> users = new Vector<>();
@@ -53,6 +52,24 @@ public class ConcreteDatabaseService {
         resultSet.close();
         statement.close();
         return users;
+    }
+
+    public UserInfo getUserInformation(String token) throws Exception {
+        String plsql = "select email, nickname, name, created_at,\n" +
+                "(select description from user_status where id = u.status_id),\n" +
+                "(select name from clubs where id = u.club_id),\n" +
+                "wins, looses, draws from users u\n" +
+                "where lower(token) like lower(?)";
+        PreparedStatement statement = DatabaseConnection.getConnection().prepareStatement(plsql);
+        statement.setString(1, token);
+        ResultSet rs = statement.executeQuery();
+        rs.next();
+        UserInfo userInfo = new UserInfo(rs.getString(1), rs.getString(2),
+                rs.getString(3), rs.getDate(4).toString(), rs.getString(5),
+                rs.getString(6), rs.getInt(7), rs.getInt(8),
+                rs.getInt(9));
+        statement.close();
+        return userInfo;
     }
 
     public String getPassword(String nickname) throws SQLException {
@@ -99,7 +116,7 @@ public class ConcreteDatabaseService {
         statement.execute();
         result = statement.getInt(1);
         statement.close();
-        return result==1;
+        return result == 1;
     }
 
     public UserModel setUserByNickname(String nickname) throws SQLException {
@@ -122,6 +139,7 @@ public class ConcreteDatabaseService {
         statement.close();
         return user;
     }
+
     public String getNicknameById(int id) throws SQLException {
         String plsql = "BEGIN ? := PACKAGE_USERS.GET_NICKNAME_BY_ID(?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
@@ -142,7 +160,7 @@ public class ConcreteDatabaseService {
         statement.close();
     }
 
-    public Integer logOutUser(String token) throws  SQLException{
+    public Integer logOutUser(String token) throws SQLException {
         String plsql = " BEGIN  ? := PACKAGE_USERS.LOG_OUT(?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
         statement.setString(2, token);
@@ -153,7 +171,8 @@ public class ConcreteDatabaseService {
         System.out.println(result);
         return result;
     }
-    public Integer checkToken(String token) throws  SQLException{
+
+    public Integer checkToken(String token) throws SQLException {
         String plsql = " BEGIN  ? := PACKAGE_USERS.CHECK_TOKEN(?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
         statement.setString(2, token);
@@ -163,7 +182,8 @@ public class ConcreteDatabaseService {
         statement.close();
         return result;
     }
-    public  Integer getIdByToken(String token) throws SQLException{
+
+    public Integer getIdByToken(String token) throws SQLException {
         String plsql = " BEGIN  ? := PACKAGE_USERS.GET_ID_BY_TOKEN(?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
         statement.setString(2, token);
@@ -268,6 +288,7 @@ public class ConcreteDatabaseService {
         statement.close();
         return threads;
     }
+
     public void addThread(OneThread thread) throws SQLException {
         String plsql = "BEGIN PACKAGE_FORUM.INSERT_THREAD(?, ?, ?, ?, ?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
@@ -279,6 +300,7 @@ public class ConcreteDatabaseService {
         statement.execute();
         statement.close();
     }
+
     public void addPost(OnePost post) throws SQLException {
         post.setStatusId(1);
         String plsql = "BEGIN PACKAGE_FORUM.INSERT_POST(?, ?, ?, ?); END;";
@@ -295,6 +317,7 @@ public class ConcreteDatabaseService {
         statement.execute();
         statement.close();
     }
+
     public Vector<OnePost> getPostsByThread(int thread) throws SQLException {
         Vector<OnePost> posts = new Vector<>();
         String plsql = "BEGIN ? := PACKAGE_FORUM.GET_POSTS_BY_THREADS(?); END;";
@@ -312,6 +335,7 @@ public class ConcreteDatabaseService {
         statement.close();
         return posts;
     }
+
     public int checkPostExits(Integer id) throws SQLException { //false if 0
         Integer result;
         String plsql = "BEGIN ? := PACKAGE_forum.checkPostExists(?); END;";
@@ -323,6 +347,7 @@ public class ConcreteDatabaseService {
         statement.close();
         return result;
     }
+
     public void deletePost(Integer id) throws SQLException {
         String plsql = "BEGIN PACKAGE_FORUM.DELETE_POST(?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
@@ -330,6 +355,7 @@ public class ConcreteDatabaseService {
         statement.execute();
         statement.close();
     }
+
     public void deleteThread(Integer id) throws SQLException {
         String plsql = "BEGIN PACKAGE_FORUM.DELETE_THREAD(?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
@@ -465,13 +491,12 @@ public class ConcreteDatabaseService {
     }
     //endregion
 
-
     //region package games
     public Integer addGameStarted(GameStartedModel gameStartedModel) throws SQLException {
         Integer gameId;
         String plsql = "BEGIN ? := PACKAGE_GAMES.ADD_GAME_STARTED(?,?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
-        statement.setInt(2,gameStartedModel.getFirstPlayerId());
+        statement.setInt(2, gameStartedModel.getFirstPlayerId());
         statement.setInt(3, gameStartedModel.getSecondPlayerId());
         statement.registerOutParameter(1, Types.NUMERIC);
         statement.execute();
@@ -484,9 +509,9 @@ public class ConcreteDatabaseService {
     public void addGameEnded(GameEndedModel gameEndedModel) throws SQLException {
         String plsql = "BEGIN PACKAGE_GAMES.ADD_GAME_ENDED(?,?,?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
-        statement.setInt(1,gameEndedModel.getGameId());
-        statement.setString(2,gameEndedModel.getMovements());
-        statement.setInt(3,gameEndedModel.getGameResult());
+        statement.setInt(1, gameEndedModel.getGameId());
+        statement.setString(2, gameEndedModel.getMovements());
+        statement.setInt(3, gameEndedModel.getGameResult());
         statement.execute();
         statement.close();
     }
@@ -500,7 +525,7 @@ public class ConcreteDatabaseService {
         statement.execute();
         result = statement.getInt(1);
         statement.close();
-        return result==1;
+        return result == 1;
     }
     //endregion
 
@@ -515,8 +540,9 @@ public class ConcreteDatabaseService {
         statement.execute();
         result = statement.getInt(1);
         statement.close();
-        return result==1;
+        return result == 1;
     }
+
     public void addFriends(FriendshipModel friendshipModel) throws SQLException {
         Integer result;
         String plsql = "BEGIN PACKAGE_FRIENDS.ADD_FRIENDS(?,?); END;";

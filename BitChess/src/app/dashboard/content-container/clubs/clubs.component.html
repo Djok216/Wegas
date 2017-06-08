@@ -10,6 +10,9 @@
       <td class="nr_members">
         {{stats.statistic}} members
       </td>
+      <td class="subscribe">
+        <button md-raised-button (click)="onSubscribeClick(stats.clubName)">Become member</button>
+      </td>
     </tr>
   </table>
 </div>

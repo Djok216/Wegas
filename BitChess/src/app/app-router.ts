@@ -11,6 +11,7 @@ import {ClubsComponent} from "./dashboard/content-container/clubs/clubs.componen
 import {LearnComponent} from "./dashboard/content-container/learn/learn.component";
 import {StatsComponent} from "./dashboard/content-container/stats/stats.component";
 import {HomeComponent} from "./dashboard/content-container/home/home.component";
+import {ProfileComponent} from "./dashboard/content-container/profile/profile.component";
 
 /**
  * Created by BlackDeathM8 on 29-Mar-17.
@@ -20,6 +21,7 @@ import {HomeComponent} from "./dashboard/content-container/home/home.component";
 export const router : Routes = [
   {path:'', component: DashboardComponent, children: [
     {path:'', redirectTo: 'home', pathMatch:'full'},
+    {path: 'profile', component: ProfileComponent},
     {path:'home', component: HomeComponent},
     {path:'play', component: PlayComponent},
     {path:'live', component: LiveComponent},

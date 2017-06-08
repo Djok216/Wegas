@@ -1,0 +1,29 @@
+<div>
+  <md-card class="{{userInfo.nickname}}">
+    <md-card-header>
+      <md-card-title>Nikname: {{capitalize(userInfo.nickname)}}</md-card-title>
+      <md-card-subtitle>Email: {{userInfo.email}}</md-card-subtitle>
+    </md-card-header>
+    <md-card-content>
+      <md-tab-group>
+        <md-tab label="Statistics">
+          <p>Wins: {{userInfo.wins}}</p>
+          <p>Looses: {{userInfo.loses}}</p>
+          <p>Draws: {{userInfo.draws}}</p>
+        </md-tab>
+        <md-tab label="Club">
+          <p>{{capitalize(userInfo.clubName)}}</p>
+        </md-tab>
+        <md-tab label="PersonalInfo">
+          <p>User Name: {{capitalize(userInfo.name)}}</p>
+          <p>Joined: {{userInfo.createdAt}}</p>
+          <p>User Status: {{userInfo.status}}</p>
+        </md-tab>
+      </md-tab-group>
+    </md-card-content>
+    <md-card-actions>
+      <button md-button>LIKE</button>
+      <button md-button>SHARE</button>
+    </md-card-actions>
+  </md-card>
+</div>

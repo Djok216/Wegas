@@ -5,7 +5,7 @@
     <div id="pageContent" style="float:none">
       <div fxLayoutAlign="center center">
         <div style="padding-bottom: 10px;">
-          <form method="post">
+          <form [formGroup]="registerForm" method="post">
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 30em;">
               <thead>
               <tr>
@@ -15,41 +15,111 @@
               <tbody>
               <tr>
                 <th class="mdl-data-table__cell--non-numeric">
-                  <md-input-container>
-                    <input #input_username name="username" mdInput placeholder="Username" style="width: 30em">
-                  </md-input-container>
+                  <div class="form-group"
+                       [ngClass]="{'has-error':!registerForm.controls['nickname'].valid && registerForm.controls['nickname'].touched}">
+                    <md-input-container>
+                      <input class="form-group" #input_username name="username" mdInput placeholder="Nickname"
+                             [formControl]="registerForm.controls['nickname']" style="width: 30em">
+                    </md-input-container>
+                  </div>
+                  <!-- Error zone -->
+                  <div
+                    *ngIf="registerForm.controls['nickname'].hasError('required') && registerForm.controls['nickname'].touched"
+                    class="alert alert-danger">You must enter a Nickname.
+                  </div>
+                  <div
+                    *ngIf="registerForm.controls['nickname'].hasError('minlength') && registerForm.controls['nickname'].touched"
+                    class="alert alert-danger">Your Nickname must be at least 5 characters long.
+                  </div>
+                  <div
+                    *ngIf="registerForm.controls['nickname'].hasError('maxlength') && registerForm.controls['nickname'].touched"
+                    class="alert alert-danger">Your Nickname cannot exceed 100 characters.
+                  </div>
                 </th>
               </tr>
               <tr>
                 <th class="mdl-data-table__cell--non-numeric">
-                  <md-input-container>
-                    <input #input_password name="password" mdInput placeholder="Password" style="width: 30em" type="password">
-                  </md-input-container>
-                </th>
-              </tr><tr>
-                <th class="mdl-data-table__cell--non-numeric">
-                  <md-input-container>
-                    <input #input_confirmPassword name="conf_password" mdInput placeholder="Confirm Password" style="width: 30em" type="password">
-                  </md-input-container>
+                  <div class="form-group"
+                       [ngClass]="{'has-error':!registerForm.controls['password'].valid && registerForm.controls['password'].touched}">
+                    <md-input-container>
+                      <input type="password" class="form-control" #input_password name="password" mdInput
+                             placeholder="Password" [formControl]="registerForm.controls['password']"
+                             style="width: 30em">
+                    </md-input-container>
+                  </div>
+                  <!-- Error zone -->
+                  <div
+                    *ngIf="registerForm.controls['password'].hasError('required') && registerForm.controls['password'].touched"
+                    class="alert alert-danger">You must enter a Password.
+                  </div>
+                  <div
+                    *ngIf="registerForm.controls['password'].hasError('minlength') && registerForm.controls['password'].touched"
+                    class="alert alert-danger">Your Password must be at least 8 characters long.
+                  </div>
+                  <div
+                    *ngIf="registerForm.controls['password'].hasError('maxlength') && registerForm.controls['password'].touched"
+                    class="alert alert-danger">Your Password cannot exceed 50 characters.
+                  </div>
                 </th>
               </tr>
               <tr>
                 <th class="mdl-data-table__cell--non-numeric">
-                  <md-input-container>
-                    <input #input_email name="email" mdInput placeholder="Email" style="width: 30em">
-                  </md-input-container>
+                  <div class="form-group"
+                       [ngClass]="{'has-error':!registerForm.controls['confirmed_password'].valid && registerForm.controls['confirmed_password'].touched}">
+                    <md-input-container>
+                      <input type="password" class="form-control" #input_confirmPassword name="confirmPassword" mdInput
+                             placeholder="Confirm Password" [formControl]="registerForm.controls['confirmed_password']"
+                             style="width: 30em">
+                    </md-input-container>
+                  </div>
+                  <!-- Error zone -->
+                  <div
+                    *ngIf="registerForm.controls['confirmed_password'].hasError('required') && registerForm.controls['confirmed_password'].touched"
+                    class="alert alert-danger">You must confirm chosen password.
+                  </div>
+                  <div
+                    *ngIf="registerForm.controls['confirmed_password'].hasError('minlength') && registerForm.controls['confirmed_password'].touched"
+                    class="alert alert-danger">Your confirmed password must be at least 8 characters long.
+                  </div>
+                  <div
+                    *ngIf="registerForm.controls['confirmed_password'].hasError('maxlength') && registerForm.controls['confirmed_password'].touched"
+                    class="alert alert-danger">Your confirmed password cannot exceed 50 characters.
+                  </div>
+                </th>
+              </tr>
+              <tr>
+                <th class="mdl-data-table__cell--non-numeric">
+                  <div class="form-group"
+                       [ngClass]="{'has-error':!registerForm.controls['email'].valid && registerForm.controls['email'].touched}">
+                    <md-input-container>
+                      <input type="email" class="form-control" #input_email name="email" mdInput placeholder="Email"
+                             [formControl]="registerForm.controls['email']" style="width: 30em" required
+                             pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$">
+                    </md-input-container>
+                  </div>
+                  <!-- Error zone -->
+                  <div
+                    *ngIf="registerForm.controls['email'].hasError('required') && registerForm.controls['email'].touched"
+                    class="alert alert-danger">You must enter an email.
+                  </div>
+                  <div
+                    *ngIf="registerForm.controls['email'].hasError('pattern') && registerForm.controls['email'].touched"
+                    class="alert alert-danger">Email format should be <i>email@example.com</i></div>
                 </th>
               </tr>
               <tr>
                 <th>
                   <button md-button class="mdl-button mld-js-button mdl-button--primary" (click)="onRegisterClick(input_username.value, input_password.value,
-                      input_confirmPassword.value,input_email.value)">Register</button>
+                      input_confirmPassword.value,input_email.value)" [disabled]="!registerForm.valid">Register
+                  </button>
                 </th>
               </tr>
               <tr>
                 <th>
                   Register using
-                  <button md-button class="mdl-button mld-js-button mdl-button--primary" (click)="facebookRegister()">Facebook</button>
+                  <button md-button class="mdl-button mld-js-button mdl-button--primary" (click)="facebookRegister()">
+                    Facebook
+                  </button>
                 </th>
               </tr>
               </tbody>

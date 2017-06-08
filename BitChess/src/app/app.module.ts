@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 // angular material
@@ -8,6 +7,8 @@ import { MaterialModule } from '@angular/material';
 import 'hammerjs';
 // angular flex
 import { FlexLayoutModule } from '@angular/flex-layout';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HeaderContainerComponent } from './dashboard/header-container/header-container.component';
@@ -75,7 +76,8 @@ import { ProfileComponent } from './dashboard/content-container/profile/profile.
     routes,
     MaterialModule.forRoot(),
     BrowserAnimationsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    ReactiveFormsModule
   ],
   providers: [HttpModule, BackendService],
   bootstrap: [AppComponent]

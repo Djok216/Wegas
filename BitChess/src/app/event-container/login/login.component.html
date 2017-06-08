@@ -5,7 +5,7 @@
     <div id="pageContent" style="float:none">
       <div fxLayoutAlign="center center">
         <div style="padding-bottom: 10px;">
-          <form method="post">
+          <form [formGroup]="loginForm" method="post">
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 30em;">
               <thead>
               <tr>
@@ -15,17 +15,35 @@
               <tbody>
               <tr>
                 <th class="mdl-data-table__cell--non-numeric">
-                  <md-input-container>
-                    <input #input_username name="username" mdInput placeholder="Username" style="width: 30em">
-                  </md-input-container>
+                  <div class="form-group"
+                       [ngClass]="{'has-error':!loginForm.controls['nickname'].valid && loginForm.controls['nickname'].touched}">
+                    <md-input-container>
+                      <input class="form-control" #input_username type="text" mdInput placeholder="Nickname"
+                             [formControl]="loginForm.controls['nickname']" style="width: 30em">
+                    </md-input-container>
+                  </div>
+                  <!-- Error zone -->
+                  <div
+                    *ngIf="loginForm.controls['nickname'].hasError('required') && loginForm.controls['nickname'].touched"
+                    class="alert alert-danger">You must enter your Nickname.
+                  </div>
                 </th>
               </tr>
               <tr>
                 <th class="mdl-data-table__cell--non-numeric">
-                  <md-input-container>
-                    <input #input_password name="password" mdInput placeholder="Password" style="width: 30em"
-                           type="password">
-                  </md-input-container>
+                  <div class="form-group"
+                       [ngClass]="{'has-error':!loginForm.controls['password'].valid && loginForm.controls['password'].touched}">
+                    <md-input-container>
+                      <input class="form-control" #input_password name="password" mdInput placeholder="Password"
+                             style="width: 30em"
+                             type="password" [formControl]="loginForm.controls['password']">
+                    </md-input-container>
+                  </div>
+                  <!-- Error zone -->
+                  <div
+                    *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched"
+                    class="alert alert-danger">You must enter your Password.
+                  </div>
                 </th>
               </tr>
               <tr>
@@ -35,10 +53,13 @@
               </tr>
               <tr>
                 <th>
-                  <button md-button class="mdl-button mld-js-button mdl-button--primary"
-                          (click)="onLoginClick(input_username.value, input_password.value)">Login
-                  </button>
-                  <button class="mdl-button mld-js-button mdl-button--primary">Forgot password?</button>
+                  <div class="form-group">
+                    <button type="submit" md-button class="mdl-button mld-js-button mdl-button--primary"
+                            (click)="onLoginClick(input_username.value, input_password.value)"
+                            [disabled]="!loginForm.valid">Login
+                    </button>
+                    <button class="mdl-button mld-js-button mdl-button--primary">Forgot password?</button>
+                  </div>
                 </th>
               </tr>
               <tr>

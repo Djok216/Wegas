@@ -3,6 +3,7 @@ import {LoginService} from "./login.service";
 import {MdSnackBar} from '@angular/material';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {Router} from '@angular/router'
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -11,10 +12,15 @@ import {Router} from '@angular/router'
   providers: [LoginService]
 })
 export class LoginComponent implements OnInit {
+  loginForm : FormGroup;
   answer: string;
   token: string;
 
-  constructor(private _loginService: LoginService, public snackBar: MdSnackBar, private router: Router) {
+  constructor(private _loginService: LoginService, public snackBar: MdSnackBar, private router: Router, form: FormBuilder) {
+    this.loginForm = form.group({
+      'nickname' : [null, Validators.required],
+      'password' : [null, Validators.required]
+    })
   }
 
   ngOnInit() {

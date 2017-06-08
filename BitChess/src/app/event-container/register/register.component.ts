@@ -3,6 +3,7 @@ import {RegisterService} from "./register.service";
 import {MdSnackBar} from '@angular/material';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {Router} from "@angular/router";
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -11,9 +12,16 @@ import {Router} from "@angular/router";
   providers: [RegisterService]
 })
 export class RegisterComponent implements OnInit {
+  registerForm: FormGroup;
   public answer: string;
 
-  constructor(private _RegisterService: RegisterService, public snackBar: MdSnackBar, private router: Router) {
+  constructor(private _RegisterService: RegisterService, public snackBar: MdSnackBar, private router: Router, form: FormBuilder) {
+    this.registerForm = form.group({
+      'nickname': [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(100)])],
+      'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(50)])],
+      'confirmed_password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(50)])],
+      'email': [null, Validators.required]
+    })
   }
 
   ngOnInit() {

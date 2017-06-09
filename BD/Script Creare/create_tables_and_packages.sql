@@ -13,8 +13,10 @@
 @".\package_friends.sql"
 commit;
 
-select email, nickname, name, created_at, wins,
-(select description from user_status where id = u.status_id),  looses, draws from users u
+select email, nickname, name, created_at,
+(select description from user_status where id = u.status_id),
+(select name from clubs where id = u.club_id),
+wins, looses, draws from users u
 where lower(nickname) like lower('nicusor');
 
 /*

@@ -45,16 +45,17 @@
           user_id = response.authResponse.userID; //get FB UID
           name = response.name;
 
-          FB.api('/me?access_token=' + access_token, {scope: 'email'}, function (response) {
+          FB.api('/me?fields=id,name,email,permissions', function (response) {
             var email = response.email;
             var name = response.name;
             console.log(access_token);
             console.log(name);
+            console.log(response.email);
           });
         } else {
           console.log('User cancelled login or did not fully authorize.');
         }
-      }, {scope: 'email'});
+      }, {scope: 'email', return_scopes: true});
 
     }
   </script>

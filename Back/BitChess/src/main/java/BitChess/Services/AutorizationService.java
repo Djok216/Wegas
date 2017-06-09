@@ -71,7 +71,7 @@ public class AutorizationService {
             jws.setKeyIdHeaderValue(rsaJsonWebKey.getKeyId());
             jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
             String jwt = jws.getCompactSerialization();
-            System.out.println("JWT: " + jwt);
+            //System.out.println("JWT: " + jwt);
             return jwt;
         } catch (JoseException ex) {
             System.out.println("Error at generating JWT key! " + ex);
@@ -91,7 +91,7 @@ public class AutorizationService {
                 .build();
         try {
             JwtClaims jwtClaims = jwtConsumer.processToClaims(token);
-            System.out.println("JWT validation succeeded! " + jwtClaims);
+            //System.out.println("JWT validation succeeded! " + jwtClaims);
             return true;
         } catch (InvalidJwtException e) {
             System.out.println("Invalid JWT! " + e);

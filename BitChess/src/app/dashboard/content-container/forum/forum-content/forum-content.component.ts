@@ -13,11 +13,12 @@ import {BackendService} from '../../../../BackendService/backend.service';
 
 export class ForumContentComponent implements OnInit {
   wtfThread: any = [];
+  private Cookie: any;
 
   constructor(private backendService: BackendService, private router: Router, public snackBar: MdSnackBar) { }
 
   ngOnInit() {
-    if (Cookie.get('sessionId') == null) {
+    if (this.Cookie.get('sessionId') == null) {
       this.router.navigateByUrl('/login');
     } else {
       this.backendService.getThreadsName(Cookie.get('sessionId'))

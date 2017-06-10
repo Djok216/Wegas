@@ -38,16 +38,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <th class="mdl-data-table__cell--non-numeric">
-            <md-input-container>
-              <input mdInput placeholder="Key Words"s>
-            </md-input-container>
-          </th>
-          <th><button class="mdl-button mld-js-button mdl-button--primary">Find</button></th>
+        <tr *ngFor="let xcategory of categories" id="{{xcategory.name}}">
+          <td><a (click)="paren2.onCategoryClicked(xcategory.id)">{{xcategory.name}}</a></td>
+          <td>{{xcategory.nrThreads}}</td>
         </tr>
         </tbody>
       </table>
+
     </div>
 
     <div style="padding-bottom: 10px">

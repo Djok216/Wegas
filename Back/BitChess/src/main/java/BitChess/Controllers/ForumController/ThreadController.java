@@ -1,8 +1,13 @@
 package BitChess.Controllers.ForumController;
 
 import BitChess.Controllers.AuthenticationController;
-import BitChess.Models.*;
-import BitChess.Models.Forum.*;
+import BitChess.Models.ExistsUserModel;
+import BitChess.Models.Forum.ExistsModel;
+import BitChess.Models.Forum.OneThread;
+import BitChess.Models.Forum.ThreadModel;
+import BitChess.Models.NicknameModel;
+import BitChess.Models.ResponseMessageModel;
+import BitChess.Models.UserModel;
 import BitChess.Services.AutorizationService;
 import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +30,12 @@ public class ThreadController {
     AuthenticationController authentificationController;
     @Autowired
     ForumController forumController;
+    @Autowired
+    ThreadController threadController;
+    @Autowired
+    CategoryController categoryController;
+
+
     AutorizationService autorizationService = new AutorizationService();
 
     @CrossOrigin
@@ -38,6 +49,10 @@ public class ThreadController {
                 th.setNrPosts(forumController.getNrComm(th.getId()));
             }
             System.out.print(threadModel.thread.toString());
+
+            for(OneThread xcat : threadModel.thread){
+                xcat.setNrPosts(forumController.getNrComm(xcat.getId()));
+            }
             return new ResponseEntity(threadModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

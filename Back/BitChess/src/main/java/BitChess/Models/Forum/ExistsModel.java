@@ -10,6 +10,13 @@ public class ExistsModel
     public Integer getExists() {
         return exists;
     }
+    public ExistsModel(){
+
+    }
+
+    public ExistsModel(int x){
+        this.setExists(x);
+    }
 
     public void setExists(Integer exists) {
         this.exists = exists;

@@ -38,8 +38,8 @@ public class ForumController {
     @RequestMapping(value = "/{category}/{thread}/addpost", method = RequestMethod.POST)
     public ResponseEntity addPost(@RequestHeader("Authorization") String token, @RequestBody OnePost onePost,
                                   @PathVariable int category, @PathVariable int thread) {
-       try {
-        System.out.println(token);
+        try {
+            System.out.println(token);
             if (!autorizationService.checkCredentials(databaseService, token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             if (onePost.getContent() == null)
@@ -59,7 +59,7 @@ public class ForumController {
 
             OneThread oneThread = new OneThread();
             oneThread.setId(onePost.getThreadId());
-            ExistsModel existsModel = threadController.checkExistsThread(oneThread.getId(), category).getBody();
+            ExistsModel existsModel = threadController.checkExistsThread(token, oneThread.getId(), category).getBody();
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Thread does not exists in database"), HttpStatus.OK);
@@ -71,15 +71,18 @@ public class ForumController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-     }
+    }
 
 
     @CrossOrigin
     @RequestMapping(value = "{category}/{thread}/getPostByThread", method = RequestMethod.GET)
-    public ResponseEntity getPostsByThreads(@PathVariable int thread, @PathVariable int category) {
+    public ResponseEntity getPostsByThreads(@RequestHeader("Authorization") String token, @PathVariable int thread, @PathVariable int category) {
         try {
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
+
             PostModel postModel = new PostModel();
-            ExistsModel existsModel = threadcontroller.checkExistsThread(thread, category).getBody();
+            ExistsModel existsModel = threadcontroller.checkExistsThread(token, thread, category).getBody();
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Thread does not exists in database"), HttpStatus.OK);
@@ -92,12 +95,12 @@ public class ForumController {
         }
     }
 
-    public int getNrComm(int th){
+    public int getNrComm(int th) {
         try {
             PostModel postModel = new PostModel();
             postModel.posts = databaseService.getPostsByThread(th);
             return (postModel.posts.size());
-        }catch (SQLException sqlEx){
+        } catch (SQLException sqlEx) {
             return -1;
         }
     }
@@ -111,7 +114,7 @@ public class ForumController {
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
 
             if (post.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            ExistsModel existsModel = checkExistsPost(post, category, thread).getBody();
+            ExistsModel existsModel = checkExistsPost(token, category, thread, post.getId()).getBody();
 
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
@@ -131,17 +134,20 @@ public class ForumController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/{category}/{thread}/postExists", method = RequestMethod.GET)
-    public ResponseEntity<ExistsModel> checkExistsPost(@RequestBody OnePost post, @PathVariable int category, @PathVariable int thread) {
+    @RequestMapping(value = "/{category}/{thread}/{post}/postExists", method = RequestMethod.GET)
+    public ResponseEntity<ExistsModel> checkExistsPost(@RequestHeader("Authorization") String token,
+                                                       @PathVariable int category, @PathVariable int thread, @PathVariable int post) {
         try {
-            ExistsModel existsModel = threadController.checkExistsThread(thread, category).getBody();
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ExistsModel(0), HttpStatus.UNAUTHORIZED);
+
+            ExistsModel existsModel = threadController.checkExistsThread(token, thread, category).getBody();
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Thread does not exists in database"), HttpStatus.OK);
 
-            if (post.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             ExistsModel existsPost = new ExistsModel();
-            existsPost.setExists(databaseService.checkPostExits(post.getId()));
+            existsPost.setExists(databaseService.checkPostExits(post));
             return new ResponseEntity<>(existsPost, HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

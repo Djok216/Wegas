@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
       'password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(50)])],
       'confirmed_password': [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(50)])],
       'email': [null, Validators.required]
-    })
+    });
   }
 
   ngOnInit() {

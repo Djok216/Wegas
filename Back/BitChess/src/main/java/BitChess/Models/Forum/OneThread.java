@@ -4,8 +4,8 @@ package BitChess.Models.Forum;
  * Created by Tamara on 18.05.2017.
  */
 public class OneThread {
-    private Integer id, userId, statusId, categoryId;
-    private String name, description, created_at;
+    private Integer id, userId, statusId, categoryId, nrPosts;
+    private String name, userName, description, created_at;
 
     public OneThread(Integer id, Integer userId, Integer statusId, Integer categoryId, String name, String description, String created_at) {
         this.id = id;
@@ -29,6 +29,22 @@ public class OneThread {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setNrPosts(Integer nrPosts) {
+        this.nrPosts = nrPosts;
+    }
+
+    public Integer getNrPosts() {
+        return nrPosts;
     }
 
     public void setCategoryId(Integer categoryId) { this.categoryId = categoryId; }

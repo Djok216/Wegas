@@ -92,6 +92,16 @@ public class ForumController {
         }
     }
 
+    public int getNrComm(int th){
+        try {
+            PostModel postModel = new PostModel();
+            postModel.posts = databaseService.getPostsByThread(th);
+            return (postModel.posts.size());
+        }catch (SQLException sqlEx){
+            return -1;
+        }
+    }
+
     @CrossOrigin
     @RequestMapping(value = "/{category}/{thread}/deletePost", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseMessageModel> deletePost(@RequestHeader("Authorization") String token, @RequestBody OnePost post,

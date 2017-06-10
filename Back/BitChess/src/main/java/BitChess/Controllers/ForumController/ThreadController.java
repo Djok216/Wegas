@@ -23,6 +23,8 @@ public class ThreadController {
     CategoryController categorycontroller;
     @Autowired
     AuthenticationController authentificationController;
+    @Autowired
+    ForumController forumController;
     AutorizationService autorizationService = new AutorizationService();
 
     @CrossOrigin
@@ -31,6 +33,10 @@ public class ThreadController {
         try {
             ThreadModel threadModel = new ThreadModel();
             threadModel.thread = databaseService.getAllThreads();
+            for (OneThread th : threadModel.thread) {
+                th.setUserName(databaseService.getNicknameById(th.getUserId()));
+                th.setNrPosts(forumController.getNrComm(th.getId()));
+            }
             System.out.print(threadModel.thread.toString());
             return new ResponseEntity(threadModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
@@ -48,10 +54,24 @@ public class ThreadController {
                 return new ResponseEntity
                         (new ResponseMessageModel("Category does not exists in database"), HttpStatus.OK);
             threadModel.thread = databaseService.getThreadsByCategory(category);
+            for (OneThread th : threadModel.thread) {
+                th.setUserName(databaseService.getNicknameById(th.getUserId()));
+                th.setNrPosts(forumController.getNrComm(th.getId()));
+            }
             System.out.print(threadModel.thread.toString());
             return new ResponseEntity(threadModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public int getNrThread(int category) {
+        ThreadModel threadModel = new ThreadModel();
+        try {
+            threadModel.thread = databaseService.getThreadsByCategory(category);
+            return (threadModel.thread.size());
+        } catch (SQLException sqlEx) {
+            return -1;
         }
     }
 
@@ -69,6 +89,10 @@ public class ThreadController {
                         (new ResponseMessageModel("User does not exists in database"), HttpStatus.OK);
 
             threadModel.thread = databaseService.getThreadsByUser(nicknameModel.getNickname());
+            for (OneThread th : threadModel.thread) {
+                th.setUserName(databaseService.getNicknameById(th.getUserId()));
+                th.setNrPosts(forumController.getNrComm(th.getId()));
+            }
             System.out.print(threadModel.thread.toString());
             return new ResponseEntity(threadModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {

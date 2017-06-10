@@ -5,7 +5,7 @@ package BitChess.Models.Forum;
  * Created by Turcu Nicusor on 13-May-17.
  */
 public class OneCategory {
-    private Integer id;
+    private Integer id, nrThreads;
     private String name, description;
 
     public OneCategory(Integer id, String name, String description) {
@@ -22,6 +22,14 @@ public class OneCategory {
     public Integer getId(){return id;}
     public String getName(){return name;}
     public String getDescription(){return description;}
+
+    public void setNrThreads(Integer nrThreads) {
+        this.nrThreads = nrThreads;
+    }
+
+    public Integer getNrThreads() {
+        return nrThreads;
+    }
 
     public void setId(Integer id) {
         this.id = id;

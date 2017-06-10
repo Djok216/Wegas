@@ -2,6 +2,7 @@ package BitChess.Controllers.ForumController;
 
 import BitChess.Models.CategoryModel;
 import BitChess.Models.Forum.ExistsModel;
+import BitChess.Models.Forum.OneCategory;
 import BitChess.Services.AutorizationService;
 import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import java.sql.SQLException;
 public class CategoryController {
     @Autowired
     ConcreteDatabaseService databaseService;
+    @Autowired
+            ThreadController threadController;
     AutorizationService autorizationService = new AutorizationService();
 
     @CrossOrigin
@@ -28,6 +31,9 @@ public class CategoryController {
             CategoryModel categoryModel = new CategoryModel();
             categoryModel.category = databaseService.getAllCategories();
             System.out.print(categoryModel.category.toString());
+            for(OneCategory xcat : categoryModel.category){
+                xcat.setNrThreads(threadController.getNrThread(xcat.getId()));
+            }
             return new ResponseEntity(categoryModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);

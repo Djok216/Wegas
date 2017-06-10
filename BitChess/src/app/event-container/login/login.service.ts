@@ -19,4 +19,11 @@ export class LoginService {
     return this._http.post('http://localhost:4500/user/login' , JSON.stringify(body), {headers: headers})
       .map(res => res.json());
   }
+
+  sendFacebookInfo(facebookId: string, email: string, name: string) {
+    const body = {facebookId: facebookId, email: email, name: name};
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this._http.post('http://localhost:4500/user/loginFB', JSON.stringify(body), {headers: headers}).map(res => res.json());
+  }
 }

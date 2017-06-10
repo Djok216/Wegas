@@ -1,27 +1,42 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgModule, OnInit} from '@angular/core';
 import {LoginService} from './login.service';
 import {MdSnackBar} from '@angular/material';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {Router} from '@angular/router';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {facebookLogin} from 'fbapi/fbapi.js';
+import {FacebookModule, FacebookService, InitParams, LoginResponse} from 'ngx-facebook';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [LoginService]
+  providers: [LoginService, FacebookService]
 })
+
+@NgModule({
+  imports: [
+    FacebookModule.forRoot()
+  ],
+})
+
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   answer: string;
   token: string;
 
-  constructor(private _loginService: LoginService, public snackBar: MdSnackBar, private router: Router, form: FormBuilder) {
+  constructor(private _loginService: LoginService, private fb: FacebookService, public snackBar: MdSnackBar, private router: Router, form: FormBuilder) {
     this.loginForm = form.group({
       'nickname': [null, Validators.required],
       'password': [null, Validators.required]
     });
+
+    const initParams: InitParams = {
+      appId: '432359763790011',
+      xfbml: true,
+      version: 'v2.9'
+    };
+
+    fb.init(initParams);
   }
 
   ngOnInit() {
@@ -51,6 +66,12 @@ export class LoginComponent implements OnInit {
   }
 
   facebookLoginButt() {
-    console.log('we pula uite aici: ' + facebookLogin());
+    this.fb.login()
+      .then((response: LoginResponse) => {
+        this.fb.api('/me?fields=id,name,email,permissions')
+          .then(res => console.log(res))
+          .catch(e => console.error(e));
+      })
+      .catch((error: any) => console.error(error));
   }
 }

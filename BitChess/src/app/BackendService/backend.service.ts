@@ -6,7 +6,7 @@ import {Http, Headers} from "@angular/http";
 
 @Injectable()
 export class BackendService {
-  private username : string;
+  private username: string;
 
   constructor(private http: Http) {
   }
@@ -20,15 +20,15 @@ export class BackendService {
   }
 
   logoutUser(token: string) {
-    let header = new Headers();
+    const header = new Headers();
     header.append('Authorization', token);
 
-    let json = JSON.stringify({});
+    const json = JSON.stringify({});
     return this.http.post('http://localhost:4500/user/logout', json, { headers: header }).map(res => res.json());
   }
 
   getClubStatisticGeneral(token: string) {
-    let header = new Headers();
+    const header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
 
@@ -36,7 +36,7 @@ export class BackendService {
   }
 
   getThreadsName(token: string){
-    let header = new Headers();
+    const header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
 
@@ -44,16 +44,16 @@ export class BackendService {
   }
 
   registerUserToClub(token: string, club_name: string, user_name: string) {
-    let header = new Headers();
+    const header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
 
-    let json = JSON.stringify({ memberName: user_name });
+    const json = JSON.stringify({ memberName: user_name });
     return this.http.post('http://localhost:4500/clubs/' + club_name + '/addMember', json, { headers: header }).map(res => res.json());
   }
 
   getUserInfo(token: string) {
-    let header = new Headers();
+    const header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
 
@@ -61,7 +61,7 @@ export class BackendService {
   }
 
   getThreadsByCategory(token: string) {
-    let header = new Headers();
+    const header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
 

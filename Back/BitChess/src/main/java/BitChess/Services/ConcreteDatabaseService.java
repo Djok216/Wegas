@@ -178,29 +178,23 @@ public class ConcreteDatabaseService {
         statement.close();
     }
 
-    public Integer logOutUser(String token) throws SQLException {
-        String plsql = " BEGIN  ? := PACKAGE_USERS.LOG_OUT(?); END;";
+    public void logOutUser(String token) throws SQLException {
+        String plsql = " BEGIN PACKAGE_USERS.LOG_OUT(?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
-        statement.setString(2, token);
-        statement.registerOutParameter(1, Types.INTEGER);
+        statement.setString(1, token);
         statement.execute();
-        Integer result = statement.getInt(1);
         statement.close();
-        System.out.println(result);
-        return result;
     }
 
-    public Integer checkToken(String token) throws  SQLException{
-        System.out.println("1111");
+    public Boolean checkToken(String token) throws  SQLException{
         String plsql = " BEGIN  ? := PACKAGE_USERS.CHECK_TOKEN(?); END;";
-        System.out.println("nu cuuum");
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
         statement.setString(2, token);
         statement.registerOutParameter(1, Types.INTEGER);
         statement.execute();
         Integer result = statement.getInt(1);
         statement.close();
-        return result;
+        return result==1;
     }
 
     public Integer getIdByToken(String token) throws SQLException {

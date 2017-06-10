@@ -10,6 +10,7 @@ import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.lang.JoseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -23,6 +24,9 @@ import java.util.List;
 
 @Service
 public class AutorizationService {
+    @Autowired
+    ConcreteDatabaseService databaseService;
+
     static Integer EXPIRATION_MINUTES = 30;
     static RsaJsonWebKey rsaJsonWebKey;
 
@@ -45,11 +49,7 @@ public class AutorizationService {
     // -- not needed anymore
     public Boolean checkCredentials(ConcreteDatabaseService databaseService, String token) {
         try {
-            Integer res = databaseService.checkToken(token);
-            System.out.println("wtf");
-            if (res == -1 || res == 0)
-                return false;
-            return true;
+            return databaseService.checkToken(token);
         } catch (SQLException sqlEx) {
             return false;
         }
@@ -58,7 +58,7 @@ public class AutorizationService {
     public String generateToken(String username, String email) {
         try {
             JwtClaims claims = new JwtClaims();
-            claims.setIssuer("bitchess.ro");
+            claims.setIssuer("www.bitchess.ro");
             claims.setExpirationTimeMinutesInTheFuture(EXPIRATION_MINUTES);
             claims.setGeneratedJwtId();
             claims.setIssuedAtToNow();
@@ -83,7 +83,7 @@ public class AutorizationService {
         JwtConsumer jwtConsumer = new JwtConsumerBuilder()
                 .setRequireExpirationTime()
                 .setAllowedClockSkewInSeconds(30)
-                .setExpectedIssuer("bitchess.ro")
+                .setExpectedIssuer("www.bitchess.ro")
                 .setVerificationKey(rsaJsonWebKey.getKey())
                 .setJwsAlgorithmConstraints(
                         new AlgorithmConstraints(AlgorithmConstraints.ConstraintType.WHITELIST,
@@ -91,8 +91,15 @@ public class AutorizationService {
                 .build();
         try {
             JwtClaims jwtClaims = jwtConsumer.processToClaims(token);
+            Boolean result = false;
+            try {
+                result = databaseService.checkToken(token);
+            } catch (SQLException sqlEx) {
+                System.out.println("Token does not exist in database! " + sqlEx.getMessage());
+                return false;
+            }
             //System.out.println("JWT validation succeeded! " + jwtClaims);
-            return true;
+            return result;
         } catch (InvalidJwtException e) {
             System.out.println("Invalid JWT! " + e);
             return false;

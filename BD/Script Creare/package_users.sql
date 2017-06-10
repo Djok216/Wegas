@@ -45,7 +45,7 @@ CREATE OR REPLACE PACKAGE PACKAGE_USERS AS
   FUNCTION COMPUTE_RATING(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER;
   FUNCTION SET_USER_BY_NICKNAME(p_nickname varchar2) RETURN SYS_REFCURSOR;
   PROCEDURE SET_TOKEN_BY_NICKNAME(p_nickname varchar2, p_token varchar2);
-  FUNCTION LOG_OUT(p_token varchar2) RETURN NUMBER;
+  PROCEDURE LOG_OUT(p_token varchar2);
   FUNCTION CHECK_TOKEN(p_token varchar2) RETURN NUMBER;
   FUNCTION GET_ID_BY_TOKEN(p_token varchar2) RETURN NUMBER;
   FUNCTION GET_NICKNAME_BY_ID(p_id USERS.ID%TYPE) RETURN USERS.NICKNAME%TYPE;
@@ -84,8 +84,8 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
   BEGIN
     -- 2 for regular user
     INSERT INTO USERS(NAME, EMAIL, NICKNAME, PASSWORD, FACEBOOK_ID, WINS, LOOSES,
-    DRAWS, CREATED_AT, STATUS_ID, CLUB_ID, TOKEN, TOKEN_TIME_ACCESS) VALUES(p_name, p_email, p_nickname,
-    p_password, null, 0, 0, 0, CURRENT_TIMESTAMP, 2, NULL, NULL, CURRENT_TIMESTAMP);
+    DRAWS, CREATED_AT, STATUS_ID, CLUB_ID, TOKEN) VALUES(p_name, p_email, p_nickname,
+    p_password, null, 0, 0, 0, CURRENT_TIMESTAMP, 2, NULL, NULL);
     -- TO DO TRIGGER OR NOT.
   END;
   
@@ -178,16 +178,12 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
   
   procedure SET_TOKEN_BY_NICKNAME(p_nickname varchar2, p_token varchar2) is
   begin
-    update users set token=p_token, token_time_access=CURRENT_TIMESTAMP
-        where lower(nickname) like lower(p_nickname);
+    update users set token=p_token where lower(nickname) like lower(p_nickname);
   end;
   
-  FUNCTION LOG_OUT(p_token varchar2) RETURN NUMBER is 
-    v_res integer;
+  PROCEDURE LOG_OUT(p_token varchar2) is 
   begin
-    select count(*) into v_res from users where token=p_token;
     update users set token=null where token=p_token;
-    return v_res;
   end;
   
   FUNCTION CHECK_TOKEN(p_token varchar2) RETURN NUMBER is 
@@ -196,6 +192,7 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
     v_count integer;
   begin
       select count(*) into v_count from users where token = p_token;
+      /*
       if v_count = 0 then
         return -1; -- tokenul este invalid
       end if;
@@ -209,7 +206,8 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
         UPDATE USERS SET TOKEN = NULL, TOKEN_TIME_ACCESS = NULL WHERE TOKEN = P_TOKEN;
         RETURN V_RES;
       end if;
-      return v_res;
+      */
+      return v_count;
     end;
     
     FUNCTION GET_ID_BY_TOKEN(p_token varchar2) RETURN NUMBER IS
@@ -224,6 +222,7 @@ END;
 --select * from users where token is not null;
 commit;
 /
+select * from users where token is not null;
 /*
 set serveroutput on;
 DECLARE

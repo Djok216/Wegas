@@ -38,6 +38,7 @@ public class AuthenticationController {
         if (existsUserModel.getExists() == 0)
             return new ResponseEntity<>(new ResponseMessageModel("Username does not exists in database"), HttpStatus.OK);
 
+        // need to refactor here
         UserInfo userInfo;
         try {
             userInfo = databaseService.getUserInformationByUsername(loginModel.getUsername());
@@ -59,13 +60,11 @@ public class AuthenticationController {
 
     @CrossOrigin
     @RequestMapping(value = "/user/logout", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessageModel> logOut(@RequestBody TokenModel tokenModel) {
-        if (tokenModel.getToken() == null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ResponseMessageModel> logOut(@RequestHeader("Authorization") String token) {
         try {
-            Integer res = databaseService.logOutUser(tokenModel.getToken());
-            if (res == 0)
-                return new ResponseEntity<>(new ResponseMessageModel("Token not found"), HttpStatus.OK);
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
+            databaseService.logOutUser(token);
             return new ResponseEntity<>(new ResponseMessageModel("Logged out successful!"), HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(new ResponseMessageModel(sqlEx.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -139,5 +138,4 @@ public class AuthenticationController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

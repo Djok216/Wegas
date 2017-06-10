@@ -109,7 +109,6 @@ CREATE TABLE USERS (
   status_id  number(10) NOT NULL, 
   club_id    number(10),
   token varchar2(2000),
-  token_time_access TIMESTAMP(6) NOT NULL,
   PRIMARY KEY (id));
 
 -- TABLES FOREIGN KEY CONSTRAINT

@@ -11,11 +11,9 @@ import {Router} from '@angular/router';
   styleUrls: ['./forum-info.component.css']
 })
 export class ForumInfoComponent implements OnInit {
-
   categories: any = [];
-  private Cookie: any;
   constructor(private backendService: BackendService, private router: Router, public snackBar: MdSnackBar,
-              public paren2: ForumComponent) {
+              public parent2: ForumComponent) {
   }
 
   ngOnInit() {

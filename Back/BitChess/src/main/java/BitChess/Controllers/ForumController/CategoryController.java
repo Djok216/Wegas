@@ -33,7 +33,7 @@ public class CategoryController {
             System.out.print(categoryModel.category.toString());
             for(OneCategory xcat : categoryModel.category){
                 xcat.setNrThreads(threadController.getNrThread(xcat.getId()));
-            }
+            }   
             return new ResponseEntity(categoryModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);

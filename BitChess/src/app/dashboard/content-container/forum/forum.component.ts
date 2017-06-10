@@ -12,6 +12,7 @@ import {MdSnackBar} from '@angular/material';
 export class ForumComponent implements OnInit {
   wtfThread: any = [];
   selectedCategory = false;
+
   constructor(private backendService: BackendService, private router: Router, public snackBar: MdSnackBar) { }
 
   ngOnInit() {
@@ -27,17 +28,17 @@ export class ForumComponent implements OnInit {
   }
 
   public onCategoryClicked(categoryId: number) {
-
+    this.selectedCategory = true;
     if (Cookie.get('sessionId') == null) {
       this.router.navigateByUrl('/login');
-    } else {
-      this.backendService.getThreadsNameByCategory(Cookie.get('sessionId'), categoryId)
-        .subscribe(
-          data => this.wtfThread = JSON.parse(JSON.stringify(data['thread'])),
-          error => console.log('Error FORUM.')
-        );
-      this.selectedCategory = true;
     }
+    // else {
+    //   this.backendService.getThreadsNameByCategory(Cookie.get('sessionId'), categoryId)
+    //     .subscribe(
+    //       data => this.wtfThread = JSON.parse(JSON.stringify(data['thread'])),
+    //       error => console.log('Error FORUM.')
+    //     );
+    // }
   }
 
   public hahahahha() {

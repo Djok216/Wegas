@@ -9,21 +9,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td><a (click)="changeRoute('home')">General Chess Discussion</a></td>
-          <td>200</td>
-        </tr>
-        <tr>
-          <td><a (click)="changeRoute('home')">Cats</a></td>
-          <td>150</td>
-        </tr>
-        <tr>
-          <td><a (click)="changeRoute('home')">Off-Topic Discussion</a></td>
-          <td>100</td>
-        </tr>
-        <tr>
-          <td><a (click)="changeRoute('home')">Strategy</a></td>
-          <td>50</td>
+        <tr *ngFor="let xcat of categories" id="{{xcat.id}}">
+          <td><a (click)="parent2.onCategoryClicked(xcat.id)">{{xcat.name}}</a></td>
+          <td>{{xcat.nrThreads}}</td>
         </tr>
         </tbody>
       </table>
@@ -38,9 +26,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let xcategory of categories" id="{{xcategory.name}}">
-          <td><a (click)="paren2.onCategoryClicked(xcategory.id)">{{xcategory.name}}</a></td>
-          <td>{{xcategory.nrThreads}}</td>
+        <tr>
+
+          <td>Find smt</td>
         </tr>
         </tbody>
       </table>

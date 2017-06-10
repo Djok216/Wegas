@@ -2,8 +2,8 @@
 <div style="padding-bottom: 10px;">
   <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
     <tbody>
-    <tr *ngFor="let xthread of paren.wtfThread" id="{{xthread.name}}">
-      <td><a (click)="changeRoute('live')">{{xthread.name}}</a></td>
+    <tr *ngFor="let xthread of parent1.wtfThread" id="{{xthread.name}}">
+      <td><a (click)="parent1.onCategoryClicked(1)">{{xthread.name}}</a></td>
       <td>
         <a class="thread_name" href="/{{xthread.ThreadName}}">{{xthread.name}}</a></td>
       <p>{{xthread.description}}</p>
@@ -15,6 +15,6 @@
 </div>
 
 <button md-button class="mdl-button mld-js-button mdl-button--primary"
-        [disabled]="!(paren.selectedCategory)">
+        [disabled]="!(parent1.selectedCategory)">
   Add Post
 </button>

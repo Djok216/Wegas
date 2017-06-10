@@ -1,5 +1,5 @@
 <div class="stats">
-<div class="item html">
+<!--<div class="item html">
   <h2>Back</h2>
   <svg width="160" height="160" xmlns="http://www.w3.org/2000/svg">
     <g>
@@ -18,4 +18,19 @@
     </g>
   </svg>
 </div>
+-->
+  <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
+    <thead><p>Nr. of threads by category</p></thead>
+    <tbody>
+    <tr *ngFor="let cat of categories" id="{{cat.catName}}">
+      <!--<td><a (click)="changeRoute('live')">General Chess Discussion</a></td>-->
+      <td>
+        <!--<a class="thread_name" href="/{{xthread.ThreadName}}">{{xthread.name}}</a></td>-->
+        {{cat.catName}}
+      </td>
+      <td>{{cat.nr_threads}}</td>
+    </tr>
+    </tbody>
+  </table>
+
 </div>

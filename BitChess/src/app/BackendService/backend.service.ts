@@ -59,6 +59,15 @@ export class BackendService {
 
     return this.http.get('http://localhost:4500/profile', { headers: header }).map(res => res.json());
   }
+
+  getThreadsByCategory(token: string) {
+    let header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', token);
+
+    return this.http.get('http://localhost:4500/stats/categoriesstats', { headers: header }).map(res => res.json());
+  }
+
 }
 
 

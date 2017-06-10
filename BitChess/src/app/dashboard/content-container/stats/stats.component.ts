@@ -1,6 +1,9 @@
+
 import {Component, OnInit} from '@angular/core';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
+import {BackendService} from '../../../BackendService/backend.service';
+import {MdSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-stats',
@@ -9,12 +12,19 @@ import {Router} from "@angular/router";
 })
 export class StatsComponent implements OnInit {
 
-  constructor(private router: Router) {
-  }
+  categories: any = [];
+
+  constructor(private backendService: BackendService, private router: Router, public snackBar: MdSnackBar) {}
 
   ngOnInit() {
     if (Cookie.get('sessionId') == null) {
       this.router.navigateByUrl('/login');
+    } else {
+      this.backendService.getThreadsByCategory(Cookie.get('sessionId'))
+        .subscribe(
+          data => this.categories = JSON.parse(JSON.stringify(data['lista'])),
+          error => console.log('Error FORUM.')
+        );
     }
   }
 }

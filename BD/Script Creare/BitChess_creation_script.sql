@@ -100,7 +100,7 @@ CREATE TABLE USERS (
   name       varchar2(255) NOT NULL, 
   email      varchar2(255) NOT NULL, 
   nickname   varchar2(255) NOT NULL, 
-  password   varchar2(50),
+  password   varchar2(100),
   facebook_id varchar2(100),
   wins       number(10, 0) NOT NULL, 
   looses     number(10, 0) NOT NULL, 

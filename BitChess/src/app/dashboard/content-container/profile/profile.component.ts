@@ -24,8 +24,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   constructor(private router: Router, private backendSerivice: BackendService, public snackBar: MdSnackBar) { }
 
   ngOnInit() {
-    if (Cookie.get('sessionId') == null)
+    if (Cookie.get('sessionId') == null) {
       this.router.navigateByUrl('');
+      this.snackBar.open("Please Login!", "", {
+        duration: 2000,
+      })
+    }
   }
 
   ngAfterViewInit() {

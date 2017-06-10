@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
           this.token =  JSON.parse(JSON.stringify(data))['token'];
           if (this.token != null) {
             this.answer = "Login success!";
-            localStorage.setItem('currentUser', this.token);
             Cookie.set('sessionId', this.token);
             this.router.navigateByUrl('');
           }

@@ -19,6 +19,14 @@ export class BackendService {
     return this.username;
   }
 
+  logoutUser(token: string) {
+    let header = new Headers();
+    header.append('Authorization', token);
+
+    let json = JSON.stringify({});
+    return this.http.post('http://localhost:4500/user/logout', json, { headers: header }).map(res => res.json());
+  }
+
   getClubStatisticGeneral(token: string) {
     let header = new Headers();
     header.append('Content-Type', 'application/json');

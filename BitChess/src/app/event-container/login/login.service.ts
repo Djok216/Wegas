@@ -12,8 +12,7 @@ export class LoginService {
   }
 
   sendLogin(username: string, password: string) {
-    password = sha256(password);
-    console.log(username, password);
+    //var password1 = sha256(password);
     const body = { username: username, password: password};
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');

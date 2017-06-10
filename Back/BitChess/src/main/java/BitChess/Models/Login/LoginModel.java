@@ -1,4 +1,4 @@
-package BitChess.Models;
+package BitChess.Models.Login;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

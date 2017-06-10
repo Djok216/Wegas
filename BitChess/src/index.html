@@ -41,23 +41,48 @@
     function facebookLogin() {
       FB.login(function (response) {
         if (response.authResponse) {
-          access_token = response.authResponse.accessToken; //get access token
-          user_id = response.authResponse.userID; //get FB UID
-          name = response.name;
-          console.log(user_id);
+          var access_token = response.authResponse.accessToken; //get access token
+          var user_id = response.authResponse.userID; //get FB UID
+          var name = response.name;
           FB.api('/me?fields=id,name,email,permissions', function (response) {
             var email = response.email;
             var name = response.name;
-            console.log(access_token);
+            console.log(user_id);
+            console.log(email);
             console.log(name);
-            console.log(response.email);
-            console.log(response.id);
+            loginWithFacebook(user_id, email, name);
           });
         } else {
           console.log('User cancelled login or did not fully authorize.');
         }
       }, {scope: 'email', return_scopes: true});
 
+    }
+
+    function loginWithFacebook(facebookId, email, name) {
+      var http = new XMLHttpRequest();
+
+      var header = new Headers();
+      header.append('Content-Type', 'application/json');
+
+      var json = JSON.stringify({
+        facebookId: facebookId,
+        email: email,
+        name: name
+      });
+
+      console.log(json);
+
+      http.open("POST", 'http://localhost:4500/user/loginFB', true);
+      http.setRequestHeader('Content-Type', 'application/json');
+
+      http.onreadystatechange = function () {//Call a function when the state changes.
+        if (http.readyState == 4 && http.status == 200) {
+          alert(http.responseText);
+        }
+      };
+
+      http.send(json);
     }
   </script>
 </head>

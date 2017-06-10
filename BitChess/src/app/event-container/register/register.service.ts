@@ -15,7 +15,6 @@ export class RegisterService {
 
   userRegister(username: string, pass: string, confPass: string, email: string) {
     pass = hex_sha1(pass);
-    console.log(pass);
     const body = {username: username, password: pass, email: email};
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');

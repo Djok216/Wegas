@@ -8,6 +8,7 @@ import BitChess.Models.Forum.OneThread;
 import BitChess.Models.Friends.FriendshipModel;
 import BitChess.Models.Games.GameEndedModel;
 import BitChess.Models.Games.GameStartedModel;
+import BitChess.Models.Login.LoginFBModel;
 import BitChess.Models.Stats.CategoriesSModel;
 import BitChess.Models.Stats.TopActiveUsersModel;
 import BitChess.Models.Stats.TopThreadsModel;
@@ -100,6 +101,17 @@ public class ConcreteDatabaseService {
         result = statement.getString(1);
         statement.close();
         return result;
+    }
+
+    public void registerUserFb(LoginFBModel loginFBModel, String nickname) throws SQLException {
+        String plsql = "BEGIN PACKAGE_USERS.INSERT_NEW_REGULAR_USER_FB(?, ?, ?, ?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setString(1, loginFBModel.getFacebookId());
+        statement.setString(2, loginFBModel.getEmail());
+        statement.setString(3, nickname);
+        statement.setString(4, loginFBModel.getName());
+        statement.execute();
+        statement.close();
     }
 
     public void register(String username, String password, String email) throws SQLException {

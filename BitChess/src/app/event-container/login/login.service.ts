@@ -13,7 +13,6 @@ export class LoginService {
 
   sendLogin(username: string, password: string) {
     password = hex_sha1(password);
-    console.log(password);
     const body = { username: username, password: password};
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');

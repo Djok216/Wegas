@@ -1,19 +1,18 @@
 package BitChess.Controllers;
 
 import BitChess.Models.*;
+import BitChess.Models.Login.LoginFBModel;
+import BitChess.Models.Login.LoginModel;
 import BitChess.Models.Users.UserInfo;
 import BitChess.Services.AutorizationService;
 import BitChess.Services.ConcreteDatabaseService;
-import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import com.sun.org.apache.xpath.internal.SourceTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.UUID;
 
 /**
  * Project name BitChess.
@@ -54,6 +53,37 @@ public class AuthenticationController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(tokenModel, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/user/loginFB", method = RequestMethod.POST)
+    public ResponseEntity<?> validateLoginFB(@RequestBody LoginFBModel loginModel) {
+        if (!loginModel.isValid())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        String nickname = loginModel.getName().replaceAll("\\s+", "");
+
+        String aux = "";
+        Integer cnt = 0;
+        while (checkExistsUser(new NicknameModel(nickname + aux)).getBody().getExists() > 0) {
+            aux = cnt.toString();
+            ++cnt;
+        }
+
+        nickname =  nickname + aux;
+
+        try {
+            databaseService.registerUserFb(loginModel, nickname);
+            TokenModel tokenModel = new TokenModel(autorizationService.generateToken(nickname, loginModel.getEmail()));
+            try {
+                databaseService.setToken(nickname, tokenModel.getToken());
+            } catch (SQLException ex) {
+                return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return new ResponseEntity<>(tokenModel, HttpStatus.OK);
+        } catch (SQLException ex) {
+            return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @CrossOrigin

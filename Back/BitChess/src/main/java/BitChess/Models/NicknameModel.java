@@ -10,6 +10,14 @@ import java.io.Serializable;
 public class NicknameModel implements Serializable {
     private String nickname;
 
+    public NicknameModel(String s) {
+        this.nickname = s;
+    }
+
+    public NicknameModel() {
+        this.nickname = "";
+    }
+
     public String getNickname() {
         return nickname;}
 

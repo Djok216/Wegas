@@ -48,7 +48,7 @@ public class AuthenticationController {
             return new ResponseEntity<>(new ResponseMessageModel("Invalid password"), HttpStatus.OK);
         TokenModel tokenModel = new TokenModel(autorizationService.generateToken(userInfo.getNickname(), userInfo.getEmail()));
         try {
-            databaseService.setToken(username.getNickname(), tokenModel.getToken());
+            databaseService.setTokenByNickname(username.getNickname(), tokenModel.getToken());
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -69,14 +69,12 @@ public class AuthenticationController {
             aux = cnt.toString();
             ++cnt;
         }
-
-        nickname =  nickname + aux;
-
+        nickname = nickname + aux;
         try {
             databaseService.registerUserFb(loginModel, nickname);
             TokenModel tokenModel = new TokenModel(autorizationService.generateToken(nickname, loginModel.getEmail()));
             try {
-                databaseService.setToken(nickname, tokenModel.getToken());
+                databaseService.setTokenByFBId(loginModel.getFacebookId(), tokenModel.getToken());
             } catch (SQLException ex) {
                 return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
             }

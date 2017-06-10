@@ -9,9 +9,9 @@ import {Router} from "@angular/router";
   styleUrls: ['./authenticate-section.component.css']
 })
 export class AuthenticateSectionComponent implements OnInit {
-  response : string;
+  response: string;
 
-  constructor(private backendService : BackendService, public snackBar: MdSnackBar,  private router: Router) {
+  constructor(private backendService: BackendService, public snackBar: MdSnackBar, private router: Router) {
   }
 
   ngOnInit() {
@@ -21,7 +21,7 @@ export class AuthenticateSectionComponent implements OnInit {
     this.backendService.logoutUser(Cookie.get('sessionId'))
       .subscribe(
         data => {
-          this.response =  JSON.parse(JSON.stringify(data))['responseMessage'];
+          this.response = JSON.parse(JSON.stringify(data))['responseMessage'];
           Cookie.delete('sessionId');
           this.router.navigateByUrl('login');
         },

@@ -46,6 +46,7 @@ CREATE OR REPLACE PACKAGE PACKAGE_USERS AS
   FUNCTION COMPUTE_RATING(p_nickname USERS.NICKNAME%TYPE) RETURN INTEGER;
   FUNCTION SET_USER_BY_NICKNAME(p_nickname varchar2) RETURN SYS_REFCURSOR;
   PROCEDURE SET_TOKEN_BY_NICKNAME(p_nickname varchar2, p_token varchar2);
+  procedure SET_TOKEN_BY_FBID(p_fbid varchar2, p_token varchar2);
   PROCEDURE LOG_OUT(p_token varchar2);
   FUNCTION CHECK_TOKEN(p_token varchar2) RETURN NUMBER;
   FUNCTION GET_ID_BY_TOKEN(p_token varchar2) RETURN NUMBER;
@@ -194,6 +195,11 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
     update users set token=p_token where lower(nickname) like lower(p_nickname);
   end;
   
+  procedure SET_TOKEN_BY_FBID(p_fbid varchar2, p_token varchar2) is
+  begin
+    update users set token=p_token where facebook_id like p_fbid;
+  end;
+  
   PROCEDURE LOG_OUT(p_token varchar2) is 
   begin
     update users set token=null where token=p_token;
@@ -232,8 +238,11 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
     END;
 END;
 /
---select * from users where token is not null;
-commit;
+select * from users where nickname like '%nicusornicusor%';
+
+select * from users where token is not null;
+
+
 /*
 set serveroutput on;
 DECLARE

@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {RegisterService} from "./register.service";
+import {RegisterService} from './register.service';
 import {MdSnackBar} from '@angular/material';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
+import {sha256} from 'sha256';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
 @Component({

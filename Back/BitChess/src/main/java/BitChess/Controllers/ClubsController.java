@@ -19,6 +19,7 @@ import java.sql.SQLException;
 public class ClubsController {
     @Autowired
     private ConcreteDatabaseService databaseService;
+    @Autowired
     AutorizationService autorizationService = new AutorizationService();
 
     @RequestMapping(value = "/clubs/addClub", method = RequestMethod.POST)

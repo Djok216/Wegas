@@ -44,13 +44,14 @@
           access_token = response.authResponse.accessToken; //get access token
           user_id = response.authResponse.userID; //get FB UID
           name = response.name;
-
+          console.log(user_id);
           FB.api('/me?fields=id,name,email,permissions', function (response) {
             var email = response.email;
             var name = response.name;
             console.log(access_token);
             console.log(name);
             console.log(response.email);
+            console.log(response.id);
           });
         } else {
           console.log('User cancelled login or did not fully authorize.');

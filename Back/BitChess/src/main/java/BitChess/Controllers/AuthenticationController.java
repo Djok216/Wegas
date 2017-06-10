@@ -30,20 +30,18 @@ public class AuthenticationController {
     @CrossOrigin
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
     public ResponseEntity<?> validateLogin(@RequestBody LoginModel loginModel) {
-        if (loginModel.getUsername() == null || loginModel.getPassword() == null)
+        if (!loginModel.isValid())
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         NicknameModel username = new NicknameModel();
         username.setNickname(loginModel.getUsername());
         ExistsUserModel existsUserModel = checkExistsUser(username).getBody();
         if (existsUserModel.getExists() == 0)
-            return new ResponseEntity<>(new ResponseMessageModel("Username does not exists in database"), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessageModel("Username does not exists in database."), HttpStatus.OK);
 
-        // need to refactor here
         UserInfo userInfo;
         try {
             userInfo = databaseService.getUserInformationByUsername(loginModel.getUsername());
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             userInfo = new UserInfo();
         }
         ResponseMessageModel password = getPassword(username).getBody();
@@ -99,15 +97,16 @@ public class AuthenticationController {
 
     @CrossOrigin
     @RequestMapping(value = "/findUsers/string_match=\"{stringMatch}\"", method = RequestMethod.GET)
-    public ResponseEntity<?> findUsers(@PathVariable String stringMatch) {
+    public ResponseEntity<?> findUsers(@RequestHeader("Authorization") String token, @PathVariable String stringMatch) {
         try {
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             return new ResponseEntity<>(databaseService.findUsers(stringMatch), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @CrossOrigin
     @RequestMapping(value = "/user/getPassword", method = RequestMethod.POST)
     public ResponseEntity<ResponseMessageModel> getPassword(@RequestBody NicknameModel userNickname) {
         try {
@@ -124,7 +123,7 @@ public class AuthenticationController {
     @RequestMapping(value = "/user/register", method = RequestMethod.POST)
     public ResponseEntity<ResponseMessageModel> register(@RequestBody RegisterModel registerModel) {
         try {
-            if (registerModel.getUsername() == null || registerModel.getPassword() == null || registerModel.getEmail() == null)
+            if (!registerModel.isValid())
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
             NicknameModel username = new NicknameModel();

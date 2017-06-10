@@ -221,8 +221,6 @@ END;
 /
 --select * from users where token is not null;
 commit;
-/
-select * from users where token is not null;
 /*
 set serveroutput on;
 DECLARE

@@ -1,5 +1,7 @@
 package BitChess.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Project name BitChess.
  * Created by Turcu Nicusor on 09-May-17.
@@ -19,5 +21,11 @@ public class LoginModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @JsonIgnore
+    public Boolean isValid() {
+        return !(getUsername() == null || getPassword() == null ||
+                getPassword().isEmpty() || getUsername().isEmpty());
     }
 }

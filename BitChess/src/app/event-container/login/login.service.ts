@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers} from '@angular/http';
-import {sha256} from 'sha256';
+import {hex_sha1} from 'crypto/sha1.js';
 import 'rxjs/add/operator/map';
 /**
  * Created by BlackDeathM8 on 11-Apr-17.
@@ -12,7 +12,8 @@ export class LoginService {
   }
 
   sendLogin(username: string, password: string) {
-    //var password1 = sha256(password);
+    password = hex_sha1(password);
+    console.log(password);
     const body = { username: username, password: password};
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');

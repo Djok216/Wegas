@@ -1,3 +1,4 @@
+ <script src="register.component.ts"></script>
  <app-header-container></app-header-container>
 <main class="mdl-layout__content"></main>
 <div id="body">
@@ -85,6 +86,10 @@
                     *ngIf="registerForm.controls['confirmed_password'].hasError('maxlength') && registerForm.controls['confirmed_password'].touched"
                     class="alert alert-danger">Your confirmed password cannot exceed 50 characters.
                   </div>
+                  <div
+                    *ngIf="registerForm.controls['confirmed_password'].touched && input_confirmPassword.value !== input_password .value"
+                    class="alert alert-danger"> Passwords should correspond
+                  </div>
                 </th>
               </tr>
               <tr>
@@ -110,7 +115,7 @@
               <tr>
                 <th>
                   <button md-button class="mdl-button mld-js-button mdl-button--primary" (click)="onRegisterClick(input_username.value, input_password.value,
-                      input_confirmPassword.value,input_email.value)" [disabled]="!registerForm.valid">Register
+                      input_confirmPassword.value,input_email.value)" [disabled]="!(registerForm.valid) || input_confirmPassword.value !== input_password .value">Register
                   </button>
                 </th>
               </tr>
@@ -133,3 +138,4 @@
   <br style="clear: both">
   <app-footer-container></app-footer-container>
 </div>
+

@@ -181,10 +181,19 @@ public class ConcreteDatabaseService {
         return result;
     }
 
-    public void setToken(String nickname, String token) throws SQLException {
+    public void setTokenByNickname(String nickname, String token) throws SQLException {
         String plsql = "BEGIN PACKAGE_USERS.SET_TOKEN_BY_NICKNAME(?, ?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
         statement.setString(1, nickname);
+        statement.setString(2, token);
+        statement.execute();
+        statement.close();
+    }
+
+    public void setTokenByFBId(String fbId, String token) throws SQLException {
+        String plsql = "BEGIN PACKAGE_USERS.SET_TOKEN_BY_FBID(?, ?); END;";
+        CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
+        statement.setString(1, fbId);
         statement.setString(2, token);
         statement.execute();
         statement.close();

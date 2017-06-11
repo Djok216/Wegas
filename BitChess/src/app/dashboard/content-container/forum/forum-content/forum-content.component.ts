@@ -3,6 +3,7 @@ import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {Router} from '@angular/router';
 import {MdSnackBar} from '@angular/material';
 import {BackendService} from '../../../../BackendService/backend.service';
+import {ForumComponent} from '../forum.component';
 
 
 @Component({
@@ -12,19 +13,13 @@ import {BackendService} from '../../../../BackendService/backend.service';
 })
 
 export class ForumContentComponent implements OnInit {
-  wtfThread: any = [];
 
-  constructor(private backendService: BackendService, private router: Router, public snackBar: MdSnackBar) { }
+  constructor(private backendService: BackendService, private router: Router, public snackBar: MdSnackBar,
+              public parent1: ForumComponent) { }
 
   ngOnInit() {
     if (Cookie.get('sessionId') == null) {
       this.router.navigateByUrl('/login');
-    } else {
-      this.backendService.getThreadsName(Cookie.get('sessionId'))
-        .subscribe(
-          data => this.wtfThread = JSON.parse(JSON.stringify(data['thread'])),
-          error => console.log('Error FORUM.')
-        );
     }
   }
 }

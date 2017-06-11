@@ -1,16 +1,15 @@
-<div style="margin: 0 auto;">
-  <h1 style="text-decoration: rgba(78,55,104,0.96);">Posts</h1>
-  <div style="padding-bottom: 10px;">
-    <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
-      <tbody>
-      <tr *ngFor="let xthread of wtfThread" id="{{xthread.name}}">
-        <td><a (click)="changeRoute('live')">General Chess Discussion</a></td>
-        <td>
-          <a class="thread_name" href="/{{xthread.ThreadName}}">{{xthread.name}}</a></td>
-        {{xthread.name}}
-        <td style="color: red;">Djok</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+<h1 style="text-decoration: rgba(78,55,104,0.96)">Posts</h1>
+<div style="padding-bottom: 10px;">
+  <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
+    <tbody>
+    <tr *ngFor="let xthread of wtfThread" id="{{xthread.name}}">
+      <td><a (click)="changeRoute('live')">General Chess Discussion</a></td>
+      <td>
+        <a class="thread_name" href="/{{xthread.ThreadName}}">{{xthread.name}}</a></td>
+      {{xthread.name}}
+      <td style="color: red;">Djok</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
+

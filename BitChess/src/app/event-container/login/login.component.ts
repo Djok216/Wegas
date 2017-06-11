@@ -69,7 +69,34 @@ export class LoginComponent implements OnInit {
     this.fb.login()
       .then((response: LoginResponse) => {
         this.fb.api('/me?fields=id,name,email,permissions')
+<<<<<<< HEAD
           .then(res => console.log(JSON.stringify(res)))
+=======
+          .then(
+            res => {
+              let facebookId : string = res.id;
+              let email : string = res.email;
+              let name : string = res.name;
+              this._loginService.sendFacebookInfo(facebookId, email, name)
+                .subscribe(
+                  data => {
+                    this.token = JSON.parse(JSON.stringify(data))['token'];
+                    if (this.token != null) {
+                      this.answer = 'Login success!';
+                      Cookie.set('sessionId', this.token);
+                      this.router.navigateByUrl('');
+                    } else {
+                      this.answer = 'Login failed!';
+                    }
+                  },
+                  error => alert(error),
+                  () => this.snackBar.open(this.answer, '', {
+                    duration: 2000,
+                  })
+                );
+            }
+          )
+>>>>>>> 7d7f16755d5d14a57c141c350633e9bdbcbcc9a5
           .catch(e => console.error(e));
       })
       .catch((error: any) => console.error(error));

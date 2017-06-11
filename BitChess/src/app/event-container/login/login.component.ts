@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
     this.fb.login()
       .then((response: LoginResponse) => {
         this.fb.api('/me?fields=id,name,email,permissions')
-          .then(res => console.log(res))
+          .then(res => console.log(JSON.stringify(res)))
           .catch(e => console.error(e));
       })
       .catch((error: any) => console.error(error));

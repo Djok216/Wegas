@@ -6,6 +6,7 @@ table, th, td {
 th, td {
   padding: 10px;
 }
+
 .subject {
   width: 75em;
 }
@@ -13,13 +14,14 @@ th, td {
 table#t01 tr:nth-child(even) {
   background-color: #eee;
 }
+
 table#t01 tr:nth-child(odd) {
   background-color: #fff;
 }
 
 .scrollit {
-  overflow:scroll;
-  height:450px;
+  overflow: scroll;
+  height: 450px;
   width: 100%;
 }
 
@@ -28,15 +30,15 @@ table#t01 tr:nth-child(odd) {
   width: 100%;
 }
 
-.category_name{
+.category_name {
   color: #3B5998;
   text-decoration: none;
   font-size: large;
   text-decoration-style: solid;
 }
 
-.description{
+.description {
   text-decoration: none;
-  text-decoration: rgba(0,0,0,0.4);
+  text-decoration: rgba(0, 0, 0, 0.4);
   font-size: small;
 }

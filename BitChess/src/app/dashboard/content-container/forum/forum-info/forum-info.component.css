@@ -1,19 +1,17 @@
 .info-sidebar {
-  float: right;
-  width: 100%;
-  display: inline;
+  float: left;
+  margin: 0 auto;
 }
 
 .sidebox {
   margin-bottom: 1.5em;
 }
 
-
-.rtable{
+.rtable {
   text-align-all: left;
   border: black;
-
 }
- .info_s{
-   position: relative;
- }
+
+.info_s {
+  position: relative;
+}

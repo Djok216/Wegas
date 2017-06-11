@@ -1501,33 +1501,33 @@ var GameChess = function Game() {
   }
 
   function add_player_els(el, player) {
-    var level_el = G.cde("select", null, {all_on_changes: make_set_level(player)}, [
-      G.cde("option", {t: 0, value: 0, selected: player.level === 0}),
-      G.cde("option", {t: 1, value: 1, selected: player.level === 1}),
-      G.cde("option", {t: 2, value: 2, selected: player.level === 2}),
-      G.cde("option", {t: 3, value: 3, selected: player.level === 3}),
-      G.cde("option", {t: 4, value: 4, selected: player.level === 4}),
-      G.cde("option", {t: 5, value: 5, selected: player.level === 5}),
-      G.cde("option", {t: 6, value: 6, selected: player.level === 6}),
-      G.cde("option", {t: 7, value: 7, selected: player.level === 7}),
-      G.cde("option", {t: 8, value: 8, selected: player.level === 8}),
-      G.cde("option", {t: 9, value: 9, selected: player.level === 9}),
-      G.cde("option", {t: 10, value: 10, selected: player.level === 10}),
-      G.cde("option", {t: 11, value: 11, selected: player.level === 11}),
-      G.cde("option", {t: 12, value: 12, selected: player.level === 12}),
-      G.cde("option", {t: 13, value: 13, selected: player.level === 13}),
-      G.cde("option", {t: 14, value: 14, selected: player.level === 14}),
-      G.cde("option", {t: 15, value: 15, selected: player.level === 15}),
-      G.cde("option", {t: 16, value: 16, selected: player.level === 16}),
-      G.cde("option", {t: 17, value: 17, selected: player.level === 17}),
-      G.cde("option", {t: 18, value: 18, selected: player.level === 18}),
-      G.cde("option", {t: 19, value: 19, selected: player.level === 19}),
-      G.cde("option", {t: 20, value: 20, selected: player.level === 20}),
+    var level_el = G.cde("select", {c: 'mdl-layout'}, {all_on_changes: make_set_level(player)}, [
+      G.cde("option", {c: 'mdl-layout', t: 0, value: 0, selected: player.level === 0}),
+      G.cde("option", {c: 'mdl-layout', t: 1, value: 1, selected: player.level === 1}),
+      G.cde("option", {c: 'mdl-layout', t: 2, value: 2, selected: player.level === 2}),
+      G.cde("option", {c: 'mdl-layout', t: 3, value: 3, selected: player.level === 3}),
+      G.cde("option", {c: 'mdl-layout', t: 4, value: 4, selected: player.level === 4}),
+      G.cde("option", {c: 'mdl-layout', t: 5, value: 5, selected: player.level === 5}),
+      G.cde("option", {c: 'mdl-layout', t: 6, value: 6, selected: player.level === 6}),
+      G.cde("option", {c: 'mdl-layout', t: 7, value: 7, selected: player.level === 7}),
+      G.cde("option", {c: 'mdl-layout', t: 8, value: 8, selected: player.level === 8}),
+      G.cde("option", {c: 'mdl-layout', t: 9, value: 9, selected: player.level === 9}),
+      G.cde("option", {c: 'mdl-layout', t: 10, value: 10, selected: player.level === 10}),
+      G.cde("option", {c: 'mdl-layout', t: 11, value: 11, selected: player.level === 11}),
+      G.cde("option", {c: 'mdl-layout', t: 12, value: 12, selected: player.level === 12}),
+      G.cde("option", {c: 'mdl-layout', t: 13, value: 13, selected: player.level === 13}),
+      G.cde("option", {c: 'mdl-layout', t: 14, value: 14, selected: player.level === 14}),
+      G.cde("option", {c: 'mdl-layout', t: 15, value: 15, selected: player.level === 15}),
+      G.cde("option", {c: 'mdl-layout', t: 16, value: 16, selected: player.level === 16}),
+      G.cde("option", {c: 'mdl-layout', t: 17, value: 17, selected: player.level === 17}),
+      G.cde("option", {c: 'mdl-layout', t: 18, value: 18, selected: player.level === 18}),
+      G.cde("option", {c: 'mdl-layout', t: 19, value: 19, selected: player.level === 19}),
+      G.cde("option", {c: 'mdl-layout', t: 20, value: 20, selected: player.level === 20}),
     ]);
 
-    var type_el = G.cde("select", null, {all_on_changes: make_type_change(player)}, [
-      G.cde("option", {t: "Human", value: "human", selected: player.type === "human"}),
-      G.cde("option", {t: "Computer", value: "ai", selected: player.type === "ai"}),
+    var type_el = G.cde("select", {c: 'mdl-layout'}, {all_on_changes: make_type_change(player)}, [
+      G.cde("option", {c: 'mdl-layout', t: "Human", value: "human", selected: player.type === "human"}),
+      G.cde("option", {c: 'mdl-layout', t: "Computer", value: "ai", selected: player.type === "ai"}),
     ]);
 
     ///
@@ -1540,13 +1540,13 @@ var GameChess = function Game() {
       player.time = {};
     }
 
-    var time_type_el = G.cde("select", null, {all_on_changes: make_set_time_type(player)}, [
-      G.cde("option", {t: "none", value: "none", selected: player.time.type === "none"}),
-      G.cde("option", {t: "Sudden Death", value: "sd", selected: player.time.type === "sd"}),
+    var time_type_el = G.cde("select", {c: 'mdl-layout'}, {all_on_changes: make_set_time_type(player)}, [
+      G.cde("option", {c: 'mdl-layout', t: "none", value: "none", selected: player.time.type === "none"}),
+      G.cde("option", {c: 'mdl-layout', t: "Sudden Death", value: "sd", selected: player.time.type === "sd"}),
     ]);
 
     var sd_el = G.cde("input", {
-      c: "fixinput",
+      c: "fixinput mdl-layout",
       type: "text",
       value: player.time.sd || default_sd_time
     }, {all_on_changes: make_set_sd_time(player)});
@@ -1602,21 +1602,21 @@ var GameChess = function Game() {
   }
 
   function create_center() {
-    new_game_el = G.cde("button", {t: "New Game"}, {
+    new_game_el = G.cde("button", {t: "New Game", c: 'mdl-button'}, {
       click: function () {
         start_new()
       }
     });
-    setup_game_el = G.cde("button", {t: "Setup Game"}, {
+    setup_game_el = G.cde("button", {t: "Setup Game", c: 'mdl-button'}, {
       click: function () {
         init_setup()
       }
     });
     game_info_text = G.cde("span", {c: "gameInfoText"});
-    var gameTypeSel = G.cde("Select", {oninput: changeType}, [
-      G.cde("option", {value: "standard", t: "Standard", selected: "selected"}),
-      G.cde("option", {value: "knightSight", t: "Knight Sight"}),
-      G.cde("option", {value: "knightJump", t: "Knight Jump"}),
+    var gameTypeSel = G.cde("select", {oninput: changeType, c: 'mdl-layout'}, [
+      G.cde("option", {c: 'mdl-layout', value: "standard", t: "Standard", selected: "selected"}),
+      G.cde("option", {c: 'mdl-layout', value: "knightSight", t: "Knight Sight"}),
+      G.cde("option", {c: 'mdl-layout', value: "knightJump", t: "Knight Jump"}),
     ]);
 
     center_el.appendChild(G.cde("documentFragment", [

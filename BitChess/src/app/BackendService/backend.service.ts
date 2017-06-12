@@ -133,7 +133,6 @@ export class BackendService {
 
     return this.http.get('http://localhost:4500/' + categoryId + '/' + threadId + '/getPostByThread', {headers: header}).map(res => res.json());
   }
-
 }
 
 

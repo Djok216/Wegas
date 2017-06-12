@@ -7,11 +7,7 @@ function make_moves_el(parent, height_parent) {
     plys,
     track_row,
     offset_height,
-    selected_id,
-    allMoves = "",
-    gameId,
-    wPlayerId,
-    bPlayerId;
+    selected_id;
 
   function clean_san(san) {
     /// \u2011 is a non-breaking hyphen (useful for O-O-O).
@@ -111,17 +107,6 @@ function make_moves_el(parent, height_parent) {
 
     // HERE options.san Contains the real move
     //console.log(cur_row + ' ' + options.san + ' ' + options.color);
-    if (options.color === 'w') {
-      if (cur_row === 0) {
-        allMoves = "";
-        getGameInfo();
-      }
-      allMoves = allMoves + (cur_row + 1) + '.' + options.san + ' ';
-    } else {
-      allMoves = allMoves + options.san + ' ';
-    }
-
-    console.log(allMoves);
 
     if (typeof options.pm !== "undefined") {
       plys[options.ply].pm = options.pm;
@@ -130,10 +115,6 @@ function make_moves_el(parent, height_parent) {
     if (!options.do_not_display) {
       create_rows(options.scoll_to_bottom);
     }
-  }
-
-  function getGameInfo() {
-    console.log("nasol man");
   }
 
   function create_rows(scoll_to_bottom) {
@@ -349,10 +330,6 @@ function make_moves_el(parent, height_parent) {
     update_eval: update_eval,
     resize: resize,
     destroy: destroy,
-    allMoves: allMoves,
-    gameId: gameId,
-    wPlayerId: wPlayerId,
-    bPlayerId: bPlayerId,
     reset_moves: reset_moves,
     create_rows: create_rows,
     set_highlighted: set_highlighted,

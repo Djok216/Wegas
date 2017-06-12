@@ -34,6 +34,10 @@ var GameChess = function Game() {
   var lastGameType;
   var answers;
   var currentMovePath;
+  var gameId;
+  var wPlayerId;
+  var bPlayerId;
+  var allMoves;
 
   function error(str) {
     str = str || "Unknown error";
@@ -403,17 +407,22 @@ var GameChess = function Game() {
               G.cde("br"),
               (board.turn === "b" ? "Black" : "White") + " is checkmated!",
             ]);
+            theFuckingGameHasFinished(gameId, board.turn === 'b' ? 1 : 2, allMoves);
           } else {
             if (stalemate_by_rules) {
               if (stalemate_by_rules === "50") {
                 message_el = G.cde("div", {t: "Stalemate: 50 move rule"});
+                theFuckingGameHasFinished(gameId, 0, allMoves);
               } else if (stalemate_by_rules === "3") {
                 message_el = G.cde("div", {t: "Stalemate: Three-fold repetition"});
+                theFuckingGameHasFinished(gameId, 0, allMoves);
               } else if (stalemate_by_rules === "material") {
                 message_el = G.cde("div", {t: "Stalemate: Insufficient material"});
+                theFuckingGameHasFinished(gameId, 0, allMoves);
               }
             } else {
               message_el = G.cde("div", {t: "Stalemate!"});
+              theFuckingGameHasFinished(gameId, 0, allMoves);
             }
           }
           if (message_el) {
@@ -424,7 +433,6 @@ var GameChess = function Game() {
             });
           }
           pause_game();
-          console.log(moves_manager.allMoves);
         }
       }
     });
@@ -605,7 +613,7 @@ var GameChess = function Game() {
 
   function tell_engine_to_move() {
     ///NOTE: Without time, it thinks really fast. So, we give it a something to make it move reasonably quickly.
-    ///      This time is also tweaked based on the level.
+    ///      This time is also tweaked based on the .
     var default_time = 1200 * 60, /// 1 minute
       wtime,
       btime,
@@ -665,7 +673,6 @@ var GameChess = function Game() {
 
   function on_human_move(uci, san) {
     set_cur_pos_cmd();
-    console.log()
     ///NOTE: We need to get legal moves (even for AI) because we need to know if a move is castling or not.
     set_legal_moves(tell_engine_to_move);
 
@@ -732,7 +739,6 @@ var GameChess = function Game() {
   function init_setup() {
     pause_game();
     new_game_el.textContent = "Start Game";
-    moves_manager.allMoves = "";
     setup_game_el.disabled = true;
     hide_loading(true);
     board.enable_setup();
@@ -814,7 +820,6 @@ var GameChess = function Game() {
     gameType = whichType || gameType;
 
     game_info_text.textContent = "";
-    moves_manager.allMoves = "";
 
     board.noRemoving = false;
     G.events.detach("board_human_move", watchKnightSight);
@@ -1247,9 +1252,92 @@ var GameChess = function Game() {
           hide_loading();
           tell_engine_to_move();
           G.events.trigger("newGameBegins");
+          startTheFuckingNewGame();
         });
       });
     });
+  }
+
+  function theFuckingGameHasFinished(gameId, gameResult, movements) {
+    var header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', getCookie('sessionId'));
+
+    var body = JSON.stringify({
+      gameId: gameId,
+      gameResult: gameResult,
+      movements: movements
+    });
+    makeRequest('PUT', 'http://localhost:4500/games/addGameEnded', body, header);
+  }
+
+  function startTheFuckingNewGame() {
+    allMoves = "";
+    var header;
+    var body;
+    if (board.players.w.type === 'ai') {
+      wPlayerId = 1;
+    } else {
+      header = new Headers();
+      header.append('Content-Type', 'application/json');
+      header.append('Authorization', getCookie('sessionId'));
+      body = JSON.stringify({});
+      wPlayerId = makeRequest('GET', 'http://localhost:4500/getUserId', body, header);
+    }
+
+    if (board.players.b.type === 'ai') {
+      bPlayerId = 1;
+    } else {
+      header = new Headers();
+      header.append('Content-Type', 'application/json');
+      header.append('Authorization', getCookie('sessionId'));
+      body = JSON.stringify({});
+      bPlayerId = makeRequest('GET', 'http://localhost:4500/getUserId', body, header);
+    }
+
+    header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', getCookie('sessionId'));
+    body = JSON.stringify({
+      firstPlayerId: wPlayerId,
+      secondPlayerId: bPlayerId
+    });
+    gameId = makeRequest('POST', 'http://localhost:4500/games/addGameStarted', body, header);
+    gameId = JSON.parse(gameId)['gameId'];
+  }
+
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) === ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) === 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  function makeRequest(method, link, body, header) {
+    var http = new XMLHttpRequest();
+
+    http.open(method, link, false);
+    http.setRequestHeader('Content-Type', header.get('Content-Type'));
+    http.setRequestHeader('Authorization', header.get('Authorization'));
+
+    http.onreadystatechange = function () {//Call a function when the state changes.
+      if (http.readyState === 4 && http.status === 200) {
+        // TO DO SOMETHING HERE OR FUCK OFF;
+      }
+    };
+
+    http.send(body);
+
+    return http.responseText;
   }
 
   //setInterval(start_new_game, 30000);
@@ -1529,7 +1617,12 @@ var GameChess = function Game() {
     ]);
 
     var type_el = G.cde("select", {c: 'mdl-button mdl-button--raised'}, {all_on_changes: make_type_change(player)}, [
-      G.cde("option", {c: 'mdl-button mdl-button--raised', t: "Human", value: "human", selected: player.type === "human"}),
+      G.cde("option", {
+        c: 'mdl-button mdl-button--raised',
+        t: "Human",
+        value: "human",
+        selected: player.type === "human"
+      }),
       G.cde("option", {c: 'mdl-button mdl-button--raised', t: "Computer", value: "ai", selected: player.type === "ai"}),
     ]);
 
@@ -1544,8 +1637,18 @@ var GameChess = function Game() {
     }
 
     var time_type_el = G.cde("select", {c: 'mdl-button mdl-button--raised'}, {all_on_changes: make_set_time_type(player)}, [
-      G.cde("option", {c: 'mdl-button mdl-button--raised', t: "none", value: "none", selected: player.time.type === "none"}),
-      G.cde("option", {c: 'mdl-button mdl-button--raised', t: "Sudden Death", value: "sd", selected: player.time.type === "sd"}),
+      G.cde("option", {
+        c: 'mdl-button mdl-button--raised',
+        t: "none",
+        value: "none",
+        selected: player.time.type === "none"
+      }),
+      G.cde("option", {
+        c: 'mdl-button mdl-button--raised',
+        t: "Sudden Death",
+        value: "sd",
+        selected: player.time.type === "sd"
+      }),
     ]);
 
     var sd_el = G.cde("input", {
@@ -1668,8 +1771,10 @@ var GameChess = function Game() {
             /// If the player with time is almost beaten (or the game is almost a stalemate) call it a stalemate.
             if (is_insufficient_material(player.color === "w" ? "b" : "w")) {
               message = "Stalemate: Player with time has insufficient material";
+              theFuckingGameHasFinished(gameId, 0, allMoves);
             } else {
               message = (player.color === "w" ? "White" : "Black") + " loses on time.";
+              theFuckingGameHasFinished(gameId, player.color === 'w' ? 2 : 1, allMoves);
             }
             board.create_modular_window({
               content: G.cde("div", {t: message}),
@@ -2114,6 +2219,12 @@ var GameChess = function Game() {
       ply: ply - 1,
       scoll_to_bottom: true
     });
+
+    if (color === 'w') {
+      allMoves = allMoves + (Math.floor(ply / 2) + 1) + '.' + e.san + ' ';
+    } else {
+      allMoves = allMoves + e.san + ' ';
+    }
   });
 
   G.events.attach("newGameBegins", function onmove(e) {

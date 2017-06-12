@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
       this.router.navigateByUrl('');
     }
   }
+
   onLoginClick(current_username: string, current_password: string) {
     this._loginService.sendLogin(current_username, current_password)
       .subscribe(
@@ -74,7 +75,9 @@ export class LoginComponent implements OnInit {
             res => {
               const facebookId: string = JSON.parse(res)['id'];
               let email: string = JSON.parse(res)['email'];
-              if(email === null) email = "noemail@email.com"
+              if (email === null) {
+                email = 'noemail@email.com';
+              }
               const name: string = JSON.parse(res)['name'];
               this._loginService.sendFacebookInfo(facebookId, email, name)
                 .subscribe(

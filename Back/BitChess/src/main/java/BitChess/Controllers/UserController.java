@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private ConcreteDatabaseService databaseService;
+    @Autowired
     AutorizationService autorizationService = new AutorizationService();
 
     @CrossOrigin
@@ -29,6 +30,16 @@ public class UserController {
             //if (!databaseService.existsUser(token))
             //    return new ResponseEntity<>(new ResponseMessageModel("Username does not exists in database"), HttpStatus.OK);
             return new ResponseEntity<>(databaseService.getUserInformation(token), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getUserId", method = RequestMethod.GET)
+    public ResponseEntity<?> getUserId(@RequestHeader("Authorization") String token) {
+        try {
+            return new ResponseEntity<>(databaseService.getIdByToken(token), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class GamesController {
     @Autowired
     private ConcreteDatabaseService databaseService;
+    @Autowired
     AutorizationService autorizationService = new AutorizationService();
 
     @CrossOrigin

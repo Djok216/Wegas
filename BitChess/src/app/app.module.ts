@@ -39,6 +39,7 @@ import { ContentLearnComponent } from './dashboard/content-container/learn/conte
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BackendService} from "./BackendService/backend.service";
 import { ProfileComponent } from './dashboard/content-container/profile/profile.component';
+import {PopupModule} from "ng2-opd-popup";
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { ProfileComponent } from './dashboard/content-container/profile/profile.
     MaterialModule.forRoot(),
     BrowserAnimationsModule,
     FlexLayoutModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PopupModule.forRoot()
   ],
   providers: [HttpModule, BackendService],
   bootstrap: [AppComponent]

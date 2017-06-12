@@ -1,10 +1,12 @@
-import {Component, NgModule, OnInit} from '@angular/core';
+import {Component, NgModule, OnInit, ViewChild} from '@angular/core';
 import {LoginService} from './login.service';
 import {MdSnackBar} from '@angular/material';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {Router} from '@angular/router';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {FacebookModule, FacebookService, InitParams, LoginResponse} from 'ngx-facebook';
+import {PopupModule, Popup} from 'ng2-opd-popup';
+
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,8 @@ import {FacebookModule, FacebookService, InitParams, LoginResponse} from 'ngx-fa
 
 @NgModule({
   imports: [
-    FacebookModule.forRoot()
+    FacebookModule.forRoot(),
+    PopupModule.forRoot()
   ],
 })
 
@@ -23,6 +26,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   answer: string;
   token: string;
+
+  @ViewChild('popup1') popup1: Popup;
 
   constructor(private _loginService: LoginService, private fb: FacebookService, public snackBar: MdSnackBar, private router: Router, form: FormBuilder) {
     this.loginForm = form.group({
@@ -43,6 +48,10 @@ export class LoginComponent implements OnInit {
     if (Cookie.get('sessionId') != null) {
       this.router.navigateByUrl('');
     }
+  }
+
+  onbtnClick(){
+    this.popup1.show();
   }
 
   onLoginClick(current_username: string, current_password: string) {

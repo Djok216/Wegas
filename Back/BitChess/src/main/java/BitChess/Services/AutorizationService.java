@@ -62,7 +62,7 @@ public class AutorizationService {
             claims.setIssuedAtToNow();
             claims.setNotBeforeMinutesInThePast(0);
             claims.setClaim("username", username);
-            claims.setClaim("email", username);
+            claims.setClaim("email", email);
             JsonWebSignature jws = new JsonWebSignature();
             jws.setPayload(claims.toJson());
             jws.setKey(rsaJsonWebKey.getPrivateKey());

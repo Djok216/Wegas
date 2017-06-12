@@ -72,6 +72,7 @@ public class AuthenticationController {
         nickname = nickname + aux;
         try {
             databaseService.registerUserFb(loginModel, nickname);
+            System.out.println(nickname + " " + loginModel.getEmail());
             TokenModel tokenModel = new TokenModel(autorizationService.generateToken(nickname, loginModel.getEmail()));
             try {
                 databaseService.setTokenByFBId(loginModel.getFacebookId(), tokenModel.getToken());

@@ -17,5 +17,17 @@
     </tbody>
   </table>
 
+  <md-input-container>
+    <input class="form-control" #input_text type="text" mdInput placeholder="Text" style="width: 30em">
+  </md-input-container>
+
+
+  <button type="submit" md-button class="mdl-button mld-js-button mdl-button--primary"
+          (click)="parent1.onAddComentClick(input_text)" >
+          <!--[disabled]="!loginForm.valid"-->
+
+    AddComent
+  </button>
+
 </div>
 

@@ -133,6 +133,15 @@ export class BackendService {
 
     return this.http.get('http://localhost:4500/' + categoryId + '/' + threadId + '/getPostByThread', {headers: header}).map(res => res.json());
   }
+
+  addComment(token: string, category: number, thread: number, mesaj: string) {
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', token);
+    const json = JSON.stringify({content: mesaj});
+    return this.http.post('http://localhost:4500/' + category + '/' + thread + '/addpost', json, {headers: header}).map(res => res.json());
+
+  }
 }
 
 

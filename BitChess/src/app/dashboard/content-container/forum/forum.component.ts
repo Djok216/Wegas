@@ -60,6 +60,16 @@ export class ForumComponent implements OnInit {
     }
   }
 
+  public onAddComentClick(mesaj: string) {
+    if (Cookie.get('sessionId') == null) {
+      this.router.navigateByUrl('/login');
+    } else {
+      this.backendService.addComment(Cookie.get('sessionId'), this.currentCategoryId, this.currentThreadId, mesaj).subscribe(
+        error => console.log('Érroororo')
+      );
+    }
+  }
+
 
   public hahahahha() {
     return 'afsasf';

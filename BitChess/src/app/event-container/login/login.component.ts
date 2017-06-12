@@ -5,7 +5,6 @@ import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {Router} from '@angular/router';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {FacebookModule, FacebookService, InitParams, LoginResponse} from 'ngx-facebook';
-import {PopupModule, Popup} from 'ng2-opd-popup';
 
 
 @Component({
@@ -17,8 +16,7 @@ import {PopupModule, Popup} from 'ng2-opd-popup';
 
 @NgModule({
   imports: [
-    FacebookModule.forRoot(),
-    PopupModule.forRoot()
+    FacebookModule.forRoot()
   ],
 })
 
@@ -26,8 +24,6 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   answer: string;
   token: string;
-
-  @ViewChild('popup1') popup1: Popup;
 
   constructor(private _loginService: LoginService, private fb: FacebookService, public snackBar: MdSnackBar, private router: Router, form: FormBuilder) {
     this.loginForm = form.group({
@@ -49,11 +45,6 @@ export class LoginComponent implements OnInit {
       this.router.navigateByUrl('');
     }
   }
-
-  onbtnClick(){
-    this.popup1.show();
-  }
-
   onLoginClick(current_username: string, current_password: string) {
     this._loginService.sendLogin(current_username, current_password)
       .subscribe(
@@ -82,7 +73,8 @@ export class LoginComponent implements OnInit {
           .then(
             res => {
               const facebookId: string = JSON.parse(res)['id'];
-              const email: string = JSON.parse(res)['email'];
+              let email: string = JSON.parse(res)['email'];
+              if(email === null) email = "noemail@email.com"
               const name: string = JSON.parse(res)['name'];
               this._loginService.sendFacebookInfo(facebookId, email, name)
                 .subscribe(

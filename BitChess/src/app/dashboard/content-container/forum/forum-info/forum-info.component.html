@@ -1,35 +1,47 @@
 <div class="info_s">
   <div class="info-sidebar">
+
     <div style="padding-bottom: 10px;">
+
+      <div class="container-fluid content-container ">
+        <div id = "setup">
+          <h2 class="inline-block"> Categories </h2>
+          <p class="paragraph-large"> </p>
+        </div>
+
+        <button id="demo-menu-lower-left"
+                class="mdl-button mdl-js-button mdl-button--icon">
+          <i class="material-icons">more_vert</i>
+        </button>
+
+        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+            for="demo-menu-lower-left">
+          <li class="mdl-menu__item" *ngFor="let xcat of categories" id="{{xcat.id}} ">
+            <a (click)="parent2.onCategoryClicked(xcat.id)">
+            {{xcat.name}}
+            </a>
+          </li>
+        </ul>
+
       <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
         <thead>
         <tr>
-          <th class="mdl-data-table__cell--non-numeric" style="text-align:center">Category Title</th>
-          <th>Posts</th>
+          <th class="mdl-data-table__cell--non-numeric" style="text-align:center">Post name</th>
+          <th>Posted By</th>
+          <th>Comments</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td><a (click)="changeRoute('home')">General Chess Discussion</a></td>
-          <td>200</td>
-        </tr>
-        <tr>
-          <td><a (click)="changeRoute('home')">Cats</a></td>
-          <td>150</td>
-        </tr>
-        <tr>
-          <td><a (click)="changeRoute('home')">Off-Topic Discussion</a></td>
-          <td>100</td>
-        </tr>
-        <tr>
-          <td><a (click)="changeRoute('home')">Strategy</a></td>
-          <td>50</td>
-        </tr>
+          <tr *ngFor="let xthread of parent2.wtfThread" id="{{xthread.name}}">
+            <td>{{xthread.name}}</td>
+            <td>{{xthread.userName}}</td>
+            <td>{{xthread.nrPosts}}</td>
+          </tr>
         </tbody>
       </table>
     </div>
 
-    <div style="padding-bottom: 10px;">
+    <div style="padding-bottom: 100px;">
       <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
         <thead>
         <tr>

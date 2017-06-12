@@ -6,7 +6,6 @@ import BitChess.Models.Login.LoginModel;
 import BitChess.Models.Users.UserInfo;
 import BitChess.Services.AutorizationService;
 import BitChess.Services.ConcreteDatabaseService;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -118,6 +117,7 @@ public class AuthenticationController {
             if (userNickname.getNickname() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             ExistsUserModel existsUser = new ExistsUserModel();
             existsUser.setExists(databaseService.existsUser(userNickname.getNickname()) ? 1 : 0);
+            System.out.println(existsUser.getExists() + "fuckoff");
             return new ResponseEntity<>(existsUser, HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

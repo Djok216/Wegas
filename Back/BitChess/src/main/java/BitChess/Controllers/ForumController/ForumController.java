@@ -32,6 +32,7 @@ public class ForumController {
     AuthenticationController authentificationController;
     @Autowired
     ThreadController threadcontroller;
+    @Autowired
     AutorizationService autorizationService = new AutorizationService();
 
     @CrossOrigin

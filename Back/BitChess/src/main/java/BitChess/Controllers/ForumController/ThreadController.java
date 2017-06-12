@@ -35,7 +35,7 @@ public class ThreadController {
     @Autowired
     CategoryController categoryController;
 
-
+    @Autowired
     AutorizationService autorizationService = new AutorizationService();
 
     @CrossOrigin

@@ -21,7 +21,8 @@ public class CategoryController {
     @Autowired
     ConcreteDatabaseService databaseService;
     @Autowired
-            ThreadController threadController;
+    ThreadController threadController;
+    @Autowired
     AutorizationService autorizationService = new AutorizationService();
 
     @CrossOrigin

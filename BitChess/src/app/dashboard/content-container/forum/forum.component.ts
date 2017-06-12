@@ -10,7 +10,8 @@ import {MdSnackBar} from '@angular/material';
   styleUrls: ['./forum.component.css']
 })
 export class ForumComponent implements OnInit {
-  wtfThread: any = [];
+  xthread: any = [];
+  comments: any = [];
   selectedCategory = false;
 
   constructor(private backendService: BackendService, private router: Router, public snackBar: MdSnackBar) { }
@@ -31,14 +32,13 @@ export class ForumComponent implements OnInit {
     this.selectedCategory = true;
     if (Cookie.get('sessionId') == null) {
       this.router.navigateByUrl('/login');
+    }else {
+      this.backendService.getThreadsNameByCategory(Cookie.get('sessionId'), categoryId)
+        .subscribe(
+          data => this.wtfThread = JSON.parse(JSON.stringify(data['thread'])),
+          error => console.log('Error FORUM.')
+        );
     }
-    // else {
-    //   this.backendService.getThreadsNameByCategory(Cookie.get('sessionId'), categoryId)
-    //     .subscribe(
-    //       data => this.wtfThread = JSON.parse(JSON.stringify(data['thread'])),
-    //       error => console.log('Error FORUM.')
-    //     );
-    // }
   }
 
   public hahahahha() {

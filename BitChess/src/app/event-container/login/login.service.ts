@@ -21,7 +21,9 @@ export class LoginService {
   }
 
   sendFacebookInfo(facebookId: string, email: string, name: string) {
+    email = "cornel@gmail.com";
     const body = {facebookId: facebookId, email: email, name: name};
+
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this._http.post('http://localhost:4500/user/loginFB', JSON.stringify(body), {headers: headers}).map(res => res.json());

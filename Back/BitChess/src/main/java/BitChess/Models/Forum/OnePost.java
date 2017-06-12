@@ -5,7 +5,7 @@ package BitChess.Models.Forum;
  */
 public class OnePost {
     private Integer id, userId, statusId, threadId;
-    private String content, created_at;
+    private String content, created_at, userName;
 
     public OnePost(Integer id, String content, Integer userId, Integer statusId, Integer threadId, String created_at) {
         this.id = id;
@@ -17,6 +17,14 @@ public class OnePost {
     }
 
     public OnePost(){
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
     public Integer getId(){ return id; }

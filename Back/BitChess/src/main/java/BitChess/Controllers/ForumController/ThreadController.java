@@ -134,8 +134,7 @@ public class ThreadController {
 
             existsModel = categorycontroller.checkExistsCategory(token, category).getBody();
             if (existsModel.getExists() == 0)
-                return new ResponseEntity
-                        (new ResponseMessageModel("Category does not exists in database"), HttpStatus.OK);
+                return new ResponseEntity<>(existsModel, HttpStatus.OK);
 
             ExistsModel existsThread = new ExistsModel();
             existsThread.setExists(databaseService.checkThreadExits(thread));

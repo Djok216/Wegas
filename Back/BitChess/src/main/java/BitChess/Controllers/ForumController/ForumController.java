@@ -41,7 +41,7 @@ public class ForumController {
                                   @PathVariable int category, @PathVariable int thread) {
         try {
             System.out.println(token);
-            if (!autorizationService.checkCredentials(databaseService, token))
+            if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             if (onePost.getContent() == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -77,18 +77,21 @@ public class ForumController {
 
     @CrossOrigin
     @RequestMapping(value = "{category}/{thread}/getPostByThread", method = RequestMethod.GET)
-    public ResponseEntity getPostsByThreads(@RequestHeader("Authorization") String token, @PathVariable int thread, @PathVariable int category) {
+    public ResponseEntity getPostsByThreads(@RequestHeader("Authorization") String token, @PathVariable int category, @PathVariable int thread) {
         try {
             if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
 
             PostModel postModel = new PostModel();
-            ExistsModel existsModel = threadcontroller.checkExistsThread(token, thread, category).getBody();
+            ExistsModel existsModel = threadcontroller.checkExistsThread(token, category, thread).getBody();
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Thread does not exists in database"), HttpStatus.OK);
 
             postModel.posts = databaseService.getPostsByThread(thread);
+            for (OnePost post : postModel.posts) {
+                post.setUserName(databaseService.getNicknameById(post.getUserId()));
+            }
             System.out.print(postModel.posts.toString());
             return new ResponseEntity(postModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
@@ -111,7 +114,7 @@ public class ForumController {
     public ResponseEntity<ResponseMessageModel> deletePost(@RequestHeader("Authorization") String token, @RequestBody OnePost post,
                                                            @PathVariable int category, @PathVariable int thread) {
         try {
-            if (!autorizationService.checkCredentials(databaseService, token))
+            if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
 
             if (post.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

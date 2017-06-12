@@ -13,9 +13,12 @@ export class ForumComponent implements OnInit {
   currentThreadId: number;
   currentCategoryId: number;
   currentThread: any;
+  currentThreadDescription: string;
+  currentThreadName: string;
   comments: any = [];
   selectedCategory = false;
   wtfThread: any = [];
+  currentThreadUser: string;
 
   constructor(private backendService: BackendService, private router: Router, public snackBar: MdSnackBar) {
   }
@@ -45,7 +48,10 @@ export class ForumComponent implements OnInit {
       this.router.navigateByUrl('/login');
     } else {
       this.currentThreadId = thread.id;
+      this.currentThreadDescription = thread.description;
+      this.currentThreadName = thread.name;
       this.currentThread = thread;
+      this.currentThreadUser = thread.userName;
       this.backendService.getComments(Cookie.get('sessionId'), this.currentCategoryId, this.currentThreadId)
         .subscribe(
           data => this.comments = JSON.parse(JSON.stringify(data['posts'])),

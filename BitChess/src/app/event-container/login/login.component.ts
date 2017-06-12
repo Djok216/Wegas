@@ -69,12 +69,12 @@ export class LoginComponent implements OnInit {
     this.fb.login()
       .then((response: LoginResponse) => {
         this.fb.api('/me?fields=id,name,email,permissions')
-          .then(res => console.log(JSON.stringify(res)))
+          .then(res => res = JSON.stringify(res))
           .then(
             res => {
-              const facebookId: string = res.id;
-              const email: string = res.email;
-              const name: string = res.name;
+              const facebookId: string = JSON.parse(res)['id'];
+              const email: string = JSON.parse(res)['email'];
+              const name: string = JSON.parse(res)['name'];
               this._loginService.sendFacebookInfo(facebookId, email, name)
                 .subscribe(
                   data => {

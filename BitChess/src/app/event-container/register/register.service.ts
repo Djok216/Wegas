@@ -20,4 +20,11 @@ export class RegisterService {
     headers.append('Content-Type', 'application/json');
     return this._http.post('http://localhost:4500/user/register', JSON.stringify(body), {headers: headers}).map(res => res.json());
   }
+
+  sendFacebookInfo(facebookId: string, email: string, name: string) {
+    const body = {facebookId: facebookId, email: email, name: name};
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this._http.post('http://localhost:4500/user/loginFB', JSON.stringify(body), {headers: headers}).map(res => res.json());
+  }
 }

@@ -1,36 +1,90 @@
 <div class="stats">
-<!--<div class="item html">
-  <h2>Back</h2>
-  <svg width="160" height="160" xmlns="http://www.w3.org/2000/svg">
-    <g>
-      <title>Layer 1</title>
-      <circle id="circle" class="circle_animation" r="69.85699" cy="81" cx="81" stroke-width="8" stroke="#6fdb6f" fill="none"/>
-    </g>
-  </svg>
-</div>
+  <!--<div class="item html">
+    <h2>Back</h2>
+    <svg width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+      <g>
+        <title>Layer 1</title>
+        <circle id="circle" class="circle_animation" r="69.85699" cy="81" cx="81" stroke-width="8" stroke="#6fdb6f" fill="none"/>
+      </g>
+    </svg>
+  </div>
 
-<div class="item css">
-  <h2>Now</h2>
-  <svg width="160" height="160" xmlns="http://www.w3.org/2000/svg">
-    <g>
-      <title>Layer 1</title>
-      <circle id="circle" class="circle_animation" r="69.85699" cy="81" cx="81" stroke-width="8" stroke="#69aff4" fill="none"/>
-    </g>
-  </svg>
-</div>
--->
+  <div class="item css">
+    <h2>Now</h2>
+    <svg width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+      <g>
+        <title>Layer 1</title>
+        <circle id="circle" class="circle_animation" r="69.85699" cy="81" cx="81" stroke-width="8" stroke="#69aff4" fill="none"/>
+      </g>
+    </svg>
+  </div>
+  -->
+  <h3>General Statistics</h3>
   <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
-    <thead><p>Nr. of threads by category</p></thead>
+    <tbody>
+    <tr>
+      <td>Members</td>
+      <td>{{nrmembers.toString()}}</td>
+    </tr>
+    <tr>
+      <td>Games today</td>
+      <td>{{gamestoday.toString()}}</td>
+    </tr>
+    <tr>
+      <td>Games this week</td>
+      <td>{{gamesweek.toString()}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h3>Nr. of threads by category</h3>
+  <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
+    <thead>
+    <td>Category name</td>
+    <td>Nr. of threads</td>
+    </thead>
     <tbody>
     <tr *ngFor="let cat of categories" id="{{cat.catName}}">
-      <!--<td><a (click)="changeRoute('live')">General Chess Discussion</a></td>-->
       <td>
-        <!--<a class="thread_name" href="/{{xthread.ThreadName}}">{{xthread.name}}</a></td>-->
         {{cat.catName}}
       </td>
       <td>{{cat.nr_threads}}</td>
     </tr>
     </tbody>
   </table>
+
+
+  <h3>Top active users</h3>
+  <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
+    <thead>
+    <td>User name</td>
+    <td>Nr. of posts</td>
+    </thead>
+    <tbody>
+    <tr *ngFor="let top of topactive" id="{{top.user_name}}">
+      <td>
+        {{top.user_name}}
+      </td>
+      <td>{{top.nr}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h3>Top discussed threads</h3>
+  <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
+    <thead>
+    <td>Thread</td>
+    <td>Nr. of comments</td>
+    </thead>
+    <tbody>
+    <tr *ngFor="let td of topdiscussed" id="{{td.threadName}}">
+      <td>
+        {{td.threadName}}
+      </td>
+      <td>{{td.nrComments}}</td>
+    </tr>
+    </tbody>
+  </table>
+
 
 </div>

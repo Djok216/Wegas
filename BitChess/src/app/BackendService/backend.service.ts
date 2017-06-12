@@ -68,6 +68,48 @@ export class BackendService {
     return this.http.get('http://localhost:4500/stats/categoriesstats', {headers: header}).map(res => res.json());
   }
 
+  getTopActive(token: string) {
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', token);
+
+    return this.http.get('http://localhost:4500/stats/topactive', {headers: header}).map(res => res.json());
+  }
+
+  getTopDiscussed(token: string) {
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', token);
+
+    return this.http.get('http://localhost:4500/stats/topdiscussed', {headers: header}).map(res => res.json());
+  }
+
+  getNrUsers(token: string) {
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', token);
+
+    return this.http.get('http://localhost:4500/stats/nrofusers', {headers: header}).map(res => res.json());
+  }
+
+  getGamesToday(token: string) {
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', token);
+
+    return this.http.get('http://localhost:4500/stats/1', {headers: header}).map(res => res.json());
+  }
+
+  getGamesWeek(token: string) {
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', token);
+
+    return this.http.get('http://localhost:4500/stats/7', {headers: header}).map(res => res.json());
+
+  }
+
+
   getThreadsNameByCategory(token: string, categoryId: number) {
     const header = new Headers();
     header.append('Content-Type', 'application/json');

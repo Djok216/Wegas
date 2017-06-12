@@ -33,7 +33,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let xthread of parent2.wtfThread" id="{{xthread.name}}">
-            <td>{{xthread.name}}</td>
+            <td> <a (click)="parent1.onThreadClicked(xthread)">{{xthread.name}}</a></td>
             <td>{{xthread.userName}}</td>
             <td>{{xthread.nrPosts}}</td>
           </tr>

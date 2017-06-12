@@ -126,6 +126,14 @@ export class BackendService {
     return this.http.get('http://localhost:4500/Allcategory', {headers: header}).map(res => res.json());
   }
 
+  getComments(token: string, categoryId: number, threadId: number) {
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', token);
+
+    return this.http.get('http://localhost:4500/' + categoryId + '/' + threadId + '/getPostByThread', {headers: header}).map(res => res.json());
+  }
+
 }
 
 

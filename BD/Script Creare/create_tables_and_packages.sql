@@ -74,3 +74,4 @@ on us.id = u.status_id group by us.description;
 SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
 */
 select * from clubs;
+select * from users;

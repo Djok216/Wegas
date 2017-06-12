@@ -28,7 +28,7 @@ var GameChess = function Game() {
   var font_fit = FONT_FIT({fontFamily: rating_font_style});
   var moves_manager;
   var layout = {};
-  var default_sd_time = "15:00";
+  var default_sd_time = "1:00";
   var showing_loading;
   var gameType = "standard";
   var lastGameType;
@@ -424,6 +424,7 @@ var GameChess = function Game() {
             });
           }
           pause_game();
+          console.log(moves_manager.allMoves);
         }
       }
     });
@@ -664,7 +665,7 @@ var GameChess = function Game() {
 
   function on_human_move(uci, san) {
     set_cur_pos_cmd();
-
+    console.log()
     ///NOTE: We need to get legal moves (even for AI) because we need to know if a move is castling or not.
     set_legal_moves(tell_engine_to_move);
 
@@ -731,6 +732,7 @@ var GameChess = function Game() {
   function init_setup() {
     pause_game();
     new_game_el.textContent = "Start Game";
+    moves_manager.allMoves = "";
     setup_game_el.disabled = true;
     hide_loading(true);
     board.enable_setup();
@@ -812,6 +814,7 @@ var GameChess = function Game() {
     gameType = whichType || gameType;
 
     game_info_text.textContent = "";
+    moves_manager.allMoves = "";
 
     board.noRemoving = false;
     G.events.detach("board_human_move", watchKnightSight);

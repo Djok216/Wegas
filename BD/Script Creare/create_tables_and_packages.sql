@@ -12,13 +12,12 @@
 @".\package_games.sql"
 @".\package_friends.sql"
 @".\package_stats_functions.sql"
-commit;
 
-select email, nickname, name, created_at,
-(select description from user_status where id = u.status_id),
-(select name from clubs where id = u.club_id),
-wins, looses, draws from users u
-where lower(nickname) like lower('nicusor');
+INSERT INTO USERS(NAME, EMAIL, NICKNAME, PASSWORD, FACEBOOK_ID, WINS, LOOSES,
+    DRAWS, CREATED_AT, STATUS_ID, CLUB_ID, TOKEN) VALUES('COMPUTER', 'COMPUTER@EMAIL.COM', 'COMPUTER',
+    NULL, null, 0, 0, 0, CURRENT_TIMESTAMP, 2, NULL, NULL);
+
+commit;
 
 /*
 DECLARE

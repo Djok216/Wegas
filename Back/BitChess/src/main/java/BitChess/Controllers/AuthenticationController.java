@@ -49,7 +49,7 @@ public class AuthenticationController {
         try {
             databaseService.setTokenByNickname(username.getNickname(), tokenModel.getToken());
         } catch (SQLException sqlEx) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ResponseMessageModel(sqlEx.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(tokenModel, HttpStatus.CREATED);
     }
@@ -59,17 +59,22 @@ public class AuthenticationController {
     public ResponseEntity<?> validateLoginFB(@RequestBody LoginFBModel loginModel) {
         if (!loginModel.isValid())
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        String nickname = "";
+        String nickname_copy = "";
+        try {
+            nickname = loginModel.getName().replaceAll("\\s+", "");
+            nickname_copy = nickname;
 
-        String nickname = loginModel.getName().replaceAll("\\s+", "");
-        String nickname_copy = nickname;
-
-        String aux = "";
-        Integer cnt = 0;
-        while (checkExistsUser(new NicknameModel(nickname + aux)).getBody().getExists() > 0) {
-            aux = cnt.toString();
-            ++cnt;
+            String aux = "";
+            Integer cnt = 0;
+            while (checkExistsUser(new NicknameModel(nickname + aux)).getBody().getExists() > 0) {
+                aux = cnt.toString();
+                ++cnt;
+            }
+            nickname = nickname + aux;
         }
-        nickname = nickname + aux;
+        catch (Exception ex) {
+        }
         try {
             TokenModel tokenModel;
             if (databaseService.registerUserFb(loginModel, nickname))

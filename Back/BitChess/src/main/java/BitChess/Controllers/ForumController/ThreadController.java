@@ -100,7 +100,9 @@ public class ThreadController {
         try {
             if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
-
+            if(!databaseService.existsUser(user))
+                return new ResponseEntity
+                        (new ResponseMessageModel("User does not exists in database"), HttpStatus.OK);
             ThreadModel threadModel = new ThreadModel();
             NicknameModel nicknameModel = new NicknameModel();
             UserModel userModel = databaseService.setUserByNickname(databaseService.getNicknameById(user));

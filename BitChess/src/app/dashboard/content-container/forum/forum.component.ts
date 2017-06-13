@@ -89,11 +89,11 @@ export class ForumComponent implements OnInit {
     }
   }
 
-  public deleteComment(category: number, thread: number, commentId: number) {
+  public deleteComment(commentId: number) {
     if (Cookie.get('sessionId') == null) {
       this.router.navigateByUrl('/login');
     } else {
-      this.backendService.deleteComment(Cookie.get('sessionId'), category, thread, commentId).subscribe(
+      this.backendService.deleteComment(Cookie.get('sessionId'), this.currentCategoryId, this.currentThreadId, commentId).subscribe(
         error => console.log('Érroororo')
       );
       //this.onThreadClicked(this.currentThread);

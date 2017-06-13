@@ -8,7 +8,6 @@ a{
 }
 
 .sidebox {
-  margin-bottom: 1.5em;
 }
 
 .rtable {
@@ -18,4 +17,18 @@ a{
 
 .info_s {
   position: relative;
+}
+
+.container-fluid {
+  margin: auto;
+}
+
+.inline-block{
+  text-align: center;
+}
+
+.inner {
+  display: table;
+  margin: 0 auto;
+  width: 100%;
 }

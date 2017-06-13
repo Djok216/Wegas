@@ -1,96 +1,88 @@
-<div class="container-fluid content-container ">
-  <div id = "setup">
+<div class="info-sidebar info_s">
+  <div class="inner" style="padding-bottom: 10px;">
     <h2 class="inline-block"> Categories </h2>
-    <p class="paragraph-large"> </p>
+
+    <button id="demo-menu-lower-left"
+            class="mdl-button mdl-js-button mdl-button--icon inner">
+      <i class="material-icons">more_vert</i>
+    </button>
+
+    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect inner"
+        for="demo-menu-lower-left">
+      <li class="mdl-menu__item" *ngFor="let xcat of categories" id="{{xcat.id}} ">
+        <a (click)="parent2.onCategoryClicked(xcat.id)">
+          {{xcat.name}}
+        </a>
+      </li>
+    </ul>
+
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp inner">
+      <thead>
+      <tr>
+        <th class="mdl-data-table__cell--non-numeric" style="text-align:center">Post name</th>
+        <th>Posted By</th>
+        <th>Comments</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let xthread of parent2.wtfThread" id="{{xthread.name}}">
+        <td><a (click)="parent2.onThreadClicked(xthread)">{{xthread.name}}</a></td>
+        <td>{{xthread.userName}}</td>
+        <td>{{xthread.nrPosts}}</td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 
-  <button id="demo-menu-lower-left"
-          class="mdl-button mdl-js-button mdl-button--icon">
-    <i class="material-icons">more_vert</i>
-  </button>
+  <div style="padding-bottom: 10px;">
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp inner">
+      <thead>
+      <tr>
+        <th class="mdl-data-table__cell--non-numeric">Find</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th class="mdl-data-table__cell--non-numeric">
+          <md-input-container>
+            <input mdInput placeholder="Key Words" s>
+          </md-input-container>
+        </th>
+        <th>
+          <button class="mdl-button mld-js-button mdl-button--primary">Find</button>
+        </th>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
-      for="demo-menu-lower-left">
-    <li class="mdl-menu__item" *ngFor="let xcat of categories" id="{{xcat.id}} ">
-      <a (click)="parent2.onCategoryClicked(xcat.id)">
-        {{xcat.name}}
-      </a>
-    </li>
-  </ul>
-
-  <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
-    <thead>
-    <tr>
-      <th class="mdl-data-table__cell--non-numeric" style="text-align:center">Post name</th>
-      <th>Posted By</th>
-      <th>Comments</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let xthread of parent2.wtfThread" id="{{xthread.name}}">
-      <td> <a (click)="parent2.onThreadClicked(xthread)">{{xthread.name}}</a></td>
-      <td>{{xthread.userName}}</td>
-      <td>{{xthread.nrPosts}}</td>
-    </tr>
-    </tbody>
-  </table>
-</div>
-
-<div class="info_s">
-  <div class="info-sidebar">
-
-    <div style="padding-bottom: 10px;">
-
-
-
-    <div style="padding-bottom: 100px;">
-      <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
-        <thead>
-        <tr>
-          <th class="mdl-data-table__cell--non-numeric">Find</th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <th class="mdl-data-table__cell--non-numeric">
-            <md-input-container>
-              <input mdInput placeholder="Key Words"s>
-            </md-input-container>
-          </th>
-          <th><button class="mdl-button mld-js-button mdl-button--primary">Find</button></th>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div style="padding-bottom: 10px">
-      <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
-        <thead>
-        <tr>
-          <th class="mdl-data-table__cell--non-numeric">Last Active Posts</th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="mdl-data-table__cell--non-numeric" style="color: red;">Djok</td>
-          <td><a (click)="changeRoute('live')">Chigorin Defence</a></td>
-        </tr>
-        <tr>
-          <td class="mdl-data-table__cell--non-numeric" style="color: red">Catavencu</td>
-          <td><a (click)="changeRoute('home')">Queen's Gambit Accepted</a></td>
-        </tr>
-        <tr>
-          <td class="mdl-data-table__cell--non-numeric" style="color: red">Catavencu</td>
-          <td><a (click)="changeRoute('home')">Bird Opening</a></td>
-        </tr>
-        <tr>
-          <td class="mdl-data-table__cell--non-numeric" style="color: red;">Djok</td>
-          <td><a (click)="changeRoute('home')">Ruy Lopez Opening</a></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+  <div style="padding-bottom: 10px;">
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp inner">
+      <thead>
+      <tr>
+        <th class="mdl-data-table__cell--non-numeric">Last Active Posts</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="mdl-data-table__cell--non-numeric" style="color: red;">Djok</td>
+        <td><a (click)="changeRoute('live')">Chigorin Defence</a></td>
+      </tr>
+      <tr>
+        <td class="mdl-data-table__cell--non-numeric" style="color: red">Catavencu</td>
+        <td><a (click)="changeRoute('home')">Queen's Gambit Accepted</a></td>
+      </tr>
+      <tr>
+        <td class="mdl-data-table__cell--non-numeric" style="color: red">Catavencu</td>
+        <td><a (click)="changeRoute('home')">Bird Opening</a></td>
+      </tr>
+      <tr>
+        <td class="mdl-data-table__cell--non-numeric" style="color: red;">Djok</td>
+        <td><a (click)="changeRoute('home')">Ruy Lopez Opening</a></td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>

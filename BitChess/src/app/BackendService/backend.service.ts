@@ -176,6 +176,8 @@ export class BackendService {
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
     const link = 'http://localhost:4500/' + category + '/' + thread + '/deletePost/' + mesajId;
+    console.log(link, 'dsadasdasdassaas');
+    console.log(mesajId, 'sdsdfsdfsdsdsdfsdfsdfs1111')
     return this.http.delete(link, {headers: header})
       .map(res => res.json());
   }

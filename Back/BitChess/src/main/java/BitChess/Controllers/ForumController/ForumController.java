@@ -143,13 +143,14 @@ public class ForumController {
             if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ExistsModel(0), HttpStatus.UNAUTHORIZED);
 
-            ExistsModel existsModel = threadController.checkExistsThread(token, thread, category).getBody();
+            ExistsModel existsModel = threadController.checkExistsThread(token, category, thread).getBody();
             if (existsModel.getExists() == 0)
-                return new ResponseEntity
-                        (new ResponseMessageModel("Thread does not exists in database"), HttpStatus.OK);
+                return new ResponseEntity<>
+                        (new ExistsModel(0), HttpStatus.OK);
 
             ExistsModel existsPost = new ExistsModel();
             existsPost.setExists(databaseService.checkPostExits(post));
+            System.out.println("really"+existsPost.getExists());
             return new ResponseEntity<>(existsPost, HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

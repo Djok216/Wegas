@@ -51,7 +51,7 @@ public class AuthenticationController {
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(tokenModel, HttpStatus.OK);
+        return new ResponseEntity<>(tokenModel, HttpStatus.CREATED);
     }
 
     @CrossOrigin
@@ -61,6 +61,7 @@ public class AuthenticationController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         String nickname = loginModel.getName().replaceAll("\\s+", "");
+        String nickname_copy = nickname;
 
         String aux = "";
         Integer cnt = 0;
@@ -70,15 +71,16 @@ public class AuthenticationController {
         }
         nickname = nickname + aux;
         try {
-            databaseService.registerUserFb(loginModel, nickname);
-            System.out.println(nickname + " " + loginModel.getEmail());
-            TokenModel tokenModel = new TokenModel(autorizationService.generateToken(nickname, loginModel.getEmail()));
+            TokenModel tokenModel;
+            if (databaseService.registerUserFb(loginModel, nickname))
+                tokenModel = new TokenModel(autorizationService.generateToken(nickname, loginModel.getEmail()));
+            else tokenModel = new TokenModel(autorizationService.generateToken(nickname_copy, loginModel.getEmail()));
             try {
                 databaseService.setTokenByFBId(loginModel.getFacebookId(), tokenModel.getToken());
             } catch (SQLException ex) {
                 return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            return new ResponseEntity<>(tokenModel, HttpStatus.OK);
+            return new ResponseEntity<>(tokenModel, HttpStatus.CREATED);
         } catch (SQLException ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -104,7 +106,7 @@ public class AuthenticationController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         try {
             tokenModel.setValid(autorizationService.checkCredentials(tokenModel.getToken()));
-            return new ResponseEntity<>(tokenModel, HttpStatus.OK);
+            return new ResponseEntity<>(tokenModel, HttpStatus.CREATED);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -118,7 +120,7 @@ public class AuthenticationController {
             ExistsUserModel existsUser = new ExistsUserModel();
             existsUser.setExists(databaseService.existsUser(userNickname.getNickname()) ? 1 : 0);
             System.out.println(existsUser.getExists() + "fuckoff");
-            return new ResponseEntity<>(existsUser, HttpStatus.OK);
+            return new ResponseEntity<>(existsUser, HttpStatus.CREATED);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -136,7 +138,8 @@ public class AuthenticationController {
         }
     }
 
-    @RequestMapping(value = "/user/getPassword", method = RequestMethod.POST)
+
+    //@RequestMapping(value = "/user/getPassword", method = RequestMethod.POST)
     public ResponseEntity<ResponseMessageModel> getPassword(@RequestBody NicknameModel userNickname) {
         try {
             if (userNickname.getNickname() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -147,6 +150,7 @@ public class AuthenticationController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @CrossOrigin
     @RequestMapping(value = "/user/register", method = RequestMethod.POST)
@@ -161,7 +165,7 @@ public class AuthenticationController {
             if (existsUserModel.getExists() > 0)
                 return new ResponseEntity<>(new ResponseMessageModel("Username already exists."), HttpStatus.OK);
             databaseService.register(registerModel.getUsername(), registerModel.getPassword(), registerModel.getEmail());
-            return new ResponseEntity<>(new ResponseMessageModel("Register success!"), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessageModel("Register success!"), HttpStatus.CREATED);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

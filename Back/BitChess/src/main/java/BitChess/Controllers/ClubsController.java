@@ -29,7 +29,7 @@ public class ClubsController {
             if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             databaseService.insertNewClub(clubModel.getClubName());
-            return new ResponseEntity<>(new ResponseMessageModel("Club added successfully."), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessageModel("Club added successfully."), HttpStatus.CREATED);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(new ResponseMessageModel("A club with the same name already exists."), HttpStatus.OK);
         } catch (Exception ex) {
@@ -104,7 +104,7 @@ public class ClubsController {
             if (databaseService.isClubMember(clubName, clubMemberModel.getMemberName()))
                 return new ResponseEntity<>(new ResponseMessageModel("User is already a member to this club."), HttpStatus.OK);
             else databaseService.addClubMember(clubName, clubMemberModel.getMemberName());
-            return new ResponseEntity<>(new ResponseMessageModel("Member added successfully."), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessageModel("Member added successfully."), HttpStatus.CREATED);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

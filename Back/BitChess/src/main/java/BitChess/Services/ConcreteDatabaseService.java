@@ -103,15 +103,18 @@ public class ConcreteDatabaseService {
         return result;
     }
 
-    public void registerUserFb(LoginFBModel loginFBModel, String nickname) throws SQLException {
-        String plsql = "BEGIN PACKAGE_USERS.INSERT_NEW_REGULAR_USER_FB(?, ?, ?, ?); END;";
+    public Boolean registerUserFb(LoginFBModel loginFBModel, String nickname) throws SQLException {
+        String plsql = "BEGIN ? := PACKAGE_USERS.INSERT_NEW_REGULAR_USER_FB(?, ?, ?, ?); END;";
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
-        statement.setString(1, loginFBModel.getFacebookId());
-        statement.setString(2, loginFBModel.getEmail());
-        statement.setString(3, nickname);
-        statement.setString(4, loginFBModel.getName());
+        statement.setString(2, loginFBModel.getFacebookId());
+        statement.setString(3, loginFBModel.getEmail());
+        statement.setString(4, nickname);
+        statement.setString(5, loginFBModel.getName());
+        statement.registerOutParameter(1, Types.NUMERIC);
         statement.execute();
+        Integer x = statement.getInt(1);
         statement.close();
+        return x==1;
     }
 
     public void register(String username, String password, String email) throws SQLException {

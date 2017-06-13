@@ -39,7 +39,7 @@ CREATE OR REPLACE PACKAGE PACKAGE_CLUBS AS
   FUNCTION GET_NAME(p_id CLUBS.ID%TYPE) RETURN CLUBS.NAME%TYPE;
   FUNCTION GET_RATING(p_id CLUBS.ID%TYPE) RETURN CLUBS.RATING%TYPE;
   
-  FUNCTION IS_MEMBER(p_club_name CLUBS.NAME%TYPE, p_user_name USERS.NAME%TYPE) RETURN INTEGER;
+  FUNCTION IS_MEMBER(p_club_name CLUBS.NAME%TYPE, p_user_name USERS.NICKNAME%TYPE) RETURN INTEGER;
   PROCEDURE ADD_MEMBER(p_club_name CLUBS.NAME%TYPE, p_user_name USERS.NAME%TYPE);
   PROCEDURE DELETE_MEMBER(p_user_name USERS.NAME%TYPE);
   
@@ -100,12 +100,12 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_CLUBS AS
     RETURN v_rating;
   END;
 
-  FUNCTION IS_MEMBER(p_club_name CLUBS.NAME%TYPE, p_user_name USERS.NAME%TYPE) RETURN INTEGER AS
+  FUNCTION IS_MEMBER(p_club_name CLUBS.NAME%TYPE, p_user_name USERS.NICKNAME%TYPE) RETURN INTEGER AS
     v_result integer;
     v_user_club_id integer;
     v_club_id integer;
   BEGIN
-    select club_id into v_user_club_id from users where lower(name) like lower(p_user_name);
+    select club_id into v_user_club_id from users where lower(nickname) like lower(p_user_name);
     select id into v_club_id from clubs where lower(name) like lower(p_club_name);
     if(v_user_club_id = v_club_id) then
       return 1;

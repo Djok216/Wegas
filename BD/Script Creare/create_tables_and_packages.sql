@@ -11,6 +11,7 @@
 @".\package_forum.sql"
 @".\package_games.sql"
 @".\package_friends.sql"
+@".\package_stats_functions.sql"
 commit;
 
 select email, nickname, name, created_at,

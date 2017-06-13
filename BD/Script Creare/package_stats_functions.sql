@@ -18,7 +18,9 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
     FUNCTION top_discussed_threads return sys_refcursor AS
         v_cursor sys_refcursor;
     BEGIN
-        open v_cursor for select * from NR_OF_POST_ON_THREAD_ID where rownum <= 10;
+        open v_cursor for select * from (
+            select th.name, count(*) "nr_of_posts" from thread th join post p on th.id = p.thread_id group by th.name, th.id order by "nr_of_posts" desc
+        ) where rownum <= 10;
         return v_cursor;
     END;
     
@@ -31,7 +33,7 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
     FUNCTION nr_posts_by_category return sys_refcursor AS
         v_cursor sys_refcursor;
     BEGIN
-        open v_cursor for select c.name, count(*) "nr_of_threads" from category c join thread th on c.id = th.category_id group by c.name, c.id;
+        open v_cursor for select c.name, count(*) "nr_of_threads" from category c join thread th on c.id = th.category_id group by c.name, c.id ;
         return v_cursor;
     END;
     
@@ -45,7 +47,9 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
     FUNCTION top_active_users return sys_refcursor AS
         v_cursor sys_refcursor;
     BEGIN
-        open v_cursor for select * from NR_OF_THREADS_BY_USER where rownum <= 10;
+        open v_cursor for select * from (
+            select u.nickname, count(*) from users u join thread th on u.id=th.user_id group by u.nickname order by "nr_of_threads" desc
+        ) where rownum <= 10;
         return v_cursor;
     END;
         

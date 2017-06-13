@@ -57,3 +57,6 @@ svg {
     stroke-dashoffset: 160;
   }
 }
+.mdl-data-table {
+  width: 100%
+}

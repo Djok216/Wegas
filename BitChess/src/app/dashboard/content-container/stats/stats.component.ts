@@ -29,32 +29,32 @@ export class StatsComponent implements OnInit {
       this.backendService.getThreadsByCategory(Cookie.get('sessionId'))
         .subscribe(
           data => this.categories = JSON.parse(JSON.stringify(data['lista'])),
-          error => console.log('Error FORUM.')
+          error => console.log('Error STATS.')
         );
       this.backendService.getTopActive(Cookie.get('sessionId'))
         .subscribe(
           data => this.topactive = JSON.parse(JSON.stringify(data['lista'])),
-          error => console.log('Error FORUM.')
+          error => console.log('Error STATS.')
         );
       this.backendService.getTopDiscussed(Cookie.get('sessionId'))
         .subscribe(
           data => this.topdiscussed = JSON.parse(JSON.stringify(data['lista'])),
-          error => console.log('Error FORUM.')
+          error => console.log('Error STATS.')
         );
       this.backendService.getNrUsers(Cookie.get('sessionId'))
         .subscribe(
           data => this.nrmembers = JSON.parse(JSON.stringify(data)),
-          error => console.log('Error FORUM.')
+          error => console.log('Error STATS.')
         );
       this.backendService.getGamesToday(Cookie.get('sessionId'))
         .subscribe(
           data => this.gamestoday = JSON.parse(JSON.stringify(data)),
-          error => console.log('Error FORUM.')
+          error => console.log('Error STATS.')
         );
       this.backendService.getGamesWeek(Cookie.get('sessionId'))
         .subscribe(
           data => this.gamesweek = JSON.parse(JSON.stringify(data)),
-          error => console.log('Error FORUM.')
+          error => console.log('Error STATS.')
         );
     }
   }

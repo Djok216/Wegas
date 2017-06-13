@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {LearnComponent} from '../learn.component';
+
 
 @Component({
   selector: 'app-content-learn',
@@ -7,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContentLearnComponent implements OnInit {
 
-  constructor() { }
+  constructor(public parent1: LearnComponent) {
+
+  }
 
   ngOnInit() {
   }

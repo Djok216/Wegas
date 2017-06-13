@@ -43,8 +43,10 @@ public class ForumController {
             System.out.println(token);
             if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
+
             if (onePost.getContent() == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
             onePost.setThreadId(thread);
             onePost.setUserId(databaseService.getIdByToken(token));
             NicknameModel nicknameModel = new NicknameModel();
@@ -79,8 +81,8 @@ public class ForumController {
     @RequestMapping(value = "{category}/{thread}/getPostByThread", method = RequestMethod.GET)
     public ResponseEntity getPostsByThreads(@RequestHeader("Authorization") String token, @PathVariable int category, @PathVariable int thread) {
         try {
-            if (!autorizationService.checkCredentials(token))
-                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
+//            if (!autorizationService.checkCredentials(token))
+//                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
 
             PostModel postModel = new PostModel();
             ExistsModel existsModel = threadcontroller.checkExistsThread(token, category, thread).getBody();
@@ -110,15 +112,15 @@ public class ForumController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/{category}/{thread}/deletePost", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseMessageModel> deletePost(@RequestHeader("Authorization") String token, @RequestBody OnePost post,
-                                                           @PathVariable int category, @PathVariable int thread) {
+    @RequestMapping(value = "/{category}/{thread}/deletePost/{postId}", method = RequestMethod.DELETE)
+    public ResponseEntity<ResponseMessageModel> deletePost(@RequestHeader("Authorization") String token,
+                                                           @PathVariable int category, @PathVariable int thread,
+                                                           @PathVariable int postId) {
         try {
             if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
 
-            if (post.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            ExistsModel existsModel = checkExistsPost(token, category, thread, post.getId()).getBody();
+            ExistsModel existsModel = checkExistsPost(token, category, thread, postId).getBody();
 
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
@@ -130,7 +132,7 @@ public class ForumController {
                 return new ResponseEntity
                         (new ResponseMessageModel("Not Admin, can not delete Post"), HttpStatus.OK);
 
-            databaseService.deletePost(post.getId());
+            databaseService.deletePost(postId);
             return new ResponseEntity<>(new ResponseMessageModel("Post deleted successfully."), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -26,8 +26,15 @@ export class ForumComponent implements OnInit {
   ngOnInit() {
     if (Cookie.get('sessionId') == null) {
       this.router.navigateByUrl('/login');
-    }
+    }else {
+        this.currentCategoryId = 1;
+        this.backendService.getThreadsNameByCategory(Cookie.get('sessionId'), 1)
+        .subscribe(
+          data => this.wtfThread = JSON.parse(JSON.stringify(data['thread'])),
+          error => console.log('Error FORUM.')
+        );
   }
+}
 
   public onCategoryClicked(categoryId: number) {
     this.selectedCategory = true;
@@ -67,6 +74,29 @@ export class ForumComponent implements OnInit {
       this.backendService.addComment(Cookie.get('sessionId'), this.currentCategoryId, this.currentThreadId, mesaj).subscribe(
         error => console.log('Érroororo')
       );
+      //this.onThreadClicked(this.currentThread);
+    }
+  }
+
+  public onAddThreadClick(mesaj1: string, mesaj2: string) {
+    if (Cookie.get('sessionId') == null) {
+      this.router.navigateByUrl('/login');
+    } else {
+      this.backendService.addThread(Cookie.get('sessionId'), this.currentCategoryId, mesaj1, mesaj2).subscribe(
+        error => console.log('Érroororo')
+      );
+      //this.onThreadClicked(this.currentThread);
+    }
+  }
+
+  public deleteComment(category: number, thread: number, commentId: number) {
+    if (Cookie.get('sessionId') == null) {
+      this.router.navigateByUrl('/login');
+    } else {
+      this.backendService.deleteComment(Cookie.get('sessionId'), category, thread, commentId).subscribe(
+        error => console.log('Érroororo')
+      );
+      //this.onThreadClicked(this.currentThread);
     }
   }
 

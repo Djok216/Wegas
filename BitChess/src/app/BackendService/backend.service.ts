@@ -145,9 +145,38 @@ export class BackendService {
     const header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
-    const json = JSON.stringify({content: mesaj});
-    return this.http.post('http://localhost:4500/' + category + '/' + thread + '/addpost', json, {headers: header}).map(res => res.json());
+    const json = JSON.stringify({
+      content: mesaj
+    });
+    const link = 'http://localhost:4500/' + category + '/' + thread + '/addpost';
+    return this.http.post(link, json, {headers: header})
+      .map(res => res.json());
 
+  }
+
+  addThread(token: string, category: number, mesaj1: string, mesaj2: string) {
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', token);
+    console.log(mesaj2);
+    const json = JSON.stringify({
+      name: mesaj1,
+      description: mesaj2
+    });
+
+    const link = 'http://localhost:4500/' + category + '/AddThread';
+    return this.http.post(link, json, {headers: header})
+      .map(res => res.json());
+
+  }
+  deleteComment(token: string, category: number, thread: number, mesajId: number) {
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', token);
+
+    const link = 'http://localhost:4500/' + category + '/' + thread + '/deletePost/' + mesajId;
+    return this.http.delete(link, {headers: header})
+      .map(res => res.json());
   }
 }
 

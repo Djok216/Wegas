@@ -53,3 +53,11 @@ table#t01 tr:nth-child(odd) {
 .demo-card-wide > .mdl-card__menu {
   color: #fff;
 }
+
+#addthread1{
+  border: solid;
+}
+
+#threadinfo1{
+  border: solid;
+}

@@ -48,8 +48,8 @@ public class CategoryController {
     @RequestMapping(value = "/{category}/exists", method = RequestMethod.GET)
     public ResponseEntity<ExistsModel> checkExistsCategory(@RequestHeader("Authorization") String token, @PathVariable int category) {
         try {
-            if (!autorizationService.checkCredentials(token))
-                return new ResponseEntity<>(new ExistsModel(0), HttpStatus.UNAUTHORIZED);
+//            if (!autorizationService.checkCredentials(token))
+//                return new ResponseEntity<>(new ExistsModel(0), HttpStatus.UNAUTHORIZED);
 
             ExistsModel existsCategory = new ExistsModel();
             existsCategory.setExists(databaseService.checkCategoryExits(category));

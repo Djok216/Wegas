@@ -1,33 +1,53 @@
-<h1 style="text-decoration: rgba(78,55,104,0.96)">Posts</h1>
-<div style="padding-bottom: 10px;">
+<div id="threadinfo1">
+  <h1 style="text-decoration: rgba(78,55,104,0.96)">Posts</h1>
+  <div style="padding-bottom: 10px;">
 
-  <h3>{{parent1.currentThreadId}}</h3>
-  <p>{{parent1.currentThreadName}}</p>
-  <p>{{parent1.currentThreadDescription}}</p>
+    <h3>{{parent1.currentThreadId}}</h3>
+    <p>{{parent1.currentThreadName}}</p>
+    <p>{{parent1.currentThreadDescription}}</p>
 
-  <h2>Comments</h2>
-  <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
+    <h2>Comments</h2>
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">
 
-    <tbody>
-    <tr *ngFor="let xcom of parent1.comments" id="{{xcom.id}}">
-      <td>{{xcom.content}}</td>
-      <td>{{xcom.userName}}</td>
-      <td>{{xcom.created_at}}</td>
-    </tr>
-    </tbody>
-  </table>
+      <tbody>
+      <tr *ngFor="let xcom of parent1.comments" id="{{xcom.id}}">
+        <td>{{xcom.content}}</td>
+        <td>{{xcom.userName}}</td>
+        <td>{{xcom.created_at}}</td>
+        <td><a (click)="parent1.deleteComment(xcom)">Delete comment</a> </td>
+      </tr>
+      </tbody>
+    </table>
 
-  <md-input-container>
-    <input class="form-control" #input_text type="text" mdInput placeholder="Text" style="width: 30em">
-  </md-input-container>
+    <md-input-container>
+      <input class="form-control" #input_text type="text" mdInput placeholder="Text" style="width: 30em">
+    </md-input-container>
 
 
-  <button type="submit" md-button class="mdl-button mld-js-button mdl-button--primary"
-          (click)="parent1.onAddComentClick(input_text)" >
-          <!--[disabled]="!loginForm.valid"-->
+    <button type="submit" md-button class="mdl-button mld-js-button mdl-button--primary"
+            (click)="parent1.onAddComentClick(input_text.value)" >
+            <!--[disabled]="!loginForm.valid"-->
 
-    AddComent
-  </button>
+      AddComent
+    </button>
+  </div>
+</div>
+<div id="addthread1">
+    <h2>Add a thread to this category</h2>
+    <md-input-container>
+      <input class="form-control" #thread_text_name type="text" mdInput placeholder="Text" style="width: 30em">
+    </md-input-container>
 
+    <md-input-container>
+      <input class="form-control" #thread_text type="text" mdInput placeholder="Text" style="width: 30em">
+    </md-input-container>
+
+
+    <button type="submit" md-button class="mdl-button mld-js-button mdl-button--primary"
+            (click)="parent1.onAddThreadClick(thread_text_name.value, thread_text.value)" >
+      <!--[disabled]="!loginForm.valid"-->
+
+      Add Thread
+    </button>
 </div>
 

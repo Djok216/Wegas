@@ -42,8 +42,8 @@ public class ThreadController {
     @RequestMapping(value = "/AllThreads", method = RequestMethod.GET)
     public ResponseEntity getAllThreads(@RequestHeader("Authorization") String token) {
         try {
-            if (!autorizationService.checkCredentials(token))
-                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
+//            if (!autorizationService.checkCredentials(token))
+//                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             ThreadModel threadModel = new ThreadModel();
             threadModel.thread = databaseService.getAllThreads();
             for (OneThread th : threadModel.thread) {
@@ -150,28 +150,30 @@ public class ThreadController {
                                     @PathVariable int category) {
         try {
 
-            if (!autorizationService.checkCredentials(databaseService, token))
+            if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
 
-            if (oneThread.getName() == null)
+            if (oneThread.getName() == null || oneThread.getDescription()==null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             oneThread.setCategoryId(category);
             oneThread.setUserId(databaseService.getIdByToken(token));
-            ExistsModel existsModel = (ExistsModel)categorycontroller.checkExistsCategory(token, oneThread.getCategoryId()).getBody();
+            oneThread.setStatusId(1);
+            ExistsModel existsModel = categorycontroller.checkExistsCategory(token, oneThread.getCategoryId()).getBody();
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Category does not exists in database"), HttpStatus.OK);
-
+            System.out.println("sdfsjdfs");
             NicknameModel nicknameModel = new NicknameModel();
             nicknameModel.setNickname(databaseService.getNicknameById(oneThread.getUserId()));
-            ExistsUserModel existsModel2 = authentificationController.checkExistsUser(nicknameModel).getBody();
-            if (existsModel2.getExists() == 0)
-                return new ResponseEntity
-                        (new ResponseMessageModel("User does not exists in database"), HttpStatus.OK);
+//            ExistsUserModel existsModel2 = authentificationController.checkExistsUser(nicknameModel).getBody();
+//            if (existsModel2.getExists() == 0)
+//                return new ResponseEntity
+//                        (new ResponseMessageModel("User does not exists in database"), HttpStatus.OK);
             UserModel userModel = databaseService.setUserByNickname(databaseService.getNicknameById(oneThread.getUserId()));
             if (userModel.getStatus_id() == 3)//blocked
                 return new ResponseEntity
                         (new ResponseMessageModel("Blocked user, can not add thread"), HttpStatus.OK);
+            System.out.println("comn");
             databaseService.addThread(oneThread);
             return new ResponseEntity
                     (new ResponseMessageModel("Thread Added"), HttpStatus.OK);
@@ -181,16 +183,17 @@ public class ThreadController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/{category}/deleteThread", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseMessageModel> deleteThread(@RequestHeader("Authorization") String token, @RequestBody OneThread thread, @PathVariable int category) {
+    @RequestMapping(value = "/{category}/{threadId}", method = RequestMethod.DELETE)
+    public ResponseEntity<ResponseMessageModel> deleteThread(@RequestHeader("Authorization") String token, @PathVariable int category,
+                                                             @PathVariable int threadId) {
         try {
             if (!autorizationService.checkCredentials(databaseService, token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
 
-            if (thread.getId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            OneThread thread = new OneThread();
             thread.setUserId(databaseService.getIdByToken(token));
 
-            ExistsModel existsModel = checkExistsThread(token, thread.getId(), category).getBody();
+            ExistsModel existsModel = checkExistsThread(token, threadId, category).getBody();
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Thread does not exists in database"), HttpStatus.OK);

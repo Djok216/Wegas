@@ -37,7 +37,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       .subscribe(
         data => {
           this.userInfo =  JSON.parse(JSON.stringify(data));
-          console.log(this.userInfo);
         }
       );
   }

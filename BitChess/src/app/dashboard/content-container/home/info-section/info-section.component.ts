@@ -25,7 +25,7 @@ export class InfoSectionComponent implements OnInit {
         data => {
           let jsonParsed = JSON.parse(JSON.stringify(data));
           this.answer = jsonParsed;
-          console.log(this.answer);
+          if (this.answer === '' || this.answer === null || this.answer.length === 0) this.answer = 'No user with nickname found.';
         },
         error => {
           let json = JSON.parse(JSON.stringify(error))['_body'];

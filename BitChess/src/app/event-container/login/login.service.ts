@@ -21,7 +21,6 @@ export class LoginService {
   }
 
   sendFacebookInfo(facebookId: string, email: string, name: string) {
-    email = "cornel@gmail.com";
     const body = {facebookId: facebookId, email: email, name: name};
 
     const headers = new Headers();

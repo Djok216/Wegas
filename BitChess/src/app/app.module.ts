@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import {HttpModule, RequestOptions, Http} from '@angular/http';
 
 // angular material
 import { MaterialModule } from '@angular/material';
@@ -39,6 +39,7 @@ import { ContentLearnComponent } from './dashboard/content-container/learn/conte
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BackendService} from "./BackendService/backend.service";
 import { ProfileComponent } from './dashboard/content-container/profile/profile.component';
+import { PagerService } from './dashboard/content-container/clubs/_service/index';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,12 @@ import { ProfileComponent } from './dashboard/content-container/profile/profile.
     FlexLayoutModule,
     ReactiveFormsModule
   ],
-  providers: [HttpModule, BackendService],
+  providers:
+    [
+      HttpModule,
+      BackendService,
+      PagerService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

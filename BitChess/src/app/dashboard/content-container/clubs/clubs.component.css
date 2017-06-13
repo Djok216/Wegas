@@ -5,6 +5,7 @@ table, th, td {
 th, td {
   padding: 10px;
 }
+
 .club_name {
   width: 75em;
 }
@@ -16,19 +17,40 @@ th, td {
 table#t01 tr:nth-child(even) {
   background-color: #fff;
 }
+
 table#t01 tr:nth-child(odd) {
   background-color: #eee;
 }
 
-.category_name{
+.category_name {
   color: #3B5998;
   text-decoration: none;
   font-size: medium;
   text-decoration-style: solid;
 }
 
-.description{
+.description {
   text-decoration: none;
-  text-decoration: rgba(0,0,0,0.4);
+  text-decoration: rgba(0, 0, 0, 0.4);
   font-size: small;
+}
+
+h1 {
+  text-align: center;
+}
+
+ul {
+  margin: auto;
+  width: 100%;
+  padding: 10px;
+  text-align:center;
+}
+
+li {
+  display:inline-block;
+  *display:inline; /*IE7*/
+  *zoom:1; /*IE7*/
+  background:blue;
+  color:white;
+  margin-right:10px;
 }

@@ -1,18 +1,59 @@
 <div>
   <h1 style="text-decoration: rgba(78,55,104,0.96)">Clubs</h1>
-  <table class="clubs_table" id="t01">
-    <tbody>
 
-    <tr *ngFor="let stats of generalStatistic" id="{{stats.clubName}}">
-      <td class="club_name">
-        <a class="category_name" href="/{{stats.clubName}}">{{stats.clubName}}</a>
-      </td>
-      <td class="nr_members">
-        {{stats.statistic}} members
-      </td>
-      <td class="subscribe">
-        <button md-raised-button (click)="onSubscribeClick(stats.clubName)">Become member</button>
-      </td>
-    </tr>
-  </table>
+  <div>
+    <!-- items being paged -->
+    <div *ngFor="let item of pagedItems">{{item.name}}</div>
+
+    <table class="clubs_table" id="t01">
+      <tbody>
+      <tr *ngFor="let item of pagedItems" id="{{item.clubName}}">
+        <td class="club_name">
+          <a class="category_name" href="/{{item.clubName}}">{{item.clubName}}</a>
+        </td>
+        <td class="nr_members">
+          {{item.statistic}} members
+        </td>
+        <td class="subscribe">
+          <button md-raised-button (click)="onSubscribeClick(item.clubName)">Become member</button>
+        </td>
+      </tr>
+    </table>
+
+    <!-- pager -->
+      <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+        <li [ngClass]="{disabled:pager.currentPage === 1}">
+          <a (click)="setPage(1)">First</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === 1}">
+          <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+        </li>
+        <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+          <a (click)="setPage(page)">{{page}}</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a (click)="setPage(pager.currentPage + 1)">Next</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a (click)="setPage(pager.totalPages)">Last</a>
+        </li>
+      </ul>
+  </div>
+  <!--
+    <table class="clubs_table" id="t01">
+      <tbody>
+      <tr *ngFor="let stats of generalStatistic" id="{{stats.clubName}}">
+        <td class="club_name">
+          <a class="category_name" href="/{{stats.clubName}}">{{stats.clubName}}</a>
+        </td>
+        <td class="nr_members">
+          {{stats.statistic}} members
+        </td>
+        <td class="subscribe">
+          <button md-raised-button (click)="onSubscribeClick(stats.clubName)">Become member</button>
+        </td>
+      </tr>
+    </table>
+  -->
+
 </div>

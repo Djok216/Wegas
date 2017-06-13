@@ -42,17 +42,16 @@ public class ThreadController {
     @RequestMapping(value = "/AllThreads", method = RequestMethod.GET)
     public ResponseEntity getAllThreads(@RequestHeader("Authorization") String token) {
         try {
-//            if (!autorizationService.checkCredentials(token))
-//                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             ThreadModel threadModel = new ThreadModel();
             threadModel.thread = databaseService.getAllThreads();
             for (OneThread th : threadModel.thread) {
                 th.setUserName(databaseService.getNicknameById(th.getUserId()));
                 th.setNrPosts(forumController.getNrComm(th.getId()));
             }
-            System.out.print(threadModel.thread.toString());
 
-            for(OneThread xcat : threadModel.thread){
+            for (OneThread xcat : threadModel.thread) {
                 xcat.setNrPosts(forumController.getNrComm(xcat.getId()));
             }
             return new ResponseEntity(threadModel, HttpStatus.OK);
@@ -78,7 +77,7 @@ public class ThreadController {
                 th.setUserName(databaseService.getNicknameById(th.getUserId()));
                 th.setNrPosts(forumController.getNrComm(th.getId()));
             }
-            System.out.print(threadModel.thread.toString());
+
             return new ResponseEntity(threadModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -116,7 +115,6 @@ public class ThreadController {
                 th.setUserName(databaseService.getNicknameById(th.getUserId()));
                 th.setNrPosts(forumController.getNrComm(th.getId()));
             }
-            System.out.print(threadModel.thread.toString());
             return new ResponseEntity(threadModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -125,12 +123,13 @@ public class ThreadController {
 
     @CrossOrigin
     @RequestMapping(value = "/{category}/threadExists/{thread}", method = RequestMethod.GET)
-    public ResponseEntity<ExistsModel> checkExistsThread(@RequestHeader("Authorization") String token,@PathVariable int category, @PathVariable int thread) {
+    public ResponseEntity<ExistsModel> checkExistsThread(@RequestHeader("Authorization") String token, @PathVariable int category, @PathVariable int thread) {
         try {
-            ExistsModel existsModel=new ExistsModel();
-            existsModel.setExists(0);
             if (!autorizationService.checkCredentials(token))
-                return new ResponseEntity<>(existsModel, HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+            ExistsModel existsModel = new ExistsModel();
+            existsModel.setExists(0);
 
             existsModel = categorycontroller.checkExistsCategory(token, category).getBody();
             if (existsModel.getExists() == 0)
@@ -149,11 +148,10 @@ public class ThreadController {
     public ResponseEntity addThread(@RequestHeader("Authorization") String token, @RequestBody OneThread oneThread,
                                     @PathVariable int category) {
         try {
-
             if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
 
-            if (oneThread.getName() == null || oneThread.getDescription()==null)
+            if (oneThread.getName() == null || oneThread.getDescription() == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             oneThread.setCategoryId(category);
             oneThread.setUserId(databaseService.getIdByToken(token));
@@ -162,21 +160,15 @@ public class ThreadController {
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Category does not exists in database"), HttpStatus.OK);
-            System.out.println("sdfsjdfs");
             NicknameModel nicknameModel = new NicknameModel();
             nicknameModel.setNickname(databaseService.getNicknameById(oneThread.getUserId()));
-//            ExistsUserModel existsModel2 = authentificationController.checkExistsUser(nicknameModel).getBody();
-//            if (existsModel2.getExists() == 0)
-//                return new ResponseEntity
-//                        (new ResponseMessageModel("User does not exists in database"), HttpStatus.OK);
             UserModel userModel = databaseService.setUserByNickname(databaseService.getNicknameById(oneThread.getUserId()));
             if (userModel.getStatus_id() == 3)//blocked
                 return new ResponseEntity
                         (new ResponseMessageModel("Blocked user, can not add thread"), HttpStatus.OK);
-            System.out.println("comn");
             databaseService.addThread(oneThread);
             return new ResponseEntity
-                    (new ResponseMessageModel("Thread Added"), HttpStatus.OK);
+                    (new ResponseMessageModel("Thread Added"), HttpStatus.CREATED);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -187,7 +179,7 @@ public class ThreadController {
     public ResponseEntity<ResponseMessageModel> deleteThread(@RequestHeader("Authorization") String token, @PathVariable int category,
                                                              @PathVariable int threadId) {
         try {
-            if (!autorizationService.checkCredentials(databaseService, token))
+            if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
 
             OneThread thread = new OneThread();

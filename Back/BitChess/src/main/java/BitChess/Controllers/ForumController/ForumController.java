@@ -40,7 +40,6 @@ public class ForumController {
     public ResponseEntity addPost(@RequestHeader("Authorization") String token, @RequestBody OnePost onePost,
                                   @PathVariable int category, @PathVariable int thread) {
         try {
-            System.out.println(token);
             if (!autorizationService.checkCredentials(token))
                 return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
 
@@ -69,20 +68,18 @@ public class ForumController {
             databaseService.addPost(onePost);
 
             return new ResponseEntity
-                    (new ResponseMessageModel("Post Added"), HttpStatus.OK);
+                    (new ResponseMessageModel("Post Added"), HttpStatus.CREATED);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
-
 
     @CrossOrigin
     @RequestMapping(value = "{category}/{thread}/getPostByThread", method = RequestMethod.GET)
     public ResponseEntity getPostsByThreads(@RequestHeader("Authorization") String token, @PathVariable int category, @PathVariable int thread) {
         try {
-//            if (!autorizationService.checkCredentials(token))
-//                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
 
             PostModel postModel = new PostModel();
             ExistsModel existsModel = threadcontroller.checkExistsThread(token, category, thread).getBody();
@@ -94,8 +91,7 @@ public class ForumController {
             for (OnePost post : postModel.posts) {
                 post.setUserName(databaseService.getNicknameById(post.getUserId()));
             }
-            System.out.print(postModel.posts.toString());
-            return new ResponseEntity(postModel, HttpStatus.OK);
+            return new ResponseEntity(postModel, HttpStatus.CREATED);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -133,7 +129,7 @@ public class ForumController {
                         (new ResponseMessageModel("Not Admin, can not delete Post"), HttpStatus.OK);
 
             databaseService.deletePost(postId);
-            return new ResponseEntity<>(new ResponseMessageModel("Post deleted successfully."), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessageModel("Post deleted successfully."), HttpStatus.CREATED);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -44,15 +44,6 @@ public class AutorizationService {
     public AutorizationService() {
     }
 
-    // -- not needed anymore
-    public Boolean checkCredentials(ConcreteDatabaseService databaseService, String token) {
-        try {
-            return databaseService.checkToken(token);
-        } catch (SQLException sqlEx) {
-            return false;
-        }
-    }
-
     public String generateToken(String username, String email) {
         try {
             JwtClaims claims = new JwtClaims();
@@ -69,7 +60,6 @@ public class AutorizationService {
             jws.setKeyIdHeaderValue(rsaJsonWebKey.getKeyId());
             jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
             String jwt = jws.getCompactSerialization();
-            //System.out.println("JWT: " + jwt);
             return jwt;
         } catch (JoseException ex) {
             System.out.println("Error at generating JWT key! " + ex);
@@ -96,7 +86,6 @@ public class AutorizationService {
                 System.out.println("Token does not exist in database! " + sqlEx.getMessage());
                 return false;
             }
-            //System.out.println("JWT validation succeeded! " + jwtClaims);
             return result;
         } catch (InvalidJwtException e) {
             System.out.println("Invalid JWT! " + e);

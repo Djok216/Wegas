@@ -25,10 +25,9 @@ public class StatisticsController {
     public ResponseEntity getNrOfUsers() {
         try {
             Integer nr = databaseService.getNumberOfUsers();
-            //System.out.print(i);
             return new ResponseEntity(nr, HttpStatus.OK);
         } catch (SQLException sqlEx) {
-            return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -39,7 +38,7 @@ public class StatisticsController {
             Integer nr = databaseService.getNumberOfLatestGames(nroflatestgames);
             return new ResponseEntity(nr, HttpStatus.OK);
         } catch (SQLException sqlEx) {
-            return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -48,10 +47,9 @@ public class StatisticsController {
     public ResponseEntity getTopThreads() {
         try {
             TopThreadsModel t = databaseService.getTopDiscussedThreads();
-            //System.out.print(i);
             return new ResponseEntity(t, HttpStatus.OK);
         } catch (SQLException sqlEx) {
-            return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -60,10 +58,9 @@ public class StatisticsController {
     public ResponseEntity getTopActive() {
         try {
             TopActiveUsersModel t = databaseService.getTopActiveUsers();
-            //System.out.print(i);
             return new ResponseEntity(t, HttpStatus.OK);
         } catch (SQLException sqlEx) {
-            return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -72,10 +69,9 @@ public class StatisticsController {
     public ResponseEntity getNrThreadsByCategory() {
         try {
             CategoriesSModel t = databaseService.getThreadsbyCategory();
-            //System.out.print(i);
             return new ResponseEntity(t, HttpStatus.OK);
         } catch (SQLException sqlEx) {
-            return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

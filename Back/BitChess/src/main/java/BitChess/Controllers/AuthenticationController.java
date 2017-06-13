@@ -124,7 +124,6 @@ public class AuthenticationController {
             if (userNickname.getNickname() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             ExistsUserModel existsUser = new ExistsUserModel();
             existsUser.setExists(databaseService.existsUser(userNickname.getNickname()) ? 1 : 0);
-            System.out.println(existsUser.getExists() + "fuckoff");
             return new ResponseEntity<>(existsUser, HttpStatus.CREATED);
         } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

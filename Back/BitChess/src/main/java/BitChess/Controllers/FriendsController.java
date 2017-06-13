@@ -2,6 +2,7 @@ package BitChess.Controllers;
 
 import BitChess.Models.Friends.FriendshipModel;
 import BitChess.Models.ResponseMessageModel;
+import BitChess.Services.AutorizationService;
 import BitChess.Services.ConcreteDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,15 @@ import org.springframework.web.bind.annotation.*;
 public class FriendsController {
     @Autowired
     private ConcreteDatabaseService databaseService;
+    @Autowired
+    AutorizationService autorizationService = new AutorizationService();
 
     @CrossOrigin
     @RequestMapping(value = "/friends/checkFriendshipExist/id1={first_user_id}:id2={second_user_id}", method = RequestMethod.GET)
-    public ResponseEntity<?> checkFriendshipExists(@PathVariable Integer first_user_id, @PathVariable Integer second_user_id) {
+    public ResponseEntity<?> checkFriendshipExists(@RequestHeader("Authorization") String token, @PathVariable Integer first_user_id, @PathVariable Integer second_user_id) {
         try {
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             FriendshipModel friendshipModel = new FriendshipModel(first_user_id,second_user_id);
             if (databaseService.existsFriendship(friendshipModel))
                 return new ResponseEntity<>(new ResponseMessageModel("Friendship exist."), HttpStatus.OK);
@@ -32,12 +37,14 @@ public class FriendsController {
 
     @CrossOrigin
     @RequestMapping(value = "/friends/addFriendship", method = RequestMethod.POST)
-    public ResponseEntity<?> addFriendship(@RequestBody FriendshipModel friendshipModel) {
+    public ResponseEntity<?> addFriendship(@RequestHeader("Authorization") String token, @RequestBody FriendshipModel friendshipModel) {
         try {
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             if (databaseService.existsFriendship(friendshipModel))
                 return new ResponseEntity<>(new ResponseMessageModel("Friendship already exist."), HttpStatus.OK);
             databaseService.addFriends(friendshipModel);
-            return new ResponseEntity<>(new ResponseMessageModel("Friendship added successfully."), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessageModel("Friendship added successfully."), HttpStatus.CREATED);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -26,15 +26,15 @@ public class GamesController {
     @RequestMapping(value = "/games/addGameStarted", method = RequestMethod.POST)
     public ResponseEntity<?> addGameStarted(@RequestHeader("Authorization") String token, @RequestBody GameStartedModel gameStartedModel) {
         try {
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             if (!gameStartedModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             if (!databaseService.existsUser(gameStartedModel.getFirstPlayerId()))
                 return new ResponseEntity<Object>(new ResponseMessageModel("First user does not exists in database."), HttpStatus.OK);
             if (!databaseService.existsUser(gameStartedModel.getSecondPlayerId()))
                 return new ResponseEntity<Object>(new ResponseMessageModel("Second user does not exists in database."), HttpStatus.OK);
-            if (!autorizationService.checkCredentials(token))
-                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             GameIdModel gameIdModel = new GameIdModel(databaseService.addGameStarted(gameStartedModel));
-            return new ResponseEntity<>(gameIdModel, HttpStatus.OK);
+            return new ResponseEntity<>(gameIdModel, HttpStatus.CREATED);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -44,13 +44,13 @@ public class GamesController {
     @RequestMapping(value = "/games/addGameEnded", method = RequestMethod.PUT)
     public ResponseEntity<?> addGameEnded(@RequestHeader("Authorization") String token, @RequestBody GameEndedModel gameEndedModel) {
         try {
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             if (!gameEndedModel.isValid()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             if(!databaseService.existsGame(gameEndedModel.getGameId()))
                 return new ResponseEntity<Object>(new ResponseMessageModel("Invalid game id."), HttpStatus.OK);
-            if (!autorizationService.checkCredentials(token))
-                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             databaseService.addGameEnded(gameEndedModel);
-            return new ResponseEntity<>(new ResponseMessageModel("Game successfully saved."), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessageModel("Game successfully saved."), HttpStatus.CREATED);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -34,13 +34,9 @@ public class CategoryController {
 
             CategoryModel categoryModel = new CategoryModel();
             categoryModel.category = databaseService.getAllCategories();
-//            System.out.print(categoryModel.category.toString());
-//            for(OneCategory xcat : categoryModel.category){
-//                xcat.setNrThreads(threadController.getNrThread(xcat.getId()));
-//            }
             return new ResponseEntity(categoryModel, HttpStatus.OK);
         } catch (SQLException sqlEx) {
-            return new ResponseEntity<>( sqlEx.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(sqlEx.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -48,13 +44,12 @@ public class CategoryController {
     @RequestMapping(value = "/{category}/exists", method = RequestMethod.GET)
     public ResponseEntity<ExistsModel> checkExistsCategory(@RequestHeader("Authorization") String token, @PathVariable int category) {
         try {
-//            if (!autorizationService.checkCredentials(token))
-//                return new ResponseEntity<>(new ExistsModel(0), HttpStatus.UNAUTHORIZED);
-
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ExistsModel(0), HttpStatus.UNAUTHORIZED);
             ExistsModel existsCategory = new ExistsModel();
             existsCategory.setExists(databaseService.checkCategoryExits(category));
             return new ResponseEntity<>(existsCategory, HttpStatus.OK);
-        }catch (SQLException sqlEx) {
+        } catch (SQLException sqlEx) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

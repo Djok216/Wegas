@@ -342,12 +342,7 @@ public class ConcreteDatabaseService {
     public void addPost(OnePost post) throws SQLException {
         post.setStatusId(1);
         String plsql = "BEGIN PACKAGE_FORUM.INSERT_POST(?, ?, ?, ?); END;";
-        System.out.println("wtf");
         CallableStatement statement = DatabaseConnection.getConnection().prepareCall(plsql);
-        System.out.println(post.getContent());
-        System.out.println(post.getStatusId());
-        System.out.println(post.getThreadId());
-        System.out.println(post.getUserId());
         statement.setString(1, post.getContent());
         statement.setInt(2, post.getStatusId());
         statement.setInt(3, post.getThreadId());

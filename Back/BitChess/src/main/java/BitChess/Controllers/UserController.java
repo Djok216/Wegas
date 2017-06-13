@@ -26,9 +26,8 @@ public class UserController {
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ResponseEntity<?> getGeneralStatistics(@RequestHeader("Authorization") String token) {
         try {
-            // hmm we will see this
-            //if (!databaseService.existsUser(token))
-            //    return new ResponseEntity<>(new ResponseMessageModel("Username does not exists in database"), HttpStatus.OK);
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             return new ResponseEntity<>(databaseService.getUserInformation(token), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -39,6 +38,8 @@ public class UserController {
     @RequestMapping(value = "/getUserId", method = RequestMethod.GET)
     public ResponseEntity<?> getUserId(@RequestHeader("Authorization") String token) {
         try {
+            if (!autorizationService.checkCredentials(token))
+                return new ResponseEntity<>(new ResponseMessageModel("Invalid credentials!"), HttpStatus.UNAUTHORIZED);
             return new ResponseEntity<>(databaseService.getIdByToken(token), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(new ResponseMessageModel(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Bitchess</title>
+    <link rel="stylesheet" href="scholarly.css">
+    <link rel="stylesheet" href="node_modules/prismjs/themes/prism-coy.css">
+    <script src="node_modules/prismjs/prism.js" defer></script>
+  </head>
+  <body prefix="schema: http://schema.org/ xsd: 	http://www.w3.org/2001/XMLSchema# sa: https://ns.science.ai/">
+   <article id="what" typeof="schema:ScholarlyArticle" resource="#">
+	   <header>
+	      <p class="title">Bitchess</p>
+		  <p class="subtitle">Etape dezvoltare</p>
+	    </header>
+	      <section>
+	        <ol>
+	          <li property="schema:author" typeof="sa:ContributorRole">
+	              <span property="schema:givenName">Motroi</span>
+	              <span property="schema:familyName">Valeriu</span>
+	            <sup property="sa:roleContactPoint" typeof="schema:ContactPoint">
+	              <a property="schema:email" href="mailto:valeriu.motroi@info.uaic.ro" title="corresponding author">&#9993;</a>
+	            </sup>
+	          </li>
+	          <li property="schema:author" typeof="sa:ContributorRole">
+	              <span property="schema:givenName">Trifan</span>
+	              <span property="schema:familyName">Tamara</span>
+				<sup property="sa:roleContactPoint" typeof="schema:ContactPoint">
+					  <a property="schema:email" href="mailto:tamara.trifan@info.uaic.ro" title="corresponding author">&#9993;</a>
+	            </sup>
+	          </li>
+			  <li property="schema:author" typeof="sa:ContributorRole">
+	              <span property="schema:givenName">Turcu</span>
+	              <span property="schema:familyName">Nicusor</span>
+				<sup property="sa:roleContactPoint" typeof="schema:ContactPoint">
+					  <a property="schema:email" href="mailto:nicusor.turcu@info.uaic.ro" title="corresponding author">&#9993;</a>
+	            </sup>
+	          </li>
+	          <li property="schema:author" typeof="sa:ContributorRole">
+	              <span property="schema:givenName">Ulinici</span>
+	              <span property="schema:familyName">Cristina</span>
+				<sup property="sa:roleContactPoint" typeof="schema:ContactPoint">
+					  <a property="schema:email" href="mailto:cristina.ulinici@info.uaic.ro" title="corresponding author">&#9993;</a>
+	            </sup>
+	          </li>
+	        </ol>
+	      </section>
+
+		  <section typeof="sa:Abstract" id="abstract">
+			<h3>Etapele intermediare ale dezvoltarii aplicatiei</h3>
+			<section>
+				<p>1. O scurta descriere a aplicatiei.</p>
+				<iframe src="../Descriere BitChess.pdf" width="976" height="976" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+		        </figure>
+		        <p>Status: Done</p>
+			</section>
+			<section>
+				<p>1. Discutii asupra temei (tehnologii folosite, structura bazei de date, arhitectura aplicatiei).</p>
+				<ul>
+				    <p>Tehnologii folosite:</p>
+					<li>FrontEnd: <a href="https://angular.io">Angular 4</a>, Angular Material</li>
+					<li>Backend: <a href="https://spring.io">Maven Spring-Boot</a>, REST API</li>
+					<li>Sesiuni: <a href="https://jwt.io">JSON Web Token</a></li>
+					<li>Database: Oracle Database</li>
+					<li>Chess Engine: <a href="https://stockfishchess.org">Stockfish</a></li>
+					<li>Chess Api:
+						<ul>
+						<li><a href="https://code.jquery.com/jquery-2.2.4.min.js">jquery</a></li>
+						<li><a href="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js">chess.js</a></li>
+						<li><a href="http://chessboardjs.com/js/chessboard.js">chessboard.js</a></li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section>
+				<p>2. Proiectarea diagramei arhitecturale.</p>
+				<figure typeof="sa:Image">
+		            <img src="../Diagrams/DiagramaArhitecturala.png" width="976" height="452">
+		            <figcaption>
+						Diagrama arhitecturala
+		            </figcaption>
+		        </figure>
+				<p>Status: Done</p>
+			</section>
+			<section>
+				<p>3. Proiectarea diagramei bazei de date.</p>
+				<figure typeof="sa:Image">
+		            <img src="../Diagrams/BitChess Diagram.png" width="976" height="452">
+		            <figcaption>
+						Diagrama bazei de date
+		            </figcaption>
+		        </figure>
+		        <iframe src="../Documentatie Tabele.pdf" width="976" height="976" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+				<p>Status: Done</p>
+			</section>
+			<section>
+				<p>4. Proiectarea schitei paginilor web din cadrul aplicatiei.</p>
+				<ul>
+					<li>Am utilizat:
+						<ul>
+							<li>Rutare</li>
+							<li>Componente Angular</li>
+						</ul>
+					</li>
+					<li>
+						<p>Status: Done</p>
+					</li>
+				</ul>
+				
+			</section>
+			<section>
+				<p>5. Realizarea documentatiei privind etapele intermediare ale dezvoltarii proiectului.</p>
+				<p>Status: Done</p>
+			</section>
+			<section>
+				<p>6. Implementare Front-End:</p>
+				<ul>
+					<li>Done:
+						<ul>
+							<li>Design responsive, material cu mici buguri.</li>
+						</ul>
+					</li>
+					<li>In progress:
+						<ul>
+							<li>No bugs.</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section>
+				<p>7. Implementare Baza de date:</p>
+				<ul>
+					<li>Done:
+						<ul>
+							<li>Tabele in baza de date</li>
+							<li>Script de populare cu date fake.</li>
+							<li>Pachete ce vor fi folosite de API REST pentru a furniza si stoca informatiile necesare.</li>
+							<li>Folosire de view-uri pentru optimizarea interogarile.</li>
+							<li>Folosire de triggere pentru a actualiza automat informatii in baza de date, atunci cand se efectueaza operatii DML(de exemplu sa se actualizeze automat campul started-at cand se face o noua inserare in table games).</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section>
+				<p>8. Implementare Back-End:</p>
+				<ul>
+					<li>Done:
+						<ul>
+							<li>Arhitectura MVC</li>
+							<li>Conectiune la baza de date</li>
+							<li>Definire controllerilor si functiilor.</li>
+							<li>Implementare functii partiale</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section>
+				<p>9. Integrare Front-End -> Back-End</p>
+				<ul>
+					<li>Status: partiala
+						<ul>
+							<li>Home page: Partially</li>
+							<li>Play page: Partially</li>
+							<li>Live page: Partially</li>
+							<li>Clubs page: Partially</li>
+							<li>Learn page: Partially</li>
+							<li>Forum page: Partially</li>
+							<li>Status page: Partially</li>
+							<li>Help page: Finished</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<p>10. Testarea aplicatiei</p>
+				<ul>
+					<li>Done:
+						<ul>
+						</ul>
+					</li>
+					<li>In progress:
+						<ul>
+						</ul>
+					</li>
+					<li>Ideas:
+						<ul>
+							<li>Testare pe componente: front-end, backend, baza de date.</li>
+							<li>Dupa testarea pe componente sa se faca testarea in ansamblu a aplicatiei</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+		  </section>
+	  </article>
+	  </body>
+	  
+	</html>

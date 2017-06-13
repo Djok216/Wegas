@@ -23,8 +23,6 @@ export class ForumInfoComponent implements OnInit {
       this.backendService.getAllCategories(Cookie.get('sessionId'))
         .subscribe(
           data => {
-            console.log(data);
-            console.log(JSON.parse(JSON.stringify(data))['category']);
             this.categories = JSON.parse(JSON.stringify(data))['category'];
           },
           error => console.log('Error FORUM.')

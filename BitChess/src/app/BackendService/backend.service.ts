@@ -113,9 +113,7 @@ export class BackendService {
     header.append('Authorization', token);
 
     return this.http.get('http://localhost:4500/stats/7', {headers: header}).map(res => res.json());
-
   }
-
 
   getThreadsNameByCategory(token: string, categoryId: number) {
     const header = new Headers();
@@ -148,9 +146,7 @@ export class BackendService {
     const json = JSON.stringify({
       content: mesaj
     });
-    console.log(json);
     const link = 'http://localhost:4500/' + category + '/' + thread + '/addpost';
-    console.log(link);
     return this.http.post(link, json, {headers: header})
       .map(res => res.json());
 
@@ -160,7 +156,6 @@ export class BackendService {
     const header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
-    console.log(mesaj2);
     const json = JSON.stringify({
       name: mesaj1,
       description: mesaj2
@@ -176,8 +171,6 @@ export class BackendService {
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
     const link = 'http://localhost:4500/' + category + '/' + thread + '/deletePost/' + mesajId;
-    console.log(link, 'dsadasdasdassaas');
-    console.log(mesajId, 'sdsdfsdfsdsdsdfsdfsdfs1111')
     return this.http.delete(link, {headers: header})
       .map(res => res.json());
   }

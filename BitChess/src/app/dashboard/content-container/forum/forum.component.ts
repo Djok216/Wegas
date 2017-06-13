@@ -99,8 +99,7 @@ export class ForumComponent implements OnInit {
       //this.onThreadClicked(this.currentThread);
     }
   }
-
-
+  
   public hahahahha() {
     return 'afsasf';
   }

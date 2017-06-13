@@ -33,7 +33,7 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
     FUNCTION nr_posts_by_category return sys_refcursor AS
         v_cursor sys_refcursor;
     BEGIN
-        open v_cursor for select c.name, count(*) "nr_of_threads" from category c join thread th on c.id = th.category_id group by c.name, c.id ;
+        open v_cursor for (select c.name, count(*) "nr_of_threads" from category c join thread th on c.id = th.category_id group by c.name, c.id);
         return v_cursor;
     END;
     
@@ -54,4 +54,6 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
     END;
         
 END;
+
+select c.name, count(*) "nr_of_threads" from category c join thread th on c.id = th.category_id group by c.name, c.id;
   

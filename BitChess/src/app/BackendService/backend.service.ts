@@ -27,6 +27,13 @@ export class BackendService {
     return this.http.post('http://localhost:4500/user/logout', json, {headers: header}).map(res => res.json());
   }
 
+  getUsersByStringMatch(token: string, stringMatch : string) {
+    const header = new Headers();
+    header.append('Authorization', token);
+
+    return this.http.get('http://localhost:4500//findUsers/string_match="' + stringMatch + '"', {headers: header}).map(res => res.json());
+  }
+
   getClubStatisticGeneral(token: string) {
     const header = new Headers();
     header.append('Content-Type', 'application/json');

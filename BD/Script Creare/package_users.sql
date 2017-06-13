@@ -64,7 +64,7 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_USERS AS
   FUNCTION GET_USERS_MATCH(p_string_match VARCHAR2) RETURN SYS_REFCURSOR AS
    v_cursor SYS_REFCURSOR;
   BEGIN
-    OPEN v_cursor FOR SELECT NAME from users where lower(nickname) like lower('%'||p_string_match||'%');
+    OPEN v_cursor FOR SELECT NAME from users where lower(nickname) like lower(p_string_match);
     return v_cursor;
   END;
   

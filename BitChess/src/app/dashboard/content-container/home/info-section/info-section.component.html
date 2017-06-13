@@ -44,10 +44,10 @@
     <tr>
       <th class="mdl-data-table__cell--non-numeric">
         <md-input-container>
-          <input mdInput placeholder="Nickname" style="width: 20em"z>
+          <input mdInput placeholder="Nickname" #string_match style="width: 20em"z>
         </md-input-container>
       </th>
-      <th><button class="mdl-button mld-js-button mdl-button--primary">Find</button></th>
+      <th><button class="mdl-button mld-js-button mdl-button--primary" (click)="onFindUserClick(string_match.value)">Find</button></th>
     </tr>
     </tbody>
   </table>

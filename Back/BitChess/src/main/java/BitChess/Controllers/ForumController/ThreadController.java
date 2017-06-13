@@ -170,7 +170,7 @@ public class ThreadController {
             return new ResponseEntity
                     (new ResponseMessageModel("Thread Added"), HttpStatus.CREATED);
         } catch (SQLException sqlEx) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ResponseMessageModel(sqlEx.getMessage()) , HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

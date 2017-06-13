@@ -148,7 +148,9 @@ export class BackendService {
     const json = JSON.stringify({
       content: mesaj
     });
+    console.log(json);
     const link = 'http://localhost:4500/' + category + '/' + thread + '/addpost';
+    console.log(link);
     return this.http.post(link, json, {headers: header})
       .map(res => res.json());
 

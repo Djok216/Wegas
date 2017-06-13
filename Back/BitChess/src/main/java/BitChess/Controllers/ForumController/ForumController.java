@@ -61,7 +61,7 @@ public class ForumController {
 
             OneThread oneThread = new OneThread();
             oneThread.setId(onePost.getThreadId());
-            ExistsModel existsModel = threadController.checkExistsThread(token, oneThread.getId(), category).getBody();
+            ExistsModel existsModel = threadController.checkExistsThread(token, category, thread).getBody();
             if (existsModel.getExists() == 0)
                 return new ResponseEntity
                         (new ResponseMessageModel("Thread does not exists in database"), HttpStatus.OK);
